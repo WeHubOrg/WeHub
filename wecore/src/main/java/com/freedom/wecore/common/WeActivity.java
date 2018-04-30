@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -24,7 +23,7 @@ import io.reactivex.functions.Consumer;
  * @author vurtne on 29-Apr-18.
  *
  */
-public abstract class WeActivity extends AppCompatActivity {
+public abstract class WeActivity<P extends IWeContract.Presenter> extends AppCompatActivity {
 
     /**
      * 默认点击沉默时间
@@ -33,6 +32,7 @@ public abstract class WeActivity extends AppCompatActivity {
 
     private CompositeDisposable mCompositeDisposable;
     protected Context context;
+    protected P mPresenter;
 
     private View mLoadView;
     private FrameLayout mParentView;

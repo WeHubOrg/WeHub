@@ -13,6 +13,7 @@ import javax.net.ssl.SSLSession;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * @author vurtne on 30-Apr-18.
@@ -20,16 +21,15 @@ import retrofit2.Retrofit;
 
 public class RetrofitClient {
 
+    private static final Object SERVICE_LOCK = new Object();
     private static Retrofit sRetrofit;
-    private Context context;
-
-    public RetrofitClient(Context context){
-        this.context = context;
+    private static ConnectService sService;
+    public RetrofitClient(){
     }
 
-    public Retrofit getRetrofit() {
+    private static Retrofit getRetrofit() {
         if (sRetrofit == null) {
-            synchronized (this){
+            synchronized (SERVICE_LOCK){
                 if (sRetrofit == null){
                     createRetrofit();
                 }
@@ -38,7 +38,19 @@ public class RetrofitClient {
         return sRetrofit;
     }
 
-    private void createRetrofit(){
+
+    public static ConnectService getService(){
+        if (sService == null) {
+            synchronized (SERVICE_LOCK){
+                if (sService == null){
+                    RetrofitClient.sService = getRetrofit().create(ConnectService.class);
+                }
+            }
+        }
+        return sService;
+    }
+
+    private static void createRetrofit(){
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .readTimeout(30000, TimeUnit.MILLISECONDS)
                 .connectTimeout(30000, TimeUnit.MILLISECONDS)
@@ -52,13 +64,13 @@ public class RetrofitClient {
         OkHttpClient client = builder.build();
         sRetrofit = new Retrofit.Builder()
                 .client(client)
-                .baseUrl("")
-                //todo
+                .baseUrl(NetConfig.BASE_HOST)
+                .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
     }
 
     protected  <T>Request<T> createRequest(OnResponseListener<T> listener) {
-        return new Request<T>(context, listener);
+        return new Request<T>(listener);
     }
 }

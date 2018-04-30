@@ -2,17 +2,25 @@ package com.freedom.wehub.act;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.freedom.wecore.common.WeActivity;
+import com.freedom.wecore.net.OnResponseListener;
 import com.freedom.wecore.tools.DeviceUtil;
+import com.freedom.wecore.tools.LogUtil;
 import com.freedom.wehub.R;
+import com.freedom.wehub.bean.AuthModel;
+import com.freedom.wehub.bean.Token;
+import com.freedom.wehub.quest.AuthRequest;
 import com.jakewharton.rxbinding2.widget.RxTextView;
+import com.freedom.wecore.net.Response;
 
 
 
@@ -79,6 +87,7 @@ public class LoginActivity extends WeActivity {
                 isPasswordError = true;
                 return;
             }
+            ontest();
 
         });
     }
@@ -86,5 +95,15 @@ public class LoginActivity extends WeActivity {
     @Override
     protected void initData(Bundle savedInstanceState) {
 
+    }
+
+
+    private void ontest(){
+        AuthModel.AuthRequest authRequest = new AuthModel.AuthRequest();
+
+        AuthRequest request = new AuthRequest();
+        request.requestToken(authRequest, response ->
+                LogUtil.e("111",response.toString())
+        );
     }
 }

@@ -1,6 +1,5 @@
 package com.freedom.wecore.net;
 
-import android.content.Context;
 import android.text.TextUtils;
 
 import com.freedom.wecore.tools.GsonConvertUtils;
@@ -20,8 +19,8 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class Request<T> {
+
     private final static String TAG = "Request";
-    private Context context;
     /**
      * 如果对象是一个类
      **/
@@ -34,7 +33,6 @@ public class Request<T> {
      * 请求是否取消了
      **/
     private boolean isCancel = false;
-    private boolean requestMod = true;
     private OnResponseListener<T> mListener;
     private CompositeDisposable mCompositeDisposable;
 
@@ -44,8 +42,7 @@ public class Request<T> {
     private Request<T> mRefreshRequest;
 
 
-    public Request(Context context, OnResponseListener<T> listener) {
-        this.context = context;
+    public Request(OnResponseListener<T> listener) {
         mCompositeDisposable = new CompositeDisposable();
         mListener = listener;
     }
@@ -53,19 +50,13 @@ public class Request<T> {
     /**
      * 设置请求参数
      * */
-    public Request<T> setArgs(Object args) {
+    public Request<T> args(Object args) {
         if (args != null) {
             mRequestData = args;
         }
         return this;
     }
 
-    /**
-     * 设置请求模式
-     * */
-    public void setRequestMode(boolean isGet){
-        this.requestMod = isGet;
-    }
     /**
      * 拼接地址
      * 替代了久的请求方法的 设置 服务和方法
@@ -82,29 +73,44 @@ public class Request<T> {
      *
      * @param clazz  用来解析的class;
      */
-    public Request<T> setClass(Class clazz) {
+    public Request<T> clazz(Class clazz) {
         mClass = clazz;
         return this;
     }
 
 
-    public Request<T> setParser(ResponseParser<T> parser){
+    public Request<T> parser(ResponseParser<T> parser){
         mParser = parser;
         return this;
     }
 
     /**
-     * 在这里进行通用的解析
+     * get请求
      */
-    public void onRequest(Observable<retrofit2.Response<JsonElement>> observable) {
+    public void get() {
         if (mCompositeDisposable == null || mCompositeDisposable.isDisposed()){
             mCompositeDisposable = new CompositeDisposable();
         }
-        mCompositeDisposable.add(onParseMap(observable.subscribeOn(Schedulers.io()))
+        mCompositeDisposable.add(onParseMap(RetrofitClient.getService().get(getPath(),mRequestData).subscribeOn(Schedulers.io()))
                 .observeOn(AndroidSchedulers.mainThread()).subscribe(
                         onCreateSuccessConsumer(),
                         onCreateErrorConsumer()));
     }
+
+    /**
+     * post请求
+     */
+    public void post(){
+        if (mCompositeDisposable == null || mCompositeDisposable.isDisposed()){
+            mCompositeDisposable = new CompositeDisposable();
+        }
+        mCompositeDisposable.add(onParseMap(RetrofitClient.getService().post(getPath(),mRequestData).subscribeOn(Schedulers.io()))
+                .observeOn(AndroidSchedulers.mainThread()).subscribe(
+                        onCreateSuccessConsumer(),
+                        onCreateErrorConsumer()));
+    }
+
+
 
     private Observable<Response<T>> onParseMap(Observable<retrofit2.Response<JsonElement>> observable) {
         return observable.map(new Function<retrofit2.Response<JsonElement>, Response<T>>() {
