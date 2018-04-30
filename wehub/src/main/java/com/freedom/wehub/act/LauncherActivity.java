@@ -1,24 +1,77 @@
 package com.freedom.wehub.act;
 
-import android.graphics.Typeface;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.freedom.wecore.common.WeActivity;
+import com.freedom.wecore.tools.DeviceUtil;
+import com.freedom.wecore.tools.TransitionHelper;
 import com.freedom.wehub.R;
 
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Flowable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+
+
 /**
- * @author vurtne on 29-Air-18.
+ * @author vurtne on 29-Apr-18.
  *
  * */
-public class LauncherActivity extends AppCompatActivity {
+public class LauncherActivity extends WeActivity {
+
+    private TextView mLogoNameView;
+    private ImageView mLogoView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_launcher);
+    protected int contentView() {
+        return R.layout.activity_launcher;
+    }
 
-        Typeface typeface = Typeface.createFromAsset(getAssets(),"fonts/affiliation.ttf");
-        ((TextView)findViewById(R.id.tv_name)).setTypeface(typeface);
+    @Override
+    protected void initView(Bundle savedInstanceState) {
+        mLogoNameView = findViewById(R.id.tv_name);
+        mLogoView = findViewById(R.id.iv_logo);
+        DeviceUtil.setTypeface(this,mLogoNameView,"fonts/affiliation.ttf");
+    }
+
+    @Override
+    protected void initStatusBar(int statusHeight) {
+
+    }
+
+    @Override
+    protected void initEvent() {
+        setClick(mLogoView, o -> initData(null));
+    }
+
+    @Override
+    protected void initData(Bundle savedInstanceState) {
+        getCompositeDisposable().add(Flowable.timer(1, TimeUnit.SECONDS).observeOn(
+                AndroidSchedulers.mainThread()).subscribe(aLong -> {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+                        final Pair<View, String>[] pairs = TransitionHelper.createSafeTransitionParticipants(
+                                LauncherActivity.this, false,
+                                new Pair<>(mLogoView,getString(R.string.transition_logo))
+                                ,new Pair<>(mLogoNameView,getString(R.string.transition_logo_name))
+                        );
+                        Intent intent  = new Intent(LauncherActivity.this,LoginActivity.class);
+                        ActivityOptionsCompat options =
+                                ActivityOptionsCompat.makeSceneTransitionAnimation(LauncherActivity.this, pairs);
+                        ActivityCompat.startActivity(LauncherActivity.this.context,intent, options.toBundle());
+                        onFinish();
+                    }else {
+                        startActivity(new Intent(LauncherActivity.this,LoginActivity.class));
+                        finish();
+                    }
+                }));
     }
 }

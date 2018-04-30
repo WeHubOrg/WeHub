@@ -1,1 +1,1 @@
-include ':wehub'
+include ':wehub', ':wecore'

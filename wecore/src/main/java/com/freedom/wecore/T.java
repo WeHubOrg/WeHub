@@ -1,4 +1,4 @@
-package com.freedom.wehub;
+package com.freedom.wecore;
 
 /**
  * @author vurtne on 29-Apr-18.
