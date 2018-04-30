@@ -1,8 +1,6 @@
 package com.freedom.wehub.act;
 
 
-import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
@@ -16,7 +14,6 @@ import com.freedom.wecore.tools.DeviceUtil;
 import com.freedom.wehub.R;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 
-import io.reactivex.functions.Consumer;
 
 
 /**
@@ -63,6 +60,7 @@ public class LoginActivity extends WeActivity {
                 mParentLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.color_theme));
             }
         });
+
         RxTextView.textChanges(mPasswordView).subscribe(charSequence -> {
             if (isPasswordError){
                 isPasswordError = false;
