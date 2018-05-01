@@ -11,6 +11,9 @@ import com.freedom.wehub.bean.Token;
 
 public class AuthRequest extends RetrofitClient {
 
+    /**
+     * 获取token
+     * */
     public void requestToken(AuthModel.AuthRequest authRequest,OnResponseListener<Token> listener){
         createRequest(listener)
                 .clazz(Token.class)

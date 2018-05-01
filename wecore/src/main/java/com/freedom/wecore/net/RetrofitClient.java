@@ -1,11 +1,8 @@
 package com.freedom.wecore.net;
 
-import android.content.Context;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
-import java.io.File;
-import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HostnameVerifier;
@@ -54,7 +51,7 @@ public class RetrofitClient {
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .readTimeout(30000, TimeUnit.MILLISECONDS)
                 .connectTimeout(30000, TimeUnit.MILLISECONDS)
-//                .addInterceptor(new XIterceptor())
+                .addInterceptor(new ClientInterceptor())
                 .hostnameVerifier(new HostnameVerifier() {
                     @Override
                     public boolean verify(String hostname, SSLSession session) {

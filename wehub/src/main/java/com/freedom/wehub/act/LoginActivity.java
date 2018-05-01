@@ -2,26 +2,23 @@ package com.freedom.wehub.act;
 
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.freedom.wecore.common.AccountManager;
 import com.freedom.wecore.common.WeActivity;
-import com.freedom.wecore.net.OnResponseListener;
 import com.freedom.wecore.tools.DeviceUtil;
 import com.freedom.wecore.tools.LogUtil;
 import com.freedom.wehub.R;
 import com.freedom.wehub.bean.AuthModel;
-import com.freedom.wehub.bean.Token;
 import com.freedom.wehub.quest.AuthRequest;
 import com.jakewharton.rxbinding2.widget.RxTextView;
-import com.freedom.wecore.net.Response;
 
+import okhttp3.Credentials;
 
 
 /**
@@ -87,8 +84,7 @@ public class LoginActivity extends WeActivity {
                 isPasswordError = true;
                 return;
             }
-            ontest();
-
+            ontest(mAccountView.getText().toString().trim(),mPasswordView.getText().toString().trim());
         });
     }
 
@@ -98,9 +94,10 @@ public class LoginActivity extends WeActivity {
     }
 
 
-    private void ontest(){
+    private void ontest(String userName,String password){
         AuthModel.AuthRequest authRequest = new AuthModel.AuthRequest();
-
+        String token = Credentials.basic(userName, password);
+        AccountManager.instance().setToken(token);
         AuthRequest request = new AuthRequest();
         request.requestToken(authRequest, response ->
                 LogUtil.e("111",response.toString())

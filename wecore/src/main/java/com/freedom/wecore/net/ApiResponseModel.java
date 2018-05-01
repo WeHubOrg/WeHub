@@ -4,13 +4,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-/**
- * 服务端统一的返回数据格式<br>
- * <p>
- * import static android.R.attr.author;
- *
- * @author 林钊平
- */
 public class ApiResponseModel<T> implements Serializable {
 
     /** */
