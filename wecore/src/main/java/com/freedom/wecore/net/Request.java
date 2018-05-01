@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import com.freedom.wecore.tools.GsonConvertUtils;
 import com.freedom.wecore.tools.LogUtil;
+import com.freedom.wecore.tools.NetArgsUtils;
 import com.google.gson.JsonElement;
 
 
@@ -150,6 +151,8 @@ public class Request<T> {
         T bean = null;
         if (mParser != null) {
             bean = mParser.parse(je);
+        } else {
+            bean = (T) NetArgsUtils.parseJsonElement(je, mClass);
         }
         response.setResponse(bean);
         return response;
