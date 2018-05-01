@@ -35,6 +35,7 @@
 	<dimen name="dimen_130">130dp</dimen>
 	<dimen name="dimen_160">160dp</dimen>
 	<dimen name="dimen_180">180dp</dimen>
+	<dimen name="dimen_220">220dp</dimen>
 
 	<dimen name="dimen_370">370dp</dimen>
 </resources>

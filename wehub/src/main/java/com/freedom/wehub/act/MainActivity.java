@@ -3,14 +3,16 @@ package com.freedom.wehub.act;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.freedom.wecore.common.AccountManager;
 import com.freedom.wecore.common.User;
 import com.freedom.wecore.common.WeActivity;
 import com.freedom.wecore.common.WePresenter;
-import com.freedom.wecore.tools.RoundTransform;
+import com.freedom.wecore.tools.ImageBridge;
 import com.freedom.wehub.R;
-import com.squareup.picasso.Picasso;
+
+import org.w3c.dom.Text;
 
 /**
  * @author vurtne on 1-May-18.
@@ -19,8 +21,10 @@ import com.squareup.picasso.Picasso;
 public class MainActivity extends WeActivity {
 
     private ImageView mAvatarView;
-    private ImageView in;
-    private ImageView getAvatarBackgroundView;
+    private ImageView mAvatarBackgroundView;
+    private TextView mUserView;
+    private TextView mNameView;
+    private TextView mBoiView;
     private NavigationView mMenuView;
 
     @Override
@@ -31,9 +35,11 @@ public class MainActivity extends WeActivity {
     @Override
     protected void initView(Bundle savedInstanceState) {
         mMenuView = findViewById(R.id.layout_menu);
-        in = findViewById(R.id.iv);
-        getAvatarBackgroundView = mMenuView.getHeaderView(0).findViewById(R.id.iv_avatar_bg);
+        mAvatarBackgroundView = mMenuView.getHeaderView(0).findViewById(R.id.iv_avatar_bg);
         mAvatarView = mMenuView.getHeaderView(0).findViewById(R.id.iv_avatar);
+        mUserView = mMenuView.getHeaderView(0).findViewById(R.id.tv_user);
+        mNameView = mMenuView.getHeaderView(0).findViewById(R.id.tv_name);
+        mBoiView = mMenuView.getHeaderView(0).findViewById(R.id.tv_bio);
     }
 
     @Override
@@ -52,10 +58,11 @@ public class MainActivity extends WeActivity {
         if (user == null){
             return;
         }
-        Picasso.with(context).load(user.getAvatarUrl()).into(in);
-//        Picasso.with(context).load(user.getAvatarUrl()).transform(new RoundTransform(
-//                (int) context.getResources().getDimension(R.dimen.dimen_24))).into(mAvatarView);
-        Picasso.with(context).load(user.getAvatarUrl()).into(getAvatarBackgroundView);
+        ImageBridge.displayBlurImageValue(user.getAvatarUrl(),mAvatarBackgroundView,50);
+        ImageBridge.displayRoundImage(user.getAvatarUrl(), mAvatarView);
+        mUserView.setText(user.getLogin());
+        mNameView.setText(user.getName());
+        mBoiView.setText(user.getBio());
     }
 
     @Override
