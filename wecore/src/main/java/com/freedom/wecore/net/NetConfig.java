@@ -12,4 +12,6 @@ public class NetConfig {
     public static String CLIENT_SECRET = "87261bee339f5ef434b13de050583896061fec5c";
     public final static String REDIRECT_URL = "https://github.com/JiLiren/WeHub/CallBack";
 
+    public final static String BASE_TOKEN = "base_token";
+
 }

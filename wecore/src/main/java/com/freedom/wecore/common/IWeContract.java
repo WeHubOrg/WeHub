@@ -1,7 +1,5 @@
 package com.freedom.wecore.common;
 
-import android.content.Context;
-import android.support.annotation.Nullable;
 
 /**
  * @author vurtne on 1-May-18.
@@ -9,12 +7,20 @@ import android.support.annotation.Nullable;
 
 public class IWeContract {
 
-    interface View {
+    public interface View {
 
     }
 
     interface Presenter<V extends IWeContract.View>{
-        @Nullable
-        Context getContext();
+        /**
+         * 关联
+         * @param mvpView
+         */
+        void attachView(V mvpView);
+
+        /**
+         * 取消关联
+         */
+        void detachView();
     }
 }

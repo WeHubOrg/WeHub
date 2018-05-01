@@ -2,6 +2,10 @@ package com.freedom.wecore.common;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.text.TextUtils;
+
+import com.freedom.wecore.net.NetConfig;
+import com.freedom.wecore.tools.GsonConvertUtils;
 
 /**
  * @author vurtne on 1-May-18.
@@ -12,7 +16,8 @@ public class AccountManager {
     public static final String SHARED_USERINFO = "user_info";
 
     private Object LOCK = new Object();
-    private static String sToken;
+    private static BaseToken sToken;
+    private static User sUser;
     private static AccountManager sManager;
     private static SharedPreferences mSharedPreferences;
 
@@ -28,11 +33,28 @@ public class AccountManager {
         return sManager;
     }
 
-    public String getToken() {
+    public BaseToken getToken() {
+        if (sToken == null){
+            String token = mSharedPreferences.getString(NetConfig.BASE_TOKEN,null);
+            if (!TextUtils.isEmpty(token)){
+                sToken = GsonConvertUtils.getGson().fromJson(token,BaseToken.class);
+            }
+        }
         return sToken;
     }
 
-    public void setToken(String sToken) {
+    public void setToken(BaseToken sToken) {
         AccountManager.sToken = sToken;
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putString(NetConfig.BASE_TOKEN, GsonConvertUtils.toJson(sToken));
+        editor.commit();
+    }
+
+    public User getUser() {
+        return sUser;
+    }
+
+    public void setUser(User user) {
+        AccountManager.sUser = user;
     }
 }

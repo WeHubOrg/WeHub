@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.freedom.wecore.common.WeActivity;
+import com.freedom.wecore.common.WePresenter;
 import com.freedom.wecore.tools.DeviceUtil;
 import com.freedom.wecore.tools.TransitionHelper;
 import com.freedom.wehub.R;
@@ -19,7 +20,6 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
 
 
 /**
@@ -41,6 +41,11 @@ public class LauncherActivity extends WeActivity {
         mLogoNameView = findViewById(R.id.tv_name);
         mLogoView = findViewById(R.id.iv_logo);
         DeviceUtil.setTypeface(this,mLogoNameView,"fonts/affiliation.ttf");
+    }
+
+    @Override
+    protected WePresenter createPresenter() {
+        return null;
     }
 
     @Override
@@ -74,4 +79,6 @@ public class LauncherActivity extends WeActivity {
                     }
                 }));
     }
+
+
 }

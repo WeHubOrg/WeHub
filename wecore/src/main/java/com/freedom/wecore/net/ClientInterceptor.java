@@ -16,12 +16,18 @@ import okhttp3.Response;
 
 public class ClientInterceptor implements Interceptor{
 
+    String mToken;
+
+    public ClientInterceptor(String token){
+        this.mToken = token;
+    }
+
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
 
-        String token = AccountManager.instance().getToken();
-        //add access token
+        String token = TextUtils.isEmpty(this.mToken)?
+                AccountManager.instance().getToken().getToken():this.mToken;
         if(!TextUtils.isEmpty(token.trim())){
             String auth = token.startsWith("Basic") ? token : "token " + token;
             request = request.newBuilder()

@@ -17,7 +17,7 @@ public class Response<T> {
      * 设置返回数据
      * @param t data
      */
-    void setResponse(T t) {
+    public void setResponse(T t) {
         mData = t;
     }
 
@@ -25,7 +25,7 @@ public class Response<T> {
      * 获取对象数据
      * @return data
      */
-    T get(){
+    public T get(){
         return mData;
     }
 
@@ -33,7 +33,7 @@ public class Response<T> {
      * 获取JsonElement
      * @return JsonElement
      */
-    JsonElement getJson(){
+    public JsonElement getJson(){
         return mJsonElement;
     }
 

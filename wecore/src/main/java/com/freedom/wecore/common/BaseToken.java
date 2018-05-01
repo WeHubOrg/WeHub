@@ -1,4 +1,4 @@
-package com.freedom.wehub.bean;
+package com.freedom.wecore.common;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -9,7 +9,7 @@ import java.util.List;
  * @author vurtne on 1-May-18.
  */
 
-public class Token {
+public class BaseToken {
     private int id;
     private String url;
     private String token;

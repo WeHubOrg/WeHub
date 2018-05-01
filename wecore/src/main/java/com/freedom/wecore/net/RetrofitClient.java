@@ -47,11 +47,32 @@ public class RetrofitClient {
         return sService;
     }
 
+    public static ConnectService getTokenService(String token){
+        OkHttpClient.Builder builder = new OkHttpClient.Builder()
+                .readTimeout(30000, TimeUnit.MILLISECONDS)
+                .connectTimeout(30000, TimeUnit.MILLISECONDS)
+                .addInterceptor(new ClientInterceptor(token))
+                .hostnameVerifier(new HostnameVerifier() {
+                    @Override
+                    public boolean verify(String hostname, SSLSession session) {
+                        return true;
+                    }
+                });
+        OkHttpClient client = builder.build();
+        return new Retrofit.Builder()
+                .client(client)
+                .baseUrl(NetConfig.BASE_HOST)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build()
+                .create(ConnectService.class);
+    }
+
     private static void createRetrofit(){
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .readTimeout(30000, TimeUnit.MILLISECONDS)
                 .connectTimeout(30000, TimeUnit.MILLISECONDS)
-                .addInterceptor(new ClientInterceptor())
+                .addInterceptor(new ClientInterceptor(null))
                 .hostnameVerifier(new HostnameVerifier() {
                     @Override
                     public boolean verify(String hostname, SSLSession session) {

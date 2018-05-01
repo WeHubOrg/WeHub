@@ -1,6 +1,7 @@
 package com.freedom.wehub.act;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
@@ -10,15 +11,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.freedom.wecore.common.AccountManager;
+import com.freedom.wecore.common.BaseToken;
+import com.freedom.wecore.common.User;
 import com.freedom.wecore.common.WeActivity;
-import com.freedom.wecore.net.OnResponseListener;
-import com.freedom.wecore.net.Response;
+import com.freedom.wecore.common.WePresenter;
 import com.freedom.wecore.tools.DeviceUtil;
 import com.freedom.wecore.tools.LogUtil;
 import com.freedom.wehub.R;
 import com.freedom.wehub.bean.AuthModel;
-import com.freedom.wehub.bean.Token;
-import com.freedom.wehub.quest.AuthRequest;
+import com.freedom.wehub.contract.AccountContract;
+import com.freedom.wehub.presenter.AccountPresenter;
+import com.freedom.wehub.quest.AuthService;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 
 import okhttp3.Credentials;
@@ -28,7 +31,8 @@ import okhttp3.Credentials;
  * @author vurtne on 29-Apr-18.
  *
  * */
-public class LoginActivity extends WeActivity {
+public class LoginActivity extends WeActivity<AccountContract.IAccountLoginView, AccountPresenter> implements
+        AccountContract.IAccountLoginView  {
 
     private TextView mLogoNameView;
     private EditText mAccountView;
@@ -43,6 +47,11 @@ public class LoginActivity extends WeActivity {
     @Override
     protected int contentView() {
         return R.layout.activity_login;
+    }
+
+    @Override
+    protected AccountPresenter createPresenter() {
+        return new AccountPresenter();
     }
 
     @Override
@@ -77,7 +86,9 @@ public class LoginActivity extends WeActivity {
         });
 
         setClick(mLoginView, o -> {
-
+            if (isPasswordError || isAccountError){
+                return;
+            }
             if (TextUtils.isEmpty(mAccountView.getText().toString().trim())) {
                 mParentLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.color_error));
                 isAccountError = true;
@@ -88,7 +99,8 @@ public class LoginActivity extends WeActivity {
                 isPasswordError = true;
                 return;
             }
-            ontest(mAccountView.getText().toString().trim(),mPasswordView.getText().toString().trim());
+            showLoad();
+            mPresenter.requestToken(mAccountView.getText().toString().trim(),mPasswordView.getText().toString().trim());
         });
     }
 
@@ -97,16 +109,17 @@ public class LoginActivity extends WeActivity {
 
     }
 
+    @Override
+    public void onLogin(User user) {
+        hideLoad();
+        startActivity(new Intent(context,MainActivity.class));
+        finish();
+    }
 
-    private void ontest(String userName,String password){
-        showLoad();
-        AuthModel.AuthRequest authRequest = new AuthModel.AuthRequest();
-        String token = Credentials.basic(userName, password);
-        AccountManager.instance().setToken(token);
-        AuthRequest request = new AuthRequest();
-        request.requestToken(authRequest, response -> {
-            hideLoad();
-            LogUtil.e("111",response.toString());
-        });
+    @Override
+    public void onFailed() {
+        hideLoad();
+        mParentLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.color_error));
+        isPasswordError = true;
     }
 }

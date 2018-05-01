@@ -21,10 +21,10 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 
 /**
- * @author vurtne on 29-Apr-18.
+ * @author vurtne on 1-May-18.
  *
  */
-public abstract class WeActivity<P extends IWeContract.Presenter> extends AppCompatActivity {
+public abstract class WeActivity<V extends IWeContract.View,P extends WePresenter> extends AppCompatActivity {
 
     /**
      * 默认点击沉默时间
@@ -34,7 +34,6 @@ public abstract class WeActivity<P extends IWeContract.Presenter> extends AppCom
     private CompositeDisposable mCompositeDisposable;
     protected Context context;
     protected P mPresenter;
-
     private View mLoadView;
     private View mContentView;
     private FrameLayout mParentView;
@@ -50,6 +49,7 @@ public abstract class WeActivity<P extends IWeContract.Presenter> extends AppCom
         mParentView.addView(mLoadView);
         setContentView(mParentView);
         context = this;
+        createPresenters();
         initView(savedInstanceState);
         if (StatusBarUtil.canStatusChangeColor()) {
             StatusBarUtil.setStatusContentColor(this,true);
@@ -172,6 +172,16 @@ public abstract class WeActivity<P extends IWeContract.Presenter> extends AppCom
         }));
     }
 
+    private void createPresenters() {
+        if (mPresenter == null) {
+            mPresenter = createPresenter();
+        }
+        if (mPresenter != null && !mPresenter.isViewAttached()) {
+            mPresenter.attachView((V) this);
+            mPresenter.initial(this);
+        }
+    }
+
     /**
      * 设置ContentView
      *
@@ -197,7 +207,14 @@ public abstract class WeActivity<P extends IWeContract.Presenter> extends AppCom
 
     /**
      * 数据处理
+     * @param savedInstanceState savedInstanceState
      */
     protected abstract void initData(Bundle savedInstanceState);
+
+    /**
+     * createPresenter
+     * @return P
+     */
+    protected abstract P createPresenter();
 
 }

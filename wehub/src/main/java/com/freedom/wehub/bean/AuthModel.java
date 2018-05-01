@@ -26,4 +26,5 @@ public class AuthModel {
             this.noteUrl = NetConfig.REDIRECT_URL;
         }
     }
+
 }

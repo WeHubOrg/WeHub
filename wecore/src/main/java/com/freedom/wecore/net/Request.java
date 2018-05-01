@@ -89,28 +89,29 @@ public class Request<T> {
      * get请求
      */
     public void get() {
-        if (mCompositeDisposable == null || mCompositeDisposable.isDisposed()){
-            mCompositeDisposable = new CompositeDisposable();
-        }
-        mCompositeDisposable.add(onParseMap(RetrofitClient.getService().get(getPath(),mRequestData).subscribeOn(Schedulers.io()))
-                .observeOn(AndroidSchedulers.mainThread()).subscribe(
-                        onCreateSuccessConsumer(),
-                        onCreateErrorConsumer()));
+        request(RetrofitClient.getService().get(getPath(),mRequestData));
     }
+
 
     /**
      * post请求
      */
     public void post(){
+        request(RetrofitClient.getService().post(getPath(),mRequestData));
+    }
+
+    /**
+     * 请求
+     * */
+    public void request(Observable<retrofit2.Response<JsonElement>> observable){
         if (mCompositeDisposable == null || mCompositeDisposable.isDisposed()){
             mCompositeDisposable = new CompositeDisposable();
         }
-        mCompositeDisposable.add(onParseMap(RetrofitClient.getService().post(getPath(),mRequestData).subscribeOn(Schedulers.io()))
+        mCompositeDisposable.add(onParseMap(observable.subscribeOn(Schedulers.io()))
                 .observeOn(AndroidSchedulers.mainThread()).subscribe(
                         onCreateSuccessConsumer(),
                         onCreateErrorConsumer()));
     }
-
 
 
     private Observable<Response<T>> onParseMap(Observable<retrofit2.Response<JsonElement>> observable) {
