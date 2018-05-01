@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.freedom.wecore.R;
 import com.freedom.wecore.tools.DeviceUtil;
 import com.freedom.wecore.tools.StatusBarUtil;
 import com.jakewharton.rxbinding2.view.RxView;
@@ -35,15 +36,19 @@ public abstract class WeActivity<P extends IWeContract.Presenter> extends AppCom
     protected P mPresenter;
 
     private View mLoadView;
+    private View mContentView;
     private FrameLayout mParentView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        mParentView = new FrameLayout(this);
-//        mParentView.addView(getLayoutInflater().inflate(contentView(),null));
-//        setContentView(mParentView);
-        setContentView(contentView());
+        mParentView = new FrameLayout(this);
+        mContentView = getLayoutInflater().inflate(contentView(),null);
+        mLoadView = getLayoutInflater().inflate(R.layout.layout_loading,null);
+        mLoadView.setVisibility(View.GONE);
+        mParentView.addView(mContentView);
+        mParentView.addView(mLoadView);
+        setContentView(mParentView);
         context = this;
         initView(savedInstanceState);
         if (StatusBarUtil.canStatusChangeColor()) {
@@ -138,7 +143,7 @@ public abstract class WeActivity<P extends IWeContract.Presenter> extends AppCom
         if (mLoadView == null){
             synchronized (this){
                 if (mLoadView == null){
-//                    mLoadView = getLayoutInflater().inflate(R.layout.layout_loading,null);
+                    mLoadView = getLayoutInflater().inflate(R.layout.layout_loading,null);
                     mParentView.addView(mLoadView);
                 }
             }

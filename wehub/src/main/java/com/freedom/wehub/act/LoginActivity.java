@@ -11,10 +11,13 @@ import android.widget.TextView;
 
 import com.freedom.wecore.common.AccountManager;
 import com.freedom.wecore.common.WeActivity;
+import com.freedom.wecore.net.OnResponseListener;
+import com.freedom.wecore.net.Response;
 import com.freedom.wecore.tools.DeviceUtil;
 import com.freedom.wecore.tools.LogUtil;
 import com.freedom.wehub.R;
 import com.freedom.wehub.bean.AuthModel;
+import com.freedom.wehub.bean.Token;
 import com.freedom.wehub.quest.AuthRequest;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 
@@ -74,6 +77,7 @@ public class LoginActivity extends WeActivity {
         });
 
         setClick(mLoginView, o -> {
+
             if (TextUtils.isEmpty(mAccountView.getText().toString().trim())) {
                 mParentLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.color_error));
                 isAccountError = true;
@@ -95,12 +99,14 @@ public class LoginActivity extends WeActivity {
 
 
     private void ontest(String userName,String password){
+        showLoad();
         AuthModel.AuthRequest authRequest = new AuthModel.AuthRequest();
         String token = Credentials.basic(userName, password);
         AccountManager.instance().setToken(token);
         AuthRequest request = new AuthRequest();
-        request.requestToken(authRequest, response ->
-                LogUtil.e("111",response.toString())
-        );
+        request.requestToken(authRequest, response -> {
+            hideLoad();
+            LogUtil.e("111",response.toString());
+        });
     }
 }
