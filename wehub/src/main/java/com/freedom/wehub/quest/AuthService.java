@@ -4,7 +4,7 @@ import com.freedom.wecore.common.BaseToken;
 import com.freedom.wecore.common.User;
 import com.freedom.wecore.net.OnResponseListener;
 import com.freedom.wecore.net.RetrofitClient;
-import com.freedom.wehub.bean.AuthModel;
+import com.freedom.wehub.model.AuthModel;
 
 /**
  * @author vurtne on 1-May-18.

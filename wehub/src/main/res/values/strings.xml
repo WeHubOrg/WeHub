@@ -5,6 +5,9 @@
     <string name="transition_logo">transition_logo</string>
     <string name="transition_logo_name">transition_logo_name</string>
     <string name="sign_in">Sign in</string>
+    <string name="user">user</string>
+    <string name="name">name</string>
+    <string name="bio">bio</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>

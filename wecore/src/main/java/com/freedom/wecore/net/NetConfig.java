@@ -13,5 +13,6 @@ public class NetConfig {
     public final static String REDIRECT_URL = "https://github.com/JiLiren/WeHub/CallBack";
 
     public final static String BASE_TOKEN = "base_token";
+    public final static String USER_INFO = "user_info";
 
 }

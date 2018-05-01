@@ -51,10 +51,19 @@ public class AccountManager {
     }
 
     public User getUser() {
+        if (sUser == null){
+            String user = mSharedPreferences.getString(NetConfig.USER_INFO,null);
+            if (!TextUtils.isEmpty(user)){
+                sToken = GsonConvertUtils.getGson().fromJson(user,BaseToken.class);
+            }
+        }
         return sUser;
     }
 
     public void setUser(User user) {
         AccountManager.sUser = user;
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putString(NetConfig.USER_INFO, GsonConvertUtils.toJson(sUser));
+        editor.commit();
     }
 }

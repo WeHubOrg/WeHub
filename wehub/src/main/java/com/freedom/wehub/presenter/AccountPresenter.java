@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.freedom.wecore.common.AccountManager;
 import com.freedom.wecore.common.WePresenter;
-import com.freedom.wehub.bean.AuthModel;
+import com.freedom.wehub.model.AuthModel;
 import com.freedom.wehub.contract.AccountContract;
 import com.freedom.wehub.quest.AuthService;
 

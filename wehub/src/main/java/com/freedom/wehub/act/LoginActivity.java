@@ -10,21 +10,13 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.freedom.wecore.common.AccountManager;
-import com.freedom.wecore.common.BaseToken;
 import com.freedom.wecore.common.User;
 import com.freedom.wecore.common.WeActivity;
-import com.freedom.wecore.common.WePresenter;
 import com.freedom.wecore.tools.DeviceUtil;
-import com.freedom.wecore.tools.LogUtil;
 import com.freedom.wehub.R;
-import com.freedom.wehub.bean.AuthModel;
 import com.freedom.wehub.contract.AccountContract;
 import com.freedom.wehub.presenter.AccountPresenter;
-import com.freedom.wehub.quest.AuthService;
 import com.jakewharton.rxbinding2.widget.RxTextView;
-
-import okhttp3.Credentials;
 
 
 /**

@@ -1,4 +1,4 @@
-package com.freedom.wehub.bean;
+package com.freedom.wehub.model;
 
 import com.freedom.wecore.net.NetConfig;
 
