@@ -142,7 +142,7 @@ public abstract class WeActivity<V extends IWeContract.View,P extends WePresente
         mCompositeDisposable.add(RxView.clicks(view).throttleFirst(throttle, unit).subscribe(consumer));
     }
 
-    protected Fragment showFragment(Context context, String fragmentClass, String fragmentTag, Bundle args, int parentLayoutId) {
+    protected Fragment showFragment(String fragmentClass, String fragmentTag, Bundle args, int parentLayoutId) {
         return FragmentHolder.showFragment(context, fragmentClass, fragmentTag, args, parentLayoutId, getSupportFragmentManager());
     }
 

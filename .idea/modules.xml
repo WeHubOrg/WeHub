@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/WeHub.iml" filepath="$PROJECT_DIR$/WeHub.iml" />
+      <module fileurl="file://$PROJECT_DIR$/WeHub-master.iml" filepath="$PROJECT_DIR$/WeHub-master.iml" />
       <module fileurl="file://$PROJECT_DIR$/wecore/wecore.iml" filepath="$PROJECT_DIR$/wecore/wecore.iml" />
       <module fileurl="file://$PROJECT_DIR$/wehub/wehub.iml" filepath="$PROJECT_DIR$/wehub/wehub.iml" />
     </modules>

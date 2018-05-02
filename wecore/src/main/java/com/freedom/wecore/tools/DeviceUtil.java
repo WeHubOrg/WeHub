@@ -8,6 +8,8 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.support.annotation.ColorInt;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 /**
@@ -106,5 +108,38 @@ public class DeviceUtil {
         return versionName;
     }
 
+    /**
+     * 获取屏幕宽
+     * @param context 上下文
+     * @return 版本名称
+     */
+    public static float getScreenWidth(Context context){
+        if (context == null){
+            return 0;
+        }
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics dm = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(dm);
+        int width = dm.widthPixels;
+        float density = dm.density;
+        return width / density;
+    }
+
+    /**
+     * 获取屏幕高
+     * @param context 上下文
+     * @return 版本名称
+     */
+    public static float getScreenHeight(Context context){
+        if (context == null){
+            return 0;
+        }
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics dm = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(dm);
+        int height = dm.heightPixels;
+        float density = dm.density;
+        return  height / density;
+    }
 
 }

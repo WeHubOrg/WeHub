@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="devalue_paint">#f0edeb</color>
+    <color name="work_00">#8be4c6</color>
+    <color name="work_01">#6fc97b</color>
+    <color name="work_02">#3b9a23</color>
+    <color name="work_03">#276119</color>
+</resources>
