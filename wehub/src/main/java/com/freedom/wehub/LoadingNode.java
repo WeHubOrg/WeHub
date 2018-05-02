@@ -1,6 +1,7 @@
 package com.freedom.wehub;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -14,10 +15,6 @@ import android.view.View;
 
 import com.freedom.wecore.tools.DeviceUtil;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 
@@ -28,21 +25,25 @@ public class LoadingNode extends View{
 
     private Context context;
     /** 总节点数 */
-    private int MAX_NODE_NUM = 365;
+    private final double MAX_NODE_NUM = 365.0;
     /** 周期 */
-    private final int NODE_CYCLE = 7;
+    private final double DEVALUE_NODE_CYCLE = 7.0;
+    /** 默认方块的大小 */
+    private int DEVALUE_NODE_SIZE = 8;
+    /** 默认方块的间隔 */
+    private int DEVALUE_NODE_INTERVAL = 2;
     /** 月期 */
 //    private final String[] NODE_MONTH = new String[]{"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
     /** 宽 */
-    private int DEVALUE_WIDTH;
+    private double mWidth;
     /** 高 */
-    private int DEVALUE_HEIGHT;
-    /** 默认方块的大小 */
-    private int DEVALUE_NODE_SIZE;
-    /** 默认方块的间隔 */
-    private int DEVALUE_NODE_INTERVAL;
-    /** 默认列高 */
-    private int DEVALUE_CLO_HEIGHT;
+    private double mHeight;
+    /** 方块的大小 */
+    private float mNodeSize;
+    /** 方块的间隔 */
+    private float mNodeInterval;
+    /** 方块的间隔 */
+    private float mNodeCycle;
     /** 默认画笔 */
     private final Paint mDevaluePaint = new Paint();
     /** 工作画笔 */
@@ -70,7 +71,7 @@ public class LoadingNode extends View{
     public LoadingNode(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
-        init();
+        init(attrs);
     }
 
     @Override
@@ -79,14 +80,20 @@ public class LoadingNode extends View{
         setMeasuredDimension(DEVALUE_WIDTH,DEVALUE_HEIGHT);
     }
 
-    private void init(){
+    private void init( @Nullable AttributeSet attrs){
+        TypedArray array = context.obtainStyledAttributes(attrs,R.styleable.LoadingNode);
 //        DEVALUE_WIDTH = (int) (DeviceUtil.getScreenWidth(context) / 3 * 2);
 //        DEVALUE_HEIGHT = DEVALUE_WIDTH / 2;
+        mNodeSize = array.getDimension(R.styleable.LoadingNode_nodeSize,DEVALUE_NODE_SIZE);
+        mNodeInterval = array.getDimension(R.styleable.LoadingNode_nodeSize,DEVALUE_NODE_INTERVAL);
+        mNodeCycle = array.getDimension(R.styleable.LoadingNode_nodeSize,DEVALUE_NODE_CYCLE);
         DEVALUE_WIDTH = 1000;
         DEVALUE_HEIGHT = 250;
-        DEVALUE_NODE_SIZE = DeviceUtil.dip2Px(context,6);
-        DEVALUE_NODE_INTERVAL = DeviceUtil.dip2Px(context,1);
-        DEVALUE_CLO_HEIGHT = DEVALUE_NODE_SIZE * NODE_CYCLE + DEVALUE_NODE_INTERVAL * (NODE_CYCLE - 1);
+        mHeight = DEVALUE_NODE_SIZE * NODE_CYCLE + DEVALUE_NODE_INTERVAL * (NODE_CYCLE - 1);
+        mHeight = DEVALUE_NODE_SIZE * (mNodeSize / )NODE_CYCLE + DEVALUE_NODE_INTERVAL * (NODE_CYCLE - 1);
+
+
+
         mDrawOrigin = new RectF(0,0,DEVALUE_NODE_SIZE,DEVALUE_NODE_SIZE);
         mDevaluePaint.setColor(ContextCompat.getColor(context,R.color.devalue_paint));
         mDevaluePaint.setStyle(Paint.Style.FILL);
@@ -134,6 +141,8 @@ public class LoadingNode extends View{
             mDrawPaint.clear();
             invalidate();
         });
+
+        array.recycle();
     }
 
 
