@@ -20,6 +20,9 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 
+/**
+ * @author vurtne on 2-May-18.
+ */
 public abstract class WeFragment<V extends IWeContract.View,P extends WePresenter> extends Fragment{
 
     private final int DEFAULT_INTERVAL = 1;

@@ -4,12 +4,14 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.FrameLayout;
 
 import com.freedom.wecore.R;
 import com.freedom.wecore.tools.DeviceUtil;
+import com.freedom.wecore.tools.FragmentHolder;
 import com.freedom.wecore.tools.StatusBarUtil;
 import com.jakewharton.rxbinding2.view.RxView;
 
@@ -140,9 +142,9 @@ public abstract class WeActivity<V extends IWeContract.View,P extends WePresente
         mCompositeDisposable.add(RxView.clicks(view).throttleFirst(throttle, unit).subscribe(consumer));
     }
 
-//    protected Fragment showFragment(Context context, String fragmentClass, String fragmentTag, Bundle args, int parentLayoutId) {
-//        return FragmentHolder.showFragment(context, fragmentClass, fragmentTag, args, parentLayoutId, getSupportFragmentManager());
-//    }
+    protected Fragment showFragment(Context context, String fragmentClass, String fragmentTag, Bundle args, int parentLayoutId) {
+        return FragmentHolder.showFragment(context, fragmentClass, fragmentTag, args, parentLayoutId, getSupportFragmentManager());
+    }
 
     protected void showLoad(){
         if (mLoadGroup == null){
@@ -169,7 +171,7 @@ public abstract class WeActivity<V extends IWeContract.View,P extends WePresente
         getCompositeDisposable().add(Flowable.timer(1000, TimeUnit.MILLISECONDS).observeOn(
                 AndroidSchedulers.mainThread()).subscribe(new Consumer<Long>() {
             @Override
-            public void accept(Long aLong) throws Exception {
+            public void accept(Long aLong) {
                 if (!isFinishing()){
                     finish();
                 }
