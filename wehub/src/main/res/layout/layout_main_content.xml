@@ -6,10 +6,4 @@
     android:layout_height="match_parent"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <ImageView
-        android:id="@+id/iv"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:background="@color/color_theme"/>
-
 </LinearLayout>
