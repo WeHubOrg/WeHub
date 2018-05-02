@@ -4,8 +4,10 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.freedom.wecore.R;
@@ -15,72 +17,72 @@ import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Flowable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 
-/**
- * @author vurtne on 1-May-18.
- *
- */
-public abstract class WeActivity<V extends IWeContract.View,P extends WePresenter> extends AppCompatActivity {
+public abstract class WeFragment<V extends IWeContract.View,P extends WePresenter> extends Fragment{
 
-    /**
-     * 默认点击沉默时间
-     * */
     private final int DEFAULT_INTERVAL = 1;
-
+    protected View mParentGroup;
+    protected View mLoadGroup;
+    protected View mContentGroup;
+    protected View mView;
     private CompositeDisposable mCompositeDisposable;
-    protected Context context;
-    protected P mPresenter;
-    private View mLoadGroup;
-    private View mContentGroup;
-    private FrameLayout mParentGroup;
+    private P mPresenter;
+    private Bundle mArgs;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mParentGroup = new FrameLayout(this);
-        mContentGroup = getLayoutInflater().inflate(contentView(),null);
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (mPresenter == null){
+            mPresenter = createPresenter();
+        }
+        if (mPresenter != null && !mPresenter.isViewAttached()){
+            mPresenter.attachView((V)this);
+            mPresenter.initial(context);
+        }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState){
+        mParentGroup = inflater.inflate(R.layout.layout_parent, container, false);
         mLoadGroup = getLayoutInflater().inflate(R.layout.layout_loading,null);
         mLoadGroup.setVisibility(View.GONE);
-        mParentGroup.addView(mContentGroup);
-        mParentGroup.addView(mLoadGroup);
-        setContentView(mParentGroup);
-        context = this;
-        createPresenters();
-        initView(savedInstanceState);
-        if (StatusBarUtil.canStatusChangeColor()) {
-            StatusBarUtil.setStatusContentColor(this,true);
-            StatusBarUtil.setTranslucentForImageView(this, 0, null, true);
-        } else {
-            StatusBarUtil.setTranslucentForImageView(this, 40, null);
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            initStatusBar(DeviceUtil.getStatusBarHeight(this));
-        }
-        initEvent();
-        initData(savedInstanceState);
+        mContentGroup = inflater.inflate(contentView(), container, false);
+        ((FrameLayout)mParentGroup.findViewById(R.id.layout_group)).addView(mContentGroup);
+        ((FrameLayout)mParentGroup.findViewById(R.id.layout_group)).addView(mLoadGroup);
+        return mParentGroup;
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (mCompositeDisposable != null) {
-            if (!mCompositeDisposable.isDisposed()) {
-                mCompositeDisposable.dispose();
+    public void onViewCreated(View view,Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mView = view;
+        initView(savedInstanceState);
+        if (statusBarEnabled()){
+            if (StatusBarUtil.canStatusChangeColor()) {
+                StatusBarUtil.setStatusContentColor(getActivity(),true);
+                StatusBarUtil.setTranslucentForImageView(getActivity(), 0, null, true);
+            } else {
+                StatusBarUtil.setTranslucentForImageView(getActivity(), 40, null);
             }
-            mCompositeDisposable = null;
         }
-        if (mPresenter != null){
-            mPresenter.detachView();
-            mPresenter.onDestroy();
-            mPresenter = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            initStatusBar(DeviceUtil.getStatusBarHeight(getActivity()));
         }
+        initData(savedInstanceState);
+        initEvent();
     }
 
-    protected CompositeDisposable getCompositeDisposable() {
+    public void setArguments(Bundle args) {
+        super.setArguments(args);
+        mArgs = new Bundle(args);
+    }
+
+    public Bundle getmArgs() {
+        return mArgs;
+    }
+    protected CompositeDisposable getCompositeDisposable(){
         if (mCompositeDisposable == null || mCompositeDisposable.isDisposed()){
             synchronized (this){
                 if (mCompositeDisposable == null || mCompositeDisposable.isDisposed()){
@@ -90,7 +92,6 @@ public abstract class WeActivity<V extends IWeContract.View,P extends WePresente
         }
         return mCompositeDisposable;
     }
-
     /**
      * 点击事件
      */
@@ -140,16 +141,28 @@ public abstract class WeActivity<V extends IWeContract.View,P extends WePresente
         mCompositeDisposable.add(RxView.clicks(view).throttleFirst(throttle, unit).subscribe(consumer));
     }
 
-//    protected Fragment showFragment(Context context, String fragmentClass, String fragmentTag, Bundle args, int parentLayoutId) {
-//        return FragmentHolder.showFragment(context, fragmentClass, fragmentTag, args, parentLayoutId, getSupportFragmentManager());
-//    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mCompositeDisposable != null) {
+            if (!mCompositeDisposable.isDisposed()) {
+                mCompositeDisposable.dispose();
+            }
+            mCompositeDisposable = null;
+        }
+        if (mPresenter != null){
+            mPresenter.detachView();
+            mPresenter.onDestroy();
+            mPresenter = null;
+        }
+    }
 
     protected void showLoad(){
         if (mLoadGroup == null){
             synchronized (this){
                 if (mLoadGroup == null){
                     mLoadGroup = getLayoutInflater().inflate(R.layout.layout_loading,null);
-                    mParentGroup.addView(mLoadGroup);
+                    ((FrameLayout)mParentGroup.findViewById(R.id.layout_group)).addView(mLoadGroup);
                 }
             }
         }
@@ -162,29 +175,13 @@ public abstract class WeActivity<V extends IWeContract.View,P extends WePresente
         }
     }
 
-    /**
-     * 如果跳转就直接finish 掉的话，动画有点尴尬，又没有动画监听，就只能随便来个timer了
-     * */
-    protected void onFinish(){
-        getCompositeDisposable().add(Flowable.timer(1000, TimeUnit.MILLISECONDS).observeOn(
-                AndroidSchedulers.mainThread()).subscribe(new Consumer<Long>() {
-            @Override
-            public void accept(Long aLong) throws Exception {
-                if (!isFinishing()){
-                    finish();
-                }
-            }
-        }));
-    }
 
-    private void createPresenters() {
-        if (mPresenter == null) {
-            mPresenter = createPresenter();
-        }
-        if (mPresenter != null && !mPresenter.isViewAttached()) {
-            mPresenter.attachView((V) this);
-            mPresenter.initial(this);
-        }
+    /**
+     * 是否需要设置状态栏
+     * @return boolean
+     */
+    protected boolean statusBarEnabled(){
+        return false;
     }
 
     /**
@@ -221,7 +218,5 @@ public abstract class WeActivity<V extends IWeContract.View,P extends WePresente
      * @param savedInstanceState savedInstanceState
      */
     protected abstract void initData(Bundle savedInstanceState);
-
-
 
 }
