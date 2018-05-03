@@ -3,14 +3,10 @@
 
 
     <declare-styleable name="LoadingNode">
+        <attr name="nodeCount" format="float"/>
         <attr name="nodeSize" format="dimension"/>
         <attr name="nodeInterval" format="dimension"/>
-        <attr name="srlMaxRage" format="float"/>
-        <attr name="srlFloorRage" format="float"/>
-        <attr name="srlRefreshRage" format="float"/>
-        <attr name="srlFloorDuration" format="integer"/>
-        <attr name="srlEnableTwoLevel" format="boolean"/>
-        <attr name="srlEnablePullToCloseTwoLevel" format="boolean"/>
+        <attr name="nodeCycle" format="float"/>
     </declare-styleable>
 
 </resources>

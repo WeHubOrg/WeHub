@@ -12,6 +12,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
+import android.widget.AdapterView;
 
 import com.freedom.wecore.tools.DeviceUtil;
 
@@ -25,19 +26,20 @@ public class LoadingNode extends View{
 
     private Context context;
     /** 总节点数 */
-    private final double MAX_NODE_NUM = 365.0;
+    private final float MAX_NODE_NUM = 365.0f;
     /** 周期 */
-    private final double DEVALUE_NODE_CYCLE = 7.0;
+    private final float DEVALUE_NODE_CYCLE = 7.0f;
     /** 默认方块的大小 */
-    private int DEVALUE_NODE_SIZE = 8;
+    private final int DEVALUE_NODE_SIZE = 8;
     /** 默认方块的间隔 */
-    private int DEVALUE_NODE_INTERVAL = 2;
+    private final int DEVALUE_NODE_INTERVAL = 2;
     /** 月期 */
 //    private final String[] NODE_MONTH = new String[]{"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
+    private float mNodeCount;
     /** 宽 */
-    private double mWidth;
+    private int mWidth;
     /** 高 */
-    private double mHeight;
+    private int mHeight;
     /** 方块的大小 */
     private float mNodeSize;
     /** 方块的间隔 */
@@ -55,10 +57,21 @@ public class LoadingNode extends View{
     /** 随机数 */
     private Random mRandom;
     /** 动画角标 */
-    private int mColorPoistion;
+    private int mColorPosition;
     private SparseArray<Paint> mDrawPaint = new SparseArray();
 
-
+    private Runnable mDrawRunnable = new Runnable() {
+        @Override
+        public void run() {
+            mColorPosition ++;
+            mDrawOrigin = new RectF(0,0,DEVALUE_NODE_SIZE,DEVALUE_NODE_SIZE);
+            if (mColorPosition < MAX_NODE_NUM){
+                postInvalidate();
+            }else {
+                isAnimation = false;
+            }
+        }
+    };
 
     public LoadingNode(Context context) {
         this(context,null);
@@ -77,23 +90,55 @@ public class LoadingNode extends View{
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        setMeasuredDimension(DEVALUE_WIDTH,DEVALUE_HEIGHT);
+        setMeasuredDimension(mWidth,mHeight);
     }
 
     private void init( @Nullable AttributeSet attrs){
         TypedArray array = context.obtainStyledAttributes(attrs,R.styleable.LoadingNode);
-//        DEVALUE_WIDTH = (int) (DeviceUtil.getScreenWidth(context) / 3 * 2);
-//        DEVALUE_HEIGHT = DEVALUE_WIDTH / 2;
+        mNodeCount = array.getFloat(R.styleable.LoadingNode_nodeCount,MAX_NODE_NUM);
+        mNodeCycle = array.getDimension(R.styleable.LoadingNode_nodeCycle,DEVALUE_NODE_CYCLE);
         mNodeSize = array.getDimension(R.styleable.LoadingNode_nodeSize,DEVALUE_NODE_SIZE);
-        mNodeInterval = array.getDimension(R.styleable.LoadingNode_nodeSize,DEVALUE_NODE_INTERVAL);
-        mNodeCycle = array.getDimension(R.styleable.LoadingNode_nodeSize,DEVALUE_NODE_CYCLE);
-        DEVALUE_WIDTH = 1000;
-        DEVALUE_HEIGHT = 250;
-        mHeight = DEVALUE_NODE_SIZE * NODE_CYCLE + DEVALUE_NODE_INTERVAL * (NODE_CYCLE - 1);
-        mHeight = DEVALUE_NODE_SIZE * (mNodeSize / )NODE_CYCLE + DEVALUE_NODE_INTERVAL * (NODE_CYCLE - 1);
+        mNodeInterval = array.getDimension(R.styleable.LoadingNode_nodeInterval,DEVALUE_NODE_INTERVAL);
+        mWidth = (int)((mNodeSize + mNodeInterval) * Math.ceil(mNodeCount / mNodeCycle) - mNodeInterval);
+        mHeight = (int)(mNodeSize * mNodeCycle + mNodeInterval * (mNodeCycle - 1));
+        //防止超屏
+        mWidth = (int)Math.min( mWidth , DeviceUtil.getScreenWidth(context));
+        mHeight = (int)Math.min( mHeight , DeviceUtil.getScreenHeight(context));
+        initPaint();
+        mRandom = new Random();
+        setOnClickListener(v -> {
+            isAnimation = true;
+            mColorPosition = 0;
+            mDrawOrigin = new RectF(0,0,DEVALUE_NODE_SIZE,DEVALUE_NODE_SIZE);
+            mDrawPaint.clear();
+            invalidate();
+        });
+        array.recycle();
+    }
 
 
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        for (int i=0;i<MAX_NODE_NUM;i++){
+            if (mDrawOrigin.top != 0){
+                mDrawOrigin.top += DEVALUE_NODE_INTERVAL;
+            }
+            mDrawOrigin.bottom = mDrawOrigin.top + DEVALUE_NODE_SIZE;
+            canvas.drawRect(mDrawOrigin,getPaint(i));
+            mDrawOrigin.top += DEVALUE_NODE_SIZE;
+            if (mDrawOrigin.top >= mHeight){
+                mDrawOrigin.top = 0;
+                mDrawOrigin.left += DEVALUE_NODE_SIZE + DEVALUE_NODE_INTERVAL;
+                mDrawOrigin.right = mDrawOrigin.left + DEVALUE_NODE_SIZE;
+            }
+        }
+        if (isAnimation){
+            postDelayed(mDrawRunnable,50);
+        }
+    }
 
+    private void initPaint(){
         mDrawOrigin = new RectF(0,0,DEVALUE_NODE_SIZE,DEVALUE_NODE_SIZE);
         mDevaluePaint.setColor(ContextCompat.getColor(context,R.color.devalue_paint));
         mDevaluePaint.setStyle(Paint.Style.FILL);
@@ -132,58 +177,12 @@ public class LoadingNode extends View{
         paint3.setStrokeCap(Paint.Cap.SQUARE);
         paint3.setColor((ContextCompat.getColor(context,R.color.work_03)));
         mWorkPaints[3] = paint3;
-
-        mRandom = new Random();
-        setOnClickListener(v -> {
-            isAnimation = true;
-            mColorPoistion = 0;
-            mDrawOrigin = new RectF(0,0,DEVALUE_NODE_SIZE,DEVALUE_NODE_SIZE);
-            mDrawPaint.clear();
-            invalidate();
-        });
-
-        array.recycle();
     }
-
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        for (int i=0;i<MAX_NODE_NUM;i++){
-            if (mDrawOrigin.top != 0){
-                mDrawOrigin.top += DEVALUE_NODE_INTERVAL;
-            }
-            mDrawOrigin.bottom = mDrawOrigin.top + DEVALUE_NODE_SIZE;
-            canvas.drawRect(mDrawOrigin,getPaint(i));
-            mDrawOrigin.top += DEVALUE_NODE_SIZE;
-            if (mDrawOrigin.top >= DEVALUE_CLO_HEIGHT){
-                mDrawOrigin.top = 0;
-                mDrawOrigin.left += DEVALUE_NODE_SIZE + DEVALUE_NODE_INTERVAL;
-                mDrawOrigin.right = mDrawOrigin.left + DEVALUE_NODE_SIZE;
-            }
-        }
-        if (isAnimation){
-            postDelayed(mDrawRunnable,50);
-        }
-    }
-
-    private Runnable mDrawRunnable = new Runnable() {
-        @Override
-        public void run() {
-            mColorPoistion ++;
-            mDrawOrigin = new RectF(0,0,DEVALUE_NODE_SIZE,DEVALUE_NODE_SIZE);
-            if (mColorPoistion < MAX_NODE_NUM){
-                postInvalidate();
-            }else {
-                isAnimation = false;
-            }
-        }
-    };
 
     private Paint getPaint(int position){
         Paint paint;
         if (isAnimation){
-            if (position <= mColorPoistion){
+            if (position <= mHeight){
                 paint = mDrawPaint.get(position);
                 if (paint == null) {
                     paint = mWorkPaints[mRandom.nextInt(4)];
