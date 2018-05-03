@@ -1,7 +1,7 @@
 package com.freedom.wehub.quest;
 
-import com.freedom.wecore.common.BaseToken;
-import com.freedom.wecore.common.User;
+import com.freedom.wecore.bean.BaseToken;
+import com.freedom.wecore.bean.User;
 import com.freedom.wecore.net.OnResponseListener;
 import com.freedom.wecore.net.RetrofitClient;
 import com.freedom.wehub.model.AuthModel;

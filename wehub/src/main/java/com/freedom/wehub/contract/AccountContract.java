@@ -1,7 +1,7 @@
 package com.freedom.wehub.contract;
 
 import com.freedom.wecore.common.IWeContract;
-import com.freedom.wecore.common.User;
+import com.freedom.wecore.bean.User;
 
 /**
  * @author vurtne on 1-May-18.

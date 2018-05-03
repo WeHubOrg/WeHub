@@ -2,7 +2,7 @@ package com.freedom.wehub;
 
 import android.app.Application;
 
-import com.freedom.wecore.common.AccountManager;
+import com.freedom.wecore.model.AccountManager;
 
 /**
  *  @author vurtne on 1-May-18.

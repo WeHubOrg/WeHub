@@ -1,6 +1,6 @@
 
 
-package com.freedom.wecore.common;
+package com.freedom.wecore.bean;
 
 import android.os.Parcel;
 import android.os.Parcelable;

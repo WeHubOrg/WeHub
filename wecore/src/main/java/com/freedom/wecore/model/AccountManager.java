@@ -1,9 +1,11 @@
-package com.freedom.wecore.common;
+package com.freedom.wecore.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 
+import com.freedom.wecore.bean.BaseToken;
+import com.freedom.wecore.bean.User;
 import com.freedom.wecore.net.NetConfig;
 import com.freedom.wecore.tools.GsonConvertUtils;
 

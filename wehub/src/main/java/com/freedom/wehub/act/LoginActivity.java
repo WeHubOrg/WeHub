@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.freedom.wecore.common.User;
+import com.freedom.wecore.bean.User;
 import com.freedom.wecore.common.WeActivity;
 import com.freedom.wecore.tools.DeviceUtil;
 import com.freedom.wehub.R;

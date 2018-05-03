@@ -2,7 +2,7 @@ package com.freedom.wehub.presenter;
 
 import android.content.Context;
 
-import com.freedom.wecore.common.AccountManager;
+import com.freedom.wecore.model.AccountManager;
 import com.freedom.wecore.common.WePresenter;
 import com.freedom.wehub.model.AuthModel;
 import com.freedom.wehub.contract.AccountContract;

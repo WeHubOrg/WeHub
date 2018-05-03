@@ -1,4 +1,4 @@
-package com.freedom.wecore.common;
+package com.freedom.wecore.bean;
 
 import com.google.gson.annotations.SerializedName;
 

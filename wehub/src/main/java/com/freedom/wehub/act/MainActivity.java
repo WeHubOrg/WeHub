@@ -6,8 +6,8 @@ import android.support.v4.app.Fragment;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.freedom.wecore.common.AccountManager;
-import com.freedom.wecore.common.User;
+import com.freedom.wecore.model.AccountManager;
+import com.freedom.wecore.bean.User;
 import com.freedom.wecore.common.WeActivity;
 import com.freedom.wecore.common.WePresenter;
 import com.freedom.wecore.tools.ImageBridge;
@@ -16,10 +16,10 @@ import com.freedom.wehub.R;
 import java.util.Map;
 
 
+
 /**
  * @author vurtne on 1-May-18.
  */
-
 public class MainActivity extends WeActivity {
 
     private ImageView mAvatarView;

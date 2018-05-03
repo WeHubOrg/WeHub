@@ -2,7 +2,7 @@ package com.freedom.wecore.net;
 
 import android.text.TextUtils;
 
-import com.freedom.wecore.common.AccountManager;
+import com.freedom.wecore.model.AccountManager;
 
 import java.io.IOException;
 
