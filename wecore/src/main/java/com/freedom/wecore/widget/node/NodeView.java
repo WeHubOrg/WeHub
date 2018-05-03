@@ -1,19 +1,18 @@
-package com.freedom.wehub;
+package com.freedom.wecore.widget.node;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
-import android.widget.AdapterView;
 
+import com.freedom.wecore.R;
 import com.freedom.wecore.tools.DeviceUtil;
 
 import java.util.Random;
@@ -22,7 +21,7 @@ import java.util.Random;
 /**
  * @author vurtne on 2-May-18.
  */
-public class LoadingNode extends View{
+public class NodeView extends View{
 
     private Context context;
     /** 总节点数 */
@@ -30,9 +29,9 @@ public class LoadingNode extends View{
     /** 周期 */
     private final float DEVALUE_NODE_CYCLE = 7.0f;
     /** 默认方块的大小 */
-    private final int DEVALUE_NODE_SIZE = 8;
+    private final int DEVALUE_NODE_SIZE = 44;
     /** 默认方块的间隔 */
-    private final int DEVALUE_NODE_INTERVAL = 2;
+    private final int DEVALUE_NODE_INTERVAL = 6;
     /** 月期 */
 //    private final String[] NODE_MONTH = new String[]{"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
     private float mNodeCount;
@@ -64,24 +63,30 @@ public class LoadingNode extends View{
         @Override
         public void run() {
             mColorPosition ++;
-            mDrawOrigin = new RectF(0,0,DEVALUE_NODE_SIZE,DEVALUE_NODE_SIZE);
-            if (mColorPosition < MAX_NODE_NUM){
+            mDrawOrigin.left = 0;
+            mDrawOrigin.top = 0;
+            mDrawOrigin.right = mNodeSize;
+            mDrawOrigin.bottom = mNodeSize;
+            if (mColorPosition < mNodeCount){
                 postInvalidate();
             }else {
-                isAnimation = false;
+                mColorPosition = 0;
+                mDrawPaint.clear();
+                postInvalidate();
+//                isAnimation = false;
             }
         }
     };
 
-    public LoadingNode(Context context) {
+    public NodeView(Context context) {
         this(context,null);
     }
 
-    public LoadingNode(Context context, @Nullable AttributeSet attrs) {
+    public NodeView(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs,0);
     }
 
-    public LoadingNode(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public NodeView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
         init(attrs);
@@ -94,43 +99,45 @@ public class LoadingNode extends View{
     }
 
     private void init( @Nullable AttributeSet attrs){
-        TypedArray array = context.obtainStyledAttributes(attrs,R.styleable.LoadingNode);
-        mNodeCount = array.getFloat(R.styleable.LoadingNode_nodeCount,MAX_NODE_NUM);
-        mNodeCycle = array.getDimension(R.styleable.LoadingNode_nodeCycle,DEVALUE_NODE_CYCLE);
-        mNodeSize = array.getDimension(R.styleable.LoadingNode_nodeSize,DEVALUE_NODE_SIZE);
-        mNodeInterval = array.getDimension(R.styleable.LoadingNode_nodeInterval,DEVALUE_NODE_INTERVAL);
+        TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.NodeView);
+        mNodeCount = array.getFloat(R.styleable.NodeView_nodeCount,MAX_NODE_NUM);
+        mNodeCycle = array.getFloat(R.styleable.NodeView_nodeCycle,DEVALUE_NODE_CYCLE);
+        mNodeSize = array.getDimension(R.styleable.NodeView_nodeSize,DEVALUE_NODE_SIZE);
+        mNodeInterval = array.getDimension(R.styleable.NodeView_nodeInterval,DEVALUE_NODE_INTERVAL);
         mWidth = (int)((mNodeSize + mNodeInterval) * Math.ceil(mNodeCount / mNodeCycle) - mNodeInterval);
         mHeight = (int)(mNodeSize * mNodeCycle + mNodeInterval * (mNodeCycle - 1));
         //防止超屏
-        mWidth = (int)Math.min( mWidth , DeviceUtil.getScreenWidth(context));
-        mHeight = (int)Math.min( mHeight , DeviceUtil.getScreenHeight(context));
+        mWidth = (int)Math.min( mWidth , DeviceUtil.getScreenWidth((Activity)context));
+        mHeight = (int)Math.min( mHeight , DeviceUtil.getScreenHeight((Activity) context));
         initPaint();
         mRandom = new Random();
-        setOnClickListener(v -> {
-            isAnimation = true;
-            mColorPosition = 0;
-            mDrawOrigin = new RectF(0,0,DEVALUE_NODE_SIZE,DEVALUE_NODE_SIZE);
-            mDrawPaint.clear();
-            invalidate();
+        setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isAnimation = true;
+                mColorPosition = 0;
+                mDrawOrigin = new RectF(0,0,mNodeSize,mNodeSize);
+                mDrawPaint.clear();
+                invalidate();
+            }
         });
         array.recycle();
     }
 
-
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        for (int i=0;i<MAX_NODE_NUM;i++){
+        for (int i=0;i<mNodeCount;i++){
             if (mDrawOrigin.top != 0){
-                mDrawOrigin.top += DEVALUE_NODE_INTERVAL;
+                mDrawOrigin.top += mNodeInterval;
             }
-            mDrawOrigin.bottom = mDrawOrigin.top + DEVALUE_NODE_SIZE;
+            mDrawOrigin.bottom = mDrawOrigin.top + mNodeSize;
             canvas.drawRect(mDrawOrigin,getPaint(i));
-            mDrawOrigin.top += DEVALUE_NODE_SIZE;
+            mDrawOrigin.top += mNodeSize;
             if (mDrawOrigin.top >= mHeight){
                 mDrawOrigin.top = 0;
-                mDrawOrigin.left += DEVALUE_NODE_SIZE + DEVALUE_NODE_INTERVAL;
-                mDrawOrigin.right = mDrawOrigin.left + DEVALUE_NODE_SIZE;
+                mDrawOrigin.left += mNodeSize + mNodeInterval;
+                mDrawOrigin.right = mDrawOrigin.left + mNodeSize;
             }
         }
         if (isAnimation){
@@ -139,7 +146,7 @@ public class LoadingNode extends View{
     }
 
     private void initPaint(){
-        mDrawOrigin = new RectF(0,0,DEVALUE_NODE_SIZE,DEVALUE_NODE_SIZE);
+        mDrawOrigin = new RectF(0,0,mNodeSize,mNodeSize);
         mDevaluePaint.setColor(ContextCompat.getColor(context,R.color.devalue_paint));
         mDevaluePaint.setStyle(Paint.Style.FILL);
         mDevaluePaint.setAntiAlias(true);
@@ -148,14 +155,14 @@ public class LoadingNode extends View{
         Paint paint0 = new Paint();
         paint0.setColor(ContextCompat.getColor(context,R.color.work_00));
         paint0.setStyle(Paint.Style.FILL);
-        paint0.setStrokeWidth(DEVALUE_NODE_SIZE /2);
+        paint0.setStrokeWidth(mNodeSize /2);
         paint0.setAntiAlias(true);
         paint0.setDither(true);
         paint0.setStrokeCap(Paint.Cap.SQUARE);
         mWorkPaints[0] = paint0;
         Paint paint1 = new Paint();
         paint1.setStyle(Paint.Style.FILL);
-        paint1.setStrokeWidth(DEVALUE_NODE_SIZE /2);
+        paint1.setStrokeWidth(mNodeSize /2);
         paint1.setAntiAlias(true);
         paint1.setDither(true);
         paint1.setStrokeCap(Paint.Cap.SQUARE);
@@ -163,7 +170,7 @@ public class LoadingNode extends View{
         mWorkPaints[1] = paint1;
         Paint paint2 = new Paint();
         paint2.setStyle(Paint.Style.FILL);
-        paint2.setStrokeWidth(DEVALUE_NODE_SIZE /2);
+        paint2.setStrokeWidth(mNodeSize /2);
         paint2.setAntiAlias(true);
         paint2.setDither(true);
         paint2.setStrokeCap(Paint.Cap.SQUARE);
@@ -171,7 +178,7 @@ public class LoadingNode extends View{
         mWorkPaints[2] = paint2;
         Paint paint3 = new Paint();
         paint3.setStyle(Paint.Style.FILL);
-        paint3.setStrokeWidth(DEVALUE_NODE_SIZE /2);
+        paint3.setStrokeWidth(mNodeSize /2);
         paint3.setAntiAlias(true);
         paint3.setDither(true);
         paint3.setStrokeCap(Paint.Cap.SQUARE);
@@ -182,10 +189,10 @@ public class LoadingNode extends View{
     private Paint getPaint(int position){
         Paint paint;
         if (isAnimation){
-            if (position <= mHeight){
+            if (position <= mColorPosition){
                 paint = mDrawPaint.get(position);
                 if (paint == null) {
-                    paint = mWorkPaints[mRandom.nextInt(4)];
+                    paint = getRandomPaint();
                     mDrawPaint.put(position,paint);
                 }
             }else {
@@ -196,6 +203,71 @@ public class LoadingNode extends View{
         }
         return paint;
     }
+    //       0  1  2  3  4
+    //   0 - 15 8  4  2  1
+    //   1 - 8  11 5  4  2
+    //   2 - 2  4  5  11 8
+    //   3 - 1  2  4  8  15
+    private Paint getRandomPaint(){
+        int i = mRandom.nextInt(30);
+        switch (NodeConfig.instance().getCurState()){
+            case NodeConfig.LAZY:
+                if (i < 15){
+                    return mDevaluePaint;
+                }else if (i < 23){
+                    return mWorkPaints[0];
+                }else if (i < 27){
+                    return mWorkPaints[1];
+                }else if (i < 29){
+                    return mWorkPaints[2];
+                }else if (i < 30){
+                    return mWorkPaints[3];
+                }
+                break;
+            case NodeConfig.NEGATIVE:
+                if (i < 8){
+                    return mDevaluePaint;
+                }else if (i < 19){
+                    return mWorkPaints[0];
+                }else if (i < 24){
+                    return mWorkPaints[1];
+                }else if (i < 28){
+                    return mWorkPaints[2];
+                }else if (i < 30){
+                    return mWorkPaints[3];
+                }
+                break;
+            case NodeConfig.DILIGENT:
+                if (i < 2){
+                    return mDevaluePaint;
+                }else if (i < 6){
+                    return mWorkPaints[0];
+                }else if (i < 11){
+                    return mWorkPaints[1];
+                }else if (i < 22){
+                    return mWorkPaints[2];
+                }else if (i < 30){
+                    return mWorkPaints[3];
+                }
+                break;
+            case NodeConfig.METAMORPHOSIS:
+                if (i < 1){
+                    return mDevaluePaint;
+                }else if (i < 3){
+                    return mWorkPaints[0];
+                }else if (i < 7){
+                    return mWorkPaints[1];
+                }else if (i < 15){
+                    return mWorkPaints[2];
+                }else if (i < 30){
+                    return mWorkPaints[3];
+                }
+                break;
+            default:break;
+        }
+        return null;
+    }
+
 
 
 }

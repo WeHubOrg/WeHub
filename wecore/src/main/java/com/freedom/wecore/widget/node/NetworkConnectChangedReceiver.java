@@ -1,4 +1,4 @@
-package com.freedom.wehub;
+package com.freedom.wecore.widget.node;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -18,6 +18,7 @@ public class NetworkConnectChangedReceiver extends BroadcastReceiver {
 
     private static final String TAG = "XXX";
 
+    @Override
     public void onReceive(Context context, Intent intent) {
         if (WifiManager.WIFI_STATE_CHANGED_ACTION.equals(intent.getAction())) {
         int wifiState = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE, 0);

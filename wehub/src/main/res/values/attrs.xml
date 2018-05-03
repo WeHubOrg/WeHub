@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="LoadingNode">
-        <attr name="nodeCount" format="float"/>
-        <attr name="nodeSize" format="dimension"/>
-        <attr name="nodeInterval" format="dimension"/>
-        <attr name="nodeCycle" format="float"/>
-    </declare-styleable>
+
 
 </resources>

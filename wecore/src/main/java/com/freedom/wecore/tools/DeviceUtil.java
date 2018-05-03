@@ -113,16 +113,14 @@ public class DeviceUtil {
      * @param context 上下文
      * @return 版本名称
      */
-    public static float getScreenWidth(Context context){
+    public static float getScreenWidth(Activity context){
         if (context == null){
             return 0;
         }
-        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        DisplayMetrics dm = new DisplayMetrics();
-        wm.getDefaultDisplay().getMetrics(dm);
-        int width = dm.widthPixels;
-        float density = dm.density;
-        return width / density;
+        WindowManager manager = context.getWindowManager();
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        manager.getDefaultDisplay().getMetrics(outMetrics);
+        return outMetrics.widthPixels;
     }
 
     /**
@@ -130,16 +128,14 @@ public class DeviceUtil {
      * @param context 上下文
      * @return 版本名称
      */
-    public static float getScreenHeight(Context context){
+    public static float getScreenHeight(Activity context){
         if (context == null){
             return 0;
         }
-        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        DisplayMetrics dm = new DisplayMetrics();
-        wm.getDefaultDisplay().getMetrics(dm);
-        int height = dm.heightPixels;
-        float density = dm.density;
-        return  height / density;
+        WindowManager manager = context.getWindowManager();
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        manager.getDefaultDisplay().getMetrics(outMetrics);
+        return outMetrics.heightPixels;
     }
 
 }
