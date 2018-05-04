@@ -45,6 +45,8 @@ public class NodeView extends View{
     private float mNodeInterval;
     /** 方块的间隔 */
     private float mNodeCycle;
+    /** 是否自动动画 */
+    private boolean isAutomation;
     /** 默认画笔 */
     private final Paint mDevaluePaint = new Paint();
     /** 工作画笔 */
@@ -100,6 +102,7 @@ public class NodeView extends View{
 
     private void init( @Nullable AttributeSet attrs){
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.NodeView);
+        isAutomation = array.getBoolean(R.styleable.NodeView_nodeAutomation,false);
         mNodeCount = array.getFloat(R.styleable.NodeView_nodeCount,MAX_NODE_NUM);
         mNodeCycle = array.getFloat(R.styleable.NodeView_nodeCycle,DEVALUE_NODE_CYCLE);
         mNodeSize = array.getDimension(R.styleable.NodeView_nodeSize,DEVALUE_NODE_SIZE);
@@ -140,7 +143,7 @@ public class NodeView extends View{
                 mDrawOrigin.right = mDrawOrigin.left + mNodeSize;
             }
         }
-        if (isAnimation){
+        if (isAnimation || isAutomation){
             postDelayed(mDrawRunnable,50);
         }
     }
@@ -188,7 +191,7 @@ public class NodeView extends View{
 
     private Paint getPaint(int position){
         Paint paint;
-        if (isAnimation){
+        if (isAnimation || isAutomation){
             if (position <= mColorPosition){
                 paint = mDrawPaint.get(position);
                 if (paint == null) {

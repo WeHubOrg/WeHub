@@ -11,20 +11,12 @@
         android:layout_height="match_parent"
         android:background="#1fff"/>
 
-    <RelativeLayout
-        android:layout_width="130dp"
-        android:layout_height="130dp"
+    <com.freedom.wecore.widget.node.NodeView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <android.support.v7.widget.AppCompatImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            app:srcCompat="@drawable/hub"/>
-
-
-    </RelativeLayout>
+        app:nodeAutomation="true"
+        app:nodeCount="48"
+        app:nodeCycle="4"/>
 
 </FrameLayout>

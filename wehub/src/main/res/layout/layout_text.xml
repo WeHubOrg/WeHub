@@ -7,11 +7,5 @@
     android:background="#fff"
     android:orientation="vertical">
 
-    <com.freedom.wecore.widget.node.NodeView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        app:nodeCount="48"
-        app:nodeCycle="4"/>
 
 </RelativeLayout>

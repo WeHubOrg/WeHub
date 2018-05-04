@@ -123,6 +123,7 @@
 
     <declare-styleable name="NodeView">
         <attr name="nodeCount" format="float"/>
+        <attr name="nodeAutomation" format="boolean"/>
         <attr name="nodeSize" format="dimension"/>
         <attr name="nodeInterval" format="dimension"/>
         <attr name="nodeCycle" format="float"/>
