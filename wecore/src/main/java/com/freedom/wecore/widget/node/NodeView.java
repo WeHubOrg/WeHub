@@ -61,6 +61,8 @@ public class NodeView extends View{
     private int mColorPosition;
     private SparseArray<Paint> mDrawPaint = new SparseArray();
 
+    private NodePresenter mPresenter;
+
     private Runnable mDrawRunnable = new Runnable() {
         @Override
         public void run() {
@@ -75,7 +77,6 @@ public class NodeView extends View{
                 mColorPosition = 0;
                 mDrawPaint.clear();
                 postInvalidate();
-//                isAnimation = false;
             }
         }
     };
@@ -125,6 +126,7 @@ public class NodeView extends View{
             }
         });
         array.recycle();
+        mPresenter = NodePresenter.instance(context);
     }
 
     @Override
