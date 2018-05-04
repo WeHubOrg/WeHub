@@ -15,8 +15,8 @@ import java.util.List;
  */
 public class NodePresenter {
 
-    private Context context;
-    private static long sFlowBytes;
+    private static long sRxFlowBytes;
+    private static long sTxFlowBytes;
     private static NodePresenter sInstance;
     private long sUid;
 
@@ -28,8 +28,8 @@ public class NodePresenter {
         ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningAppProcessInfo> infos = manager.getRunningAppProcesses();
         for (ActivityManager.RunningAppProcessInfo info : infos) {
-            if (info.pid == pid)//得到当前应用
-                packageName = info.processName;//返回包名
+            if (info.pid == pid)
+                packageName = info.processName;
         }
         if (packageName == null){
             return;
@@ -55,11 +55,16 @@ public class NodePresenter {
         return sInstance;
     }
 
-    private long getRxBytes(){
+    public long getRxBytes(){
         long curBytes = TrafficStats.getUidRxBytes((int)sUid);
-        long dButes = curBytes - sFlowBytes;
-        sFlowBytes = curBytes;
-        return dButes;
+        long dRxButes = curBytes - sRxFlowBytes;
+        sRxFlowBytes = curBytes;
+        curBytes = TrafficStats.getUidTxBytes((int)sUid);
+        long dTxButes = curBytes - sTxFlowBytes;
+        sTxFlowBytes = curBytes;
+        return dRxButes + dTxButes;
     }
+
+
 
 }

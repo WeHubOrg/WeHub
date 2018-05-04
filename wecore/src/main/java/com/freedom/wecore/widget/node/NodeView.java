@@ -32,6 +32,13 @@ public class NodeView extends View{
     private final int DEVALUE_NODE_SIZE = 44;
     /** 默认方块的间隔 */
     private final int DEVALUE_NODE_INTERVAL = 6;
+
+    /** 跳级因子 */
+    private final double FACTOR  = (0.9 - 0.5) / (15000 / 50);
+    /** 基概率 */
+    private final double sBaseProbability  = 0.5;
+    /** 参照因子 */
+    private final int sReference = 10000000;
     /** 月期 */
 //    private final String[] NODE_MONTH = new String[]{"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
     private float mNodeCount;
@@ -47,10 +54,8 @@ public class NodeView extends View{
     private float mNodeCycle;
     /** 是否自动动画 */
     private boolean isAutomation;
-    /** 默认画笔 */
-    private final Paint mDevaluePaint = new Paint();
-    /** 工作画笔 */
-    private final Paint[] mWorkPaints = new Paint[4];
+    /** 画笔 */
+    private final Paint[] mPaints = new Paint[5];
     /** 绘制的原点 */
     private RectF mDrawOrigin;
     /** 动画中 */
@@ -59,9 +64,12 @@ public class NodeView extends View{
     private Random mRandom;
     /** 动画角标 */
     private int mColorPosition;
+
     private SparseArray<Paint> mDrawPaint = new SparseArray();
 
     private NodePresenter mPresenter;
+
+
 
     private Runnable mDrawRunnable = new Runnable() {
         @Override
@@ -152,11 +160,13 @@ public class NodeView extends View{
 
     private void initPaint(){
         mDrawOrigin = new RectF(0,0,mNodeSize,mNodeSize);
-        mDevaluePaint.setColor(ContextCompat.getColor(context,R.color.devalue_paint));
-        mDevaluePaint.setStyle(Paint.Style.FILL);
-        mDevaluePaint.setAntiAlias(true);
-        mDevaluePaint.setDither(true);
-        mDevaluePaint.setStrokeCap(Paint.Cap.SQUARE);
+        Paint devaluePaint = new Paint();
+        devaluePaint.setColor(ContextCompat.getColor(context,R.color.devalue_paint));
+        devaluePaint.setStyle(Paint.Style.FILL);
+        devaluePaint.setAntiAlias(true);
+        devaluePaint.setDither(true);
+        devaluePaint.setStrokeCap(Paint.Cap.SQUARE);
+        mPaints[0] = devaluePaint;
         Paint paint0 = new Paint();
         paint0.setColor(ContextCompat.getColor(context,R.color.work_00));
         paint0.setStyle(Paint.Style.FILL);
@@ -164,7 +174,7 @@ public class NodeView extends View{
         paint0.setAntiAlias(true);
         paint0.setDither(true);
         paint0.setStrokeCap(Paint.Cap.SQUARE);
-        mWorkPaints[0] = paint0;
+        mPaints[1] = paint0;
         Paint paint1 = new Paint();
         paint1.setStyle(Paint.Style.FILL);
         paint1.setStrokeWidth(mNodeSize /2);
@@ -172,7 +182,7 @@ public class NodeView extends View{
         paint1.setDither(true);
         paint1.setStrokeCap(Paint.Cap.SQUARE);
         paint1.setColor((ContextCompat.getColor(context,R.color.work_01)));
-        mWorkPaints[1] = paint1;
+        mPaints[2] = paint1;
         Paint paint2 = new Paint();
         paint2.setStyle(Paint.Style.FILL);
         paint2.setStrokeWidth(mNodeSize /2);
@@ -180,7 +190,7 @@ public class NodeView extends View{
         paint2.setDither(true);
         paint2.setStrokeCap(Paint.Cap.SQUARE);
         paint2.setColor((ContextCompat.getColor(context,R.color.work_02)));
-        mWorkPaints[2] = paint2;
+        mPaints[3] = paint2;
         Paint paint3 = new Paint();
         paint3.setStyle(Paint.Style.FILL);
         paint3.setStrokeWidth(mNodeSize /2);
@@ -188,7 +198,7 @@ public class NodeView extends View{
         paint3.setDither(true);
         paint3.setStrokeCap(Paint.Cap.SQUARE);
         paint3.setColor((ContextCompat.getColor(context,R.color.work_03)));
-        mWorkPaints[3] = paint3;
+        mPaints[4] = paint3;
     }
 
     private Paint getPaint(int position){
@@ -201,10 +211,10 @@ public class NodeView extends View{
                     mDrawPaint.put(position,paint);
                 }
             }else {
-                paint =  mDevaluePaint;
+                paint = mPaints[0];
             }
         }else {
-            paint = mDevaluePaint;
+            paint =  mPaints[0];
         }
         return paint;
     }
@@ -213,66 +223,92 @@ public class NodeView extends View{
     //   1 - 8  11 5  4  2
     //   2 - 2  4  5  11 8
     //   3 - 1  2  4  8  15
-    private Paint getRandomPaint(){
+    private Paint getRandomPaint1(){
         int i = mRandom.nextInt(30);
-        switch (NodeConfig.instance().getCurState()){
-            case NodeConfig.LAZY:
-                if (i < 15){
-                    return mDevaluePaint;
-                }else if (i < 23){
-                    return mWorkPaints[0];
-                }else if (i < 27){
-                    return mWorkPaints[1];
-                }else if (i < 29){
-                    return mWorkPaints[2];
-                }else if (i < 30){
-                    return mWorkPaints[3];
-                }
-                break;
-            case NodeConfig.NEGATIVE:
-                if (i < 8){
-                    return mDevaluePaint;
-                }else if (i < 19){
-                    return mWorkPaints[0];
-                }else if (i < 24){
-                    return mWorkPaints[1];
-                }else if (i < 28){
-                    return mWorkPaints[2];
-                }else if (i < 30){
-                    return mWorkPaints[3];
-                }
-                break;
-            case NodeConfig.DILIGENT:
-                if (i < 2){
-                    return mDevaluePaint;
-                }else if (i < 6){
-                    return mWorkPaints[0];
-                }else if (i < 11){
-                    return mWorkPaints[1];
-                }else if (i < 22){
-                    return mWorkPaints[2];
-                }else if (i < 30){
-                    return mWorkPaints[3];
-                }
-                break;
-            case NodeConfig.METAMORPHOSIS:
-                if (i < 1){
-                    return mDevaluePaint;
-                }else if (i < 3){
-                    return mWorkPaints[0];
-                }else if (i < 7){
-                    return mWorkPaints[1];
-                }else if (i < 15){
-                    return mWorkPaints[2];
-                }else if (i < 30){
-                    return mWorkPaints[3];
-                }
-                break;
-            default:break;
-        }
+//        switch (NodeConfig.instance().getCurState()){
+//            case NodeConfig.LAZY:
+//                if (i < 15){
+//                    return mDevaluePaint;
+//                }else if (i < 23){
+//                    return mPaints[0];
+//                }else if (i < 27){
+//                    return mPaints[1];
+//                }else if (i < 29){
+//                    return mPaints[2];
+//                }else if (i < 30){
+//                    return mPaints[3];
+//                }
+//                break;
+//            case NodeConfig.NEGATIVE:
+//                if (i < 8){
+//                    return mDevaluePaint;
+//                }else if (i < 19){
+//                    return mPaints[0];
+//                }else if (i < 24){
+//                    return mPaints[1];
+//                }else if (i < 28){
+//                    return mPaints[2];
+//                }else if (i < 30){
+//                    return mPaints[3];
+//                }
+//                break;
+//            case NodeConfig.DILIGENT:
+//                if (i < 2){
+//                    return mDevaluePaint;
+//                }else if (i < 6){
+//                    return mPaints[0];
+//                }else if (i < 11){
+//                    return mPaints[1];
+//                }else if (i < 22){
+//                    return mPaints[2];
+//                }else if (i < 30){
+//                    return mPaints[3];
+//                }
+//                break;
+//            case NodeConfig.METAMORPHOSIS:
+//                if (i < 1){
+//                    return mDevaluePaint;
+//                }else if (i < 3){
+//                    return mPaints[0];
+//                }else if (i < 7){
+//                    return mPaints[1];
+//                }else if (i < 15){
+//                    return mPaints[2];
+//                }else if (i < 30){
+//                    return mPaints[3];
+//                }
+//                break;
+//            default:break;
+//        }
         return null;
     }
 
 
+    /**
+     * 流量0 为最低等级 15KB 视为最高等级
+     *
+     * 最低等级提交一次的概率是0.3,
+     * 最高提交一次的概率是0.9
+     * 每 50 k 视为一个级别 0 - 15000 是300 个级别
+     * */
+    private Paint getRandomPaint(){
+        if (mColorPosition == 0){
+            return mPaints[mRandom.nextInt(4)];
+        }
+        long bytes = mPresenter.getRxBytes() / 50;
+        double probability = sBaseProbability + FACTOR * bytes;
+        return mPaints[getPosition(probability,probability,0)];
+    }
+
+    private int getPosition(double probability,double curProbability,int count){
+        if (mRandom.nextInt(sReference) <= curProbability * sReference){
+            if (count == 4){
+                return 4;
+            }
+            return getPosition(probability,curProbability*probability,count + 1);
+        }else {
+            return count;
+        }
+    }
 
 }
