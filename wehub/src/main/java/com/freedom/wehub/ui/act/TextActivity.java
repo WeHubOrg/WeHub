@@ -1,4 +1,4 @@
-package com.freedom.wehub.act;
+package com.freedom.wehub.ui.act;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

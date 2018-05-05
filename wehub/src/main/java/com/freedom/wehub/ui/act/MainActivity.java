@@ -1,4 +1,4 @@
-package com.freedom.wehub.act;
+package com.freedom.wehub.ui.act;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -12,6 +12,7 @@ import com.freedom.wecore.common.WeActivity;
 import com.freedom.wecore.common.WePresenter;
 import com.freedom.wecore.tools.ImageBridge;
 import com.freedom.wehub.R;
+import com.freedom.wehub.ui.fragment.EventsFragment;
 
 import java.util.Map;
 
@@ -72,6 +73,8 @@ public class MainActivity extends WeActivity {
         mUserView.setText(user.getLogin());
         mNameView.setText(user.getName());
         mBoiView.setText(user.getBio());
+
+        showFragment(EventsFragment.class.getName(),EventsFragment.class.getSimpleName(),new Bundle(),R.id.layout_content);
     }
 
     private void fragment(String tag){

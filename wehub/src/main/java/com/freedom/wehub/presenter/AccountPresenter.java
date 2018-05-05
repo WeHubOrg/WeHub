@@ -25,7 +25,9 @@ public class AccountPresenter extends WePresenter<AccountContract.IAccountLoginV
 
     @Override
     public void onDestroy() {
-
+        if (mService != null){
+            mService = null;
+        }
     }
 
     @Override

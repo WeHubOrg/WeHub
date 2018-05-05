@@ -1,4 +1,4 @@
-package com.freedom.wehub.act;
+package com.freedom.wehub.ui.act;
 
 import android.content.Intent;
 import android.os.Build;

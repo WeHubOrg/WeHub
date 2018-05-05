@@ -31,7 +31,7 @@ public abstract class WeFragment<V extends IWeContract.View,P extends WePresente
     protected View mContentGroup;
     protected View mView;
     private CompositeDisposable mCompositeDisposable;
-    private P mPresenter;
+    protected P mPresenter;
     private Bundle mArgs;
 
     @Override
