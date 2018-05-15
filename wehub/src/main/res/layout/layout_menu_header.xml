@@ -16,43 +16,52 @@
         android:id="@+id/layout_user"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:paddingTop="@dimen/dimen_130"
+        android:orientation="horizontal">
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/iv_avatar"
             android:layout_width="@dimen/dimen_48"
             android:layout_height="@dimen/dimen_48"
-            android:layout_marginTop="@dimen/dimen_24"/>
+            android:layout_marginLeft="@dimen/dimen_24"/>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/layout_name"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimen_24"
+            android:layout_toRightOf="@+id/iv_avatar"
+            android:layout_marginLeft="@dimen/dimen_8"
+            android:layout_marginTop="@dimen/dimen_4"
             android:orientation="vertical">
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/tv_user"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="@dimen/text_16"
                 android:text="@string/user"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="@dimen/text_14"
                 android:text="@string/name"
                 android:lines="1"/>
 
-            <TextView
-                android:id="@+id/tv_bio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/bio"
-                android:lines="1"/>
-
         </LinearLayout>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_bio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layout_name"
+            android:layout_marginTop="@dimen/dimen_14"
+            android:layout_marginRight="@dimen/dimen_48"
+            android:layout_marginLeft="@dimen/dimen_48"
+            android:textSize="@dimen/text_14"
+            android:text="@string/bio"/>
 
     </RelativeLayout>
 
