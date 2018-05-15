@@ -68,8 +68,8 @@ public abstract class WeFragment<V extends IWeContract.View,P extends WePresente
         initView(savedInstanceState);
         if (statusBarEnabled()){
             if (StatusBarUtil.canStatusChangeColor()) {
-                StatusBarUtil.setStatusContentColor(getActivity(),true);
                 StatusBarUtil.setTranslucentForImageView(getActivity(), 0, null, true);
+                StatusBarUtil.setStatusContentColor(getActivity(),true);
             } else {
                 StatusBarUtil.setTranslucentForImageView(getActivity(), 40, null);
             }

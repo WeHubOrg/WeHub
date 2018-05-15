@@ -249,7 +249,7 @@ public class StatusBarUtil {
             return true;
         }else if (ModelUtil.isMIUI()){
             if (ModelUtil.isMIUI6()){
-                if (ModelUtil.isMIUI9()){
+                if (!ModelUtil.isMIUI9()){
                     if (dark){
                         activity.getWindow().getDecorView().setSystemUiVisibility(
                                 View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN| View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
@@ -265,7 +265,7 @@ public class StatusBarUtil {
                     }
                     SetMiNiStatusBarLightMode(activity.getWindow(),dark);
                 }
-                    return true;
+                return true;
             }
             return false;
         }else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -276,7 +276,6 @@ public class StatusBarUtil {
                 activity.getWindow().getDecorView().setSystemUiVisibility(
                         View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
             }
-
             return true;
         }
         return false;
