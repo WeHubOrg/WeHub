@@ -15,6 +15,8 @@ import com.freedom.wehub.presenter.EventsPresenter;
 public class EventsFragment extends WeFragment<EventsContract.IEventsView, EventsPresenter> implements
         EventsContract.IEventsView{
 
+
+
     private User mUser;
 
     @Override
