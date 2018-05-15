@@ -21,7 +21,7 @@ import java.util.Random;
 /**
  * @author vurtne on 2-May-18.
  */
-public class NodeView extends View{
+public class NodeView extends View implements NodeInternal{
 
     private Context context;
     /** 总节点数 */
@@ -68,8 +68,6 @@ public class NodeView extends View{
     private SparseArray<Paint> mDrawPaint = new SparseArray();
 
     private NodePresenter mPresenter;
-
-
 
     private Runnable mDrawRunnable = new Runnable() {
         @Override
@@ -123,16 +121,6 @@ public class NodeView extends View{
         mHeight = (int)Math.min( mHeight , DeviceUtil.getScreenHeight((Activity) context));
         initPaint();
         mRandom = new Random();
-        setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isAnimation = true;
-                mColorPosition = 0;
-                mDrawOrigin = new RectF(0,0,mNodeSize,mNodeSize);
-                mDrawPaint.clear();
-                invalidate();
-            }
-        });
         array.recycle();
         mPresenter = NodePresenter.instance(context);
     }
@@ -246,4 +234,25 @@ public class NodeView extends View{
         }
     }
 
+
+
+    @Override
+    public void start() {
+        isAnimation = true;
+        mColorPosition = 0;
+        mDrawOrigin = new RectF(0,0,mNodeSize,mNodeSize);
+        mDrawPaint.clear();
+        invalidate();
+    }
+
+    @Override
+    public void finish() {
+        isAnimation = false;
+        invalidate();
+    }
+
+    @Override
+    public void released() {
+
+    }
 }
