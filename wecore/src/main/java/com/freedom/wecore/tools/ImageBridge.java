@@ -526,6 +526,21 @@ public class ImageBridge {
         }
     }
 
+    public static void displayRoundImage(Activity activity, String uri, ImageView imageView,@DrawableRes int devalue) {
+        try {
+            if (ImageBridge.shouldLoadImage(imageView)) {
+                return;
+            }
+            Glide.with(activity)
+                    .load(getSecurityUrl(uri))
+                    .apply(RequestOptionManager.getCircleHolderOptions(0))
+                    .into(imageView);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Glide.with(activity).clear(imageView);
+        }
+    }
+
     public static void displayRoundImage(Fragment fragment, String uri, ImageView imageView) {
         try {
             if (ImageBridge.shouldLoadImage(imageView)) {
