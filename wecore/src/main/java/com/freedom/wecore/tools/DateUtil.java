@@ -887,7 +887,6 @@ public class DateUtil {
             }
             return ftime;
         }
-
         long lt = time.getTime() / 86400000;
         long ct = cal.getTimeInMillis() / 86400000;
         int days = (int) (ct - lt);

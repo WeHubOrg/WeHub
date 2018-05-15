@@ -54,8 +54,8 @@ public abstract class WeActivity<V extends IWeContract.View,P extends WePresente
         createPresenters();
         initView(savedInstanceState);
         if (StatusBarUtil.canStatusChangeColor()) {
-            StatusBarUtil.setStatusContentColor(this,true);
             StatusBarUtil.setTranslucentForImageView(this, 0, null, true);
+            StatusBarUtil.setStatusContentColor(this,true);
         } else {
             StatusBarUtil.setTranslucentForImageView(this, 40, null);
         }

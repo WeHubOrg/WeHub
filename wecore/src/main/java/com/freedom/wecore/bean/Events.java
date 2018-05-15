@@ -82,7 +82,7 @@ public class Events {
         return createdAt;
     }
 
-    public void setCreatedAtt(String createdAt) {
+    public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
 
