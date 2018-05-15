@@ -1,24 +1,23 @@
 package com.freedom.wehub.adp;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
-import android.view.ViewGroup;
+import android.content.Context;
+import android.view.View;
 
-public class EventsAdapter extends RecyclerView.Adapter<Object> {
+import com.freedom.wecore.bean.Events;
+import com.freedom.wecore.common.WeAdapter;
+import com.freedom.wecore.common.WeHolder;
+import com.freedom.wehub.R;
 
-    @NonNull
-    @Override
-    public Object onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+import java.util.List;
+
+public class EventsAdapter extends WeAdapter<Events>{
+
+    public EventsAdapter(Context context, List<Events> data) {
+        super(R.layout.item_events, context, data);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Object holder, int position) {
+    protected void convert(WeHolder holder, int position, View convertView, Events data) {
 
-    }
-
-    @Override
-    public int getItemCount() {
-        return 0;
     }
 }

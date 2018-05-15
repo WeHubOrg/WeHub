@@ -1,6 +1,9 @@
 package com.freedom.wehub.contract;
 
+import com.freedom.wecore.bean.Events;
 import com.freedom.wecore.common.IWeContract;
+
+import java.util.List;
 
 /**
  * @author vurtne on 5-May-18.
@@ -8,7 +11,7 @@ import com.freedom.wecore.common.IWeContract;
 public interface EventsContract {
 
     interface IEventsView extends IWeContract.View{
-
+        void onResponseEvents(List<Events> events);
     }
 
     interface IEventsPresenter{

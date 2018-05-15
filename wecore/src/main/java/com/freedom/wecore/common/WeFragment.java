@@ -3,6 +3,7 @@ package com.freedom.wecore.common;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -26,6 +27,7 @@ import io.reactivex.functions.Consumer;
 public abstract class WeFragment<V extends IWeContract.View,P extends WePresenter> extends Fragment{
 
     private final int DEFAULT_INTERVAL = 1;
+    protected Context context;
     protected View mParentGroup;
     protected View mLoadGroup;
     protected View mContentGroup;
@@ -34,9 +36,11 @@ public abstract class WeFragment<V extends IWeContract.View,P extends WePresente
     protected P mPresenter;
     private Bundle mArgs;
 
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        this.context = context;
         if (mPresenter == null){
             mPresenter = createPresenter();
         }
@@ -95,6 +99,11 @@ public abstract class WeFragment<V extends IWeContract.View,P extends WePresente
         }
         return mCompositeDisposable;
     }
+
+    protected <T extends View> T findViewById(@IdRes int id){
+        return mView.findViewById(id);
+    }
+
     /**
      * 点击事件
      */

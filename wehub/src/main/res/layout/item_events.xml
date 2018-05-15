@@ -79,7 +79,6 @@
             android:background="@color/color_theme"
             android:layout_height="wrap_content"/>
 
-
     </LinearLayout>
 
 </LinearLayout>
