@@ -14,6 +14,8 @@ import com.freedom.wecore.bean.User;
 import com.freedom.wecore.common.WeFragment;
 import com.freedom.wecore.model.AccountManager;
 import com.freedom.wecore.tools.DateUtil;
+import com.freedom.wecore.tools.DeviceUtil;
+import com.freedom.wecore.widget.decoration.HorizontalDecoration;
 import com.freedom.wehub.R;
 import com.freedom.wehub.adp.EventsAdapter;
 import com.freedom.wehub.contract.EventsContract;
@@ -55,6 +57,7 @@ public class EventsFragment extends WeFragment<EventsContract.IEventsView, Event
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         mAdapter = new EventsAdapter(context,new ArrayList<>());
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.addItemDecoration(new HorizontalDecoration(DeviceUtil.dip2Px(context,8)));
 
         mToolbar.setTitle("News");
     }
