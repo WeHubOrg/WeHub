@@ -38,9 +38,9 @@ public class EventsPresenter extends WePresenter<EventsContract.IEventsView> imp
             mService = new EventsService();
         }
         mService.requestNewsEvents(page, user, response -> {
-            List<Events> model = response.get();
-//            List<Events> list =  response.get().getData();
-            int i = 1;
+            if (mView != null){
+                mView.onResponseEvents(response.get());
+            }
         });
     }
 }

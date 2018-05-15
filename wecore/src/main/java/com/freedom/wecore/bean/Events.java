@@ -26,7 +26,8 @@ public class Events {
     private Payload payload;
     @SerializedName("public")
     private boolean publicX;
-    private String created_at;
+    @SerializedName("created_at")
+    private String createdAt;
     private Org org;
 
     public String getId() {
@@ -77,12 +78,12 @@ public class Events {
         this.publicX = publicX;
     }
 
-    public String getCreated_at() {
-        return created_at;
+    public String getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreated_at(String created_at) {
-        this.created_at = created_at;
+    public void setCreatedAtt(String createdAt) {
+        this.createdAt = createdAt;
     }
 
     public Org getOrg() {

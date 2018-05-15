@@ -1,5 +1,7 @@
 package com.freedom.wecore.bean;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Actor {
     /**
      * id : 6065046
@@ -12,10 +14,13 @@ public class Actor {
 
     private int id;
     private String login;
-    private String display_login;
-    private String gravatar_id;
+    @SerializedName("display_login")
+    private String displayLogin;
+    @SerializedName("gravatar_id")
+    private String gravatarId;
     private String url;
-    private String avatar_url;
+    @SerializedName("avatar_url")
+    private String avatarUrl;
 
     public int getId() {
         return id;
@@ -33,20 +38,20 @@ public class Actor {
         this.login = login;
     }
 
-    public String getDisplay_login() {
-        return display_login;
+    public String getDisplayLogin() {
+        return displayLogin;
     }
 
-    public void setDisplay_login(String display_login) {
-        this.display_login = display_login;
+    public void setDisplayLogin(String displayLogin) {
+        this.displayLogin = displayLogin;
     }
 
-    public String getGravatar_id() {
-        return gravatar_id;
+    public String getGravatarId() {
+        return gravatarId;
     }
 
-    public void setGravatar_id(String gravatar_id) {
-        this.gravatar_id = gravatar_id;
+    public void setGravatarId(String gravatarId) {
+        this.gravatarId = gravatarId;
     }
 
     public String getUrl() {
@@ -57,11 +62,11 @@ public class Actor {
         this.url = url;
     }
 
-    public String getAvatar_url() {
-        return avatar_url;
+    public String getAvatarUrl() {
+        return avatarUrl;
     }
 
-    public void setAvatar_url(String avatar_url) {
-        this.avatar_url = avatar_url;
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 }

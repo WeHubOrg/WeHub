@@ -1,29 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:gravity="center"
-    android:background="#fff"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_marginLeft="@dimen/dimen_8"
+    android:layout_marginRight="@dimen/dimen_8"
+    android:layout_marginBottom="@dimen/dimen_8"
+    app:cardBackgroundColor="#fff"
+    app:cardCornerRadius="@dimen/dimen_8"
+    app:cardElevation="@dimen/dimen_8"
+    app:cardMaxElevation="@dimen/dimen_10">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/dimen_10"
+        android:paddingLeft="@dimen/dimen_18"
+        android:paddingRight="@dimen/dimen_18"
+        android:paddingBottom="@dimen/dimen_10"
+        android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iv_avatar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                app:srcCompat="@drawable/ic_event_star"
+                app:srcCompat="@drawable/ic_hub_small"
                 android:layout_marginRight="@dimen/dimen_2"/>
 
-        </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimen_8"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tv_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/color_444444"
+                        android:layout_marginRight="@dimen/dimen_8"
+                        android:text="JiLiren"
+                        android:singleLine="true"/>
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/iv_start"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_event_star"/>
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/iv_create"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_event_warehouse"/>
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/iv_fork"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_event_fork"/>
+
+                </LinearLayout>
+
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/color_9B9B9B"
+                    android:textSize="@dimen/text_12"
+                    android:text="an hour ago"
+                    android:singleLine="true"/>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
 
         <android.support.v7.widget.AppCompatTextView
             android:layout_width="0dp"
@@ -36,49 +106,4 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content">
-
-            <android.support.v7.widget.AppCompatImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                app:srcCompat="@drawable/ic_hub_round"
-                android:layout_marginRight="@dimen/dimen_2"/>
-
-        </RelativeLayout>
-
-        <android.support.v7.widget.AppCompatTextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:layout_marginLeft="@dimen/dimen_4"
-            android:text="JiLiren starred JiLiren/WeHub"
-            android:layout_weight="7"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_0.5">
-
-        <View
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"/>
-
-        <View
-            android:layout_width="0dp"
-            android:layout_weight="7"
-            android:background="@color/color_theme"
-            android:layout_height="wrap_content"/>
-
-    </LinearLayout>
-
-</LinearLayout>
+</android.support.v7.widget.CardView>

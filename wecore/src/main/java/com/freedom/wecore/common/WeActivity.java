@@ -164,6 +164,10 @@ public abstract class WeActivity<V extends IWeContract.View,P extends WePresente
         }
     }
 
+    protected boolean isLoading(){
+        return mLoadGroup != null && mLoadGroup.getVisibility() == View.VISIBLE;
+    }
+
     /**
      * 如果跳转就直接finish 掉的话，动画有点尴尬，又没有动画监听，就只能随便来个timer了
      * */

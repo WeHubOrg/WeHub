@@ -44,6 +44,7 @@ public class EventsFragment extends WeFragment<EventsContract.IEventsView, Event
         mRecyclerView = findViewById(R.id.layout_recycler);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         mAdapter = new EventsAdapter(context,new ArrayList<>());
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     @Override
@@ -65,6 +66,9 @@ public class EventsFragment extends WeFragment<EventsContract.IEventsView, Event
 
     @Override
     public void onResponseEvents(List<Events> events) {
+        if (isLoading()){
+            hideLoad();
+        }
         mAdapter.addDatas(events);
     }
 }

@@ -187,6 +187,10 @@ public abstract class WeFragment<V extends IWeContract.View,P extends WePresente
         }
     }
 
+    protected boolean isLoading(){
+        return mLoadGroup != null && mLoadGroup.getVisibility() == View.VISIBLE;
+    }
+
 
     /**
      * 是否需要设置状态栏
