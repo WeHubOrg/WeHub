@@ -44,7 +44,6 @@
                     android:gravity="center_vertical"
                     android:textColor="@color/color_444444"
                     android:layout_marginRight="@dimen/dimen_8"
-                    android:text="JiLiren"
                     android:singleLine="true"/>
 
                 <android.support.v7.widget.AppCompatImageView
@@ -67,7 +66,6 @@
 
             </LinearLayout>
 
-
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/tv_time"
                 android:layout_width="wrap_content"
@@ -75,9 +73,7 @@
                 android:gravity="center_vertical"
                 android:textColor="@color/color_9B9B9B"
                 android:textSize="@dimen/text_12"
-                android:text="an hour ago"
                 android:singleLine="true"/>
-
 
         </LinearLayout>
 
@@ -90,8 +86,21 @@
         android:textSize="@dimen/text_14"
         android:lineSpacingExtra="@dimen/dimen_4"
         android:layout_marginLeft="@dimen/dimen_18"
+        android:layout_marginRight="@dimen/dimen_18"
         android:layout_marginTop="@dimen/dimen_8"
         android:maxLines="2"/>
+    
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_9B9B9B"
+        android:textSize="@dimen/text_13"
+        android:visibility="gone"
+        android:layout_marginLeft="@dimen/dimen_18"
+        android:layout_marginRight="@dimen/dimen_18"
+        android:layout_marginTop="@dimen/dimen_8"
+        android:singleLine="true"/>
 
 </LinearLayout>
 

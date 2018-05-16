@@ -2,6 +2,7 @@ package com.freedom.wehub.adp;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.text.style.ClickableSpan;
 import android.util.SparseArray;
 import android.view.View;
@@ -31,13 +32,16 @@ public class EventsAdapter extends WeAdapter<Events>{
 
     @Override
     protected void convert(WeHolder holder, int position, View convertView, Events data) {
+
         holder
                 .setText(R.id.tv_name,data.getActor().getLogin())
                 .setVisibility(EventsFactory.EVENT_WATCH.equals(data.getType()),R.id.iv_start)
                 .setVisibility(EventsFactory.EVENT_CREATE.equals(data.getType()),R.id.iv_create)
                 .setVisibility(EventsFactory.EVENT_FORK.equals(data.getType()),R.id.iv_fork)
                 .setText(R.id.tv_time, DateUtil.getLongFromStringWithTZ(data.getCreatedAt()))
-                .displayRoundImage(R.id.iv_avatar,data.getActor().getAvatarUrl(),R.drawable.ic_hub_small);
+                .displayRoundImage(R.id.iv_avatar,data.getActor().getAvatarUrl(),R.drawable.ic_hub_small)
+                .setVisibility(EventsFactory.switchCreate(data),R.id.tv_description)
+                .setText(R.id.tv_description,TextUtils.isEmpty(data.getPayload().getDescription())?"":data.getPayload().getDescription());
 
         EventsTextView messageTv = mSparse.get(R.id.tv_msg);
         if (messageTv == null){

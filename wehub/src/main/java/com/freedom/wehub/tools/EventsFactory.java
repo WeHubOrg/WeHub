@@ -41,4 +41,9 @@ public class EventsFactory {
             return "";
         }
     }
+
+    /** 是否是创建事件 */
+    public static boolean switchCreate(Events data){
+        return MESSAGE_CREATE.equals(data.getType());
+    }
 }

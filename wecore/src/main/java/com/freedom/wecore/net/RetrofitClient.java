@@ -52,12 +52,7 @@ public class RetrofitClient {
                 .readTimeout(30000, TimeUnit.MILLISECONDS)
                 .connectTimeout(30000, TimeUnit.MILLISECONDS)
                 .addInterceptor(new ClientInterceptor(token))
-                .hostnameVerifier(new HostnameVerifier() {
-                    @Override
-                    public boolean verify(String hostname, SSLSession session) {
-                        return true;
-                    }
-                });
+                .hostnameVerifier((hostname, session) -> true);
         OkHttpClient client = builder.build();
         return new Retrofit.Builder()
                 .client(client)
@@ -73,12 +68,7 @@ public class RetrofitClient {
                 .readTimeout(30000, TimeUnit.MILLISECONDS)
                 .connectTimeout(30000, TimeUnit.MILLISECONDS)
                 .addInterceptor(new ClientInterceptor(null))
-                .hostnameVerifier(new HostnameVerifier() {
-                    @Override
-                    public boolean verify(String hostname, SSLSession session) {
-                        return true;
-                    }
-                });
+                .hostnameVerifier((hostname, session) -> true);
         OkHttpClient client = builder.build();
         sRetrofit = new Retrofit.Builder()
                 .client(client)

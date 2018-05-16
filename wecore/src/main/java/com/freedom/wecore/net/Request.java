@@ -115,23 +115,20 @@ public class Request<T> {
 
 
     private Observable<Response<T>> onParseMap(Observable<retrofit2.Response<JsonElement>> observable) {
-        return observable.map(new Function<retrofit2.Response<JsonElement>, Response<T>>() {
-            @Override
-            public Response<T> apply(retrofit2.Response<JsonElement> response) throws Exception {
-                Response<T> tResponse = new Response<>();
-                ApiResponseModel<T> model = new ApiResponseModel<>();
-                model.setData(response.body() == null ? "":response.body().toString());
-                model.setStatus(response.code());
-                model.setInfo(response.message());
-                try {
-                    onResponse(tResponse, model, false);
-                    return tResponse;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    LogUtil.v(TAG, "通用解析异常_2");
-                }
+        return observable.map(response -> {
+            Response<T> tResponse = new Response<>();
+            ApiResponseModel<T> model = new ApiResponseModel<>();
+            model.setData(response.body() == null ? "":response.body().toString());
+            model.setStatus(response.code());
+            model.setInfo(response.message());
+            try {
+                onResponse(tResponse, model, false);
                 return tResponse;
+            } catch (Exception e) {
+                e.printStackTrace();
+                LogUtil.v(TAG, "通用解析异常_2");
             }
+            return tResponse;
         });
     }
 
@@ -163,15 +160,12 @@ public class Request<T> {
      * 创建成功的回调
      * */
     private Consumer<Response<T>> onCreateSuccessConsumer(){
-        return new Consumer<Response<T>>() {
-            @Override
-            public void accept(Response<T> response) throws Exception {
-                if (!TextUtils.isEmpty(response.getError())) {
-                    LogUtil.v("RetrofitLog", mRequestData.toString() + ":" + response.getError());
-                }
-                if (mListener != null && !isCancel) {
-                    mListener.onResponse(response);
-                }
+        return response -> {
+            if (!TextUtils.isEmpty(response.getError())) {
+                LogUtil.v("RetrofitLog", mRequestData.toString() + ":" + response.getError());
+            }
+            if (mListener != null && !isCancel) {
+                mListener.onResponse(response);
             }
         };
     }
@@ -180,16 +174,13 @@ public class Request<T> {
      * 创建失败的回调
      * */
     private Consumer<Throwable> onCreateErrorConsumer(){
-        return new Consumer<Throwable>() {
-            @Override
-            public void accept(Throwable throwable) throws Exception {
-                LogUtil.d(TAG,throwable.toString());
-                Response<T> apiResponse = new Response<>();
-                apiResponse.setError(throwable.toString() == null?
-                        throwable.getClass().getSimpleName():throwable.toString());
-                if (mListener != null){
-                    mListener.onResponse(apiResponse);
-                }
+        return throwable -> {
+            LogUtil.d(TAG,throwable.toString());
+            Response<T> apiResponse = new Response<>();
+            apiResponse.setError(throwable.toString() == null?
+                    throwable.getClass().getSimpleName():throwable.toString());
+            if (mListener != null){
+                mListener.onResponse(apiResponse);
             }
         };
     }
