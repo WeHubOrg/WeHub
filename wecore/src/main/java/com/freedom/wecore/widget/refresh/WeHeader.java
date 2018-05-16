@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
 
 import com.freedom.wecore.R;
 import com.freedom.wecore.widget.node.NodeView;

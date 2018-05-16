@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.text.style.ClickableSpan;
+import android.util.DebugUtils;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.Toast;
@@ -12,6 +13,7 @@ import com.freedom.wecore.bean.Events;
 import com.freedom.wecore.common.WeAdapter;
 import com.freedom.wecore.common.WeHolder;
 import com.freedom.wecore.tools.DateUtil;
+import com.freedom.wecore.tools.DeviceUtil;
 import com.freedom.wecore.widget.el.EventsPair;
 import com.freedom.wecore.widget.el.EventsTextView;
 import com.freedom.wehub.R;
@@ -39,7 +41,8 @@ public class EventsAdapter extends WeAdapter<Events>{
                 .setVisibility(EventsFactory.EVENT_CREATE.equals(data.getType()),R.id.iv_create)
                 .setVisibility(EventsFactory.EVENT_FORK.equals(data.getType()),R.id.iv_fork)
                 .setText(R.id.tv_time, DateUtil.getLongFromStringWithTZ(data.getCreatedAt()))
-                .displayRoundImage(R.id.iv_avatar,data.getActor().getAvatarUrl(),R.drawable.ic_hub_small)
+                .displayRoundImage(R.id.iv_avatar,data.getActor().getAvatarUrl(),
+                        DeviceUtil.dip2Px(getContext(),12),R.drawable.ic_hub_small)
                 .setVisibility(EventsFactory.switchCreate(data),R.id.tv_description)
                 .setText(R.id.tv_description,TextUtils.isEmpty(data.getPayload().getDescription())?"":data.getPayload().getDescription());
 

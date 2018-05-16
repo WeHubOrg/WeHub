@@ -46,8 +46,6 @@ public class ImageBridge {
             }
             Glide.with(imageView.getContext())
                     .load(getSecurityUrl(uri))
-                    .apply(new RequestOptions().placeholder(0))
-                    .apply(new RequestOptions().error(0))
                     .into(imageView);
         } catch (Exception e) {
             e.printStackTrace();
@@ -383,6 +381,8 @@ public class ImageBridge {
         try {
             Glide.with(activity)
                     .load(getSecurityUrl(uri))
+                    .apply(new RequestOptions().placeholder(defaultResId))
+                    .apply(new RequestOptions().error(defaultResId))
                     .apply(RequestOptionManager.getRoundedOption(defaultResId, roundRadius))
                     .into(imageView);
         } catch (Exception e) {
@@ -398,6 +398,8 @@ public class ImageBridge {
         try {
             Glide.with(fragment)
                     .load(getSecurityUrl(uri))
+                    .apply(new RequestOptions().placeholder(defaultResId))
+                    .apply(new RequestOptions().error(defaultResId))
                     .apply(RequestOptionManager.getRoundedOption(defaultResId, roundRadius))
                     .into(imageView);
         } catch (Exception e) {
@@ -534,6 +536,8 @@ public class ImageBridge {
             }
             Glide.with(activity)
                     .load(getSecurityUrl(uri))
+                    .apply(new RequestOptions().placeholder(devalue))
+                    .apply(new RequestOptions().error(devalue))
                     .apply(RequestOptionManager.getCircleHolderOptions(0))
                     .into(imageView);
         } catch (Exception e) {
