@@ -1,6 +1,7 @@
 package com.freedom.wecore.widget.el;
 
 import android.support.annotation.ColorInt;
+import android.text.style.ClickableSpan;
 import android.view.View;
 
 /**
@@ -11,7 +12,7 @@ public class EventsPair {
     private String text;
     @ColorInt
     private int color;
-    private View.OnClickListener listener;
+    private ClickableSpan listener;
 
     public EventsPair(String text) {
         this(text,-1);
@@ -21,7 +22,7 @@ public class EventsPair {
         this(text,-1,null);
     }
 
-    public EventsPair(String text, int color, View.OnClickListener listener) {
+    public EventsPair(String text, int color, ClickableSpan listener) {
         this.text = text;
         this.color = color;
         this.listener = listener;
@@ -43,11 +44,11 @@ public class EventsPair {
         this.color = color;
     }
 
-    public View.OnClickListener getListener() {
+    public ClickableSpan getListener() {
         return listener;
     }
 
-    public void setListener(View.OnClickListener listener) {
+    public void setListener(ClickableSpan listener) {
         this.listener = listener;
     }
 }

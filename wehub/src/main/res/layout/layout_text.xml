@@ -7,5 +7,10 @@
     android:background="#fff"
     android:orientation="vertical">
 
+    <Button
+        android:id="@+id/tv"
+        android:text="请求"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>

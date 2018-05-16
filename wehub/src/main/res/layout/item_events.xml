@@ -7,7 +7,7 @@
     android:paddingTop="@dimen/dimen_10"
     android:paddingLeft="@dimen/dimen_18"
     android:paddingRight="@dimen/dimen_18"
-    android:paddingBottom="@dimen/dimen_10"
+    android:paddingBottom="@dimen/dimen_16"
     android:background="#fff"
     android:orientation="vertical">
 
@@ -83,11 +83,15 @@
 
     </LinearLayout>
 
-    <com.freedom.wecore.widget.el.EventsLayout
+    <com.freedom.wecore.widget.el.EventsTextView
         android:id="@+id/tv_msg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dimen_4"/>
+        android:textSize="@dimen/text_14"
+        android:lineSpacingExtra="@dimen/dimen_4"
+        android:layout_marginLeft="@dimen/dimen_18"
+        android:layout_marginTop="@dimen/dimen_8"
+        android:maxLines="2"/>
 
 </LinearLayout>
 

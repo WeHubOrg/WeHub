@@ -1,16 +1,17 @@
 package com.freedom.wehub.adp;
 
 import android.content.Context;
-import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
+import android.text.style.ClickableSpan;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.freedom.wecore.bean.Events;
 import com.freedom.wecore.common.WeAdapter;
 import com.freedom.wecore.common.WeHolder;
 import com.freedom.wecore.tools.DateUtil;
-import com.freedom.wecore.widget.el.EventsLayout;
 import com.freedom.wecore.widget.el.EventsPair;
+import com.freedom.wecore.widget.el.EventsTextView;
 import com.freedom.wehub.R;
 import com.freedom.wehub.tools.EventsFactory;
 
@@ -35,10 +36,32 @@ public class EventsAdapter extends WeAdapter<Events>{
                 .setText(R.id.tv_time, DateUtil.getLongFromStringWithTZ(data.getCreatedAt()))
                 .displayRoundImage(R.id.iv_avatar,data.getActor().getAvatarUrl(),R.drawable.ic_hub_small);
 
-        EventsLayout layout = holder.findView(R.id.tv_msg);
-        layout.setPair(new EventsPair("11111", Color.RED,null),new EventsPair("2222", Color.BLUE,null),
-                new EventsPair("2222", Color.YELLOW,null),new EventsPair("2222", Color.GREEN,null));
-//        textView.setText();
+        EventsTextView messageTv = holder.findView(R.id.tv_msg);
+        messageTv.setTextPair(
+                new EventsPair(data.getActor().getLogin(), ContextCompat.getColor(getContext(),R.color.color_009ACD),new ClickableSpan(){
+                    @Override
+                    public void onClick(View widget) {
+                        Toast.makeText(getContext(),data.getActor().getLogin(),Toast.LENGTH_LONG).show();
+                    }
+                }),
 
+                new EventsPair(EventsFactory.switchMssage(data.getType()), ContextCompat.getColor(getContext(),R.color.color_323232),null),
+
+                new EventsPair(data.getRepo().getName(), ContextCompat.getColor(getContext(),R.color.color_009ACD),new ClickableSpan(){
+                    @Override
+                    public void onClick(View widget) {
+                        Toast.makeText(getContext(),data.getRepo().getName(),Toast.LENGTH_LONG).show();
+                    }
+                }),
+
+                new EventsPair(EventsFactory.switchTo(data.getType()), ContextCompat.getColor(getContext(),R.color.color_323232),null),
+
+                new EventsPair(EventsFactory.switchDestinationAddress(data),ContextCompat.getColor(getContext(),R.color.color_009ACD),new ClickableSpan(){
+                    @Override
+                    public void onClick(View widget) {
+                        Toast.makeText(getContext(),data.getActor().getLogin(),Toast.LENGTH_LONG).show();
+                    }
+                })
+        );
     }
 }
