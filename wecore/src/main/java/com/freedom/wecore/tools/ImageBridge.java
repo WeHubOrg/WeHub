@@ -46,6 +46,8 @@ public class ImageBridge {
             }
             Glide.with(imageView.getContext())
                     .load(getSecurityUrl(uri))
+                    .apply(new RequestOptions().placeholder(0))
+                    .apply(new RequestOptions().error(0))
                     .into(imageView);
         } catch (Exception e) {
             e.printStackTrace();
@@ -77,7 +79,6 @@ public class ImageBridge {
             Glide.with(imageView.getContext()).clear(imageView);
         }
     }
-
 
 
     /**
@@ -526,7 +527,7 @@ public class ImageBridge {
         }
     }
 
-    public static void displayRoundImage(Activity activity, String uri, ImageView imageView,@DrawableRes int devalue) {
+    public static void displayRoundImage(Activity activity, String uri, ImageView imageView, @DrawableRes int devalue) {
         try {
             if (ImageBridge.shouldLoadImage(imageView)) {
                 return;
