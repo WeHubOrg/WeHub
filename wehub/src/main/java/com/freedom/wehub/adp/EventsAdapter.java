@@ -59,7 +59,7 @@ public class EventsAdapter extends WeAdapter<Events>{
                 new EventsPair(EventsFactory.switchDestinationAddress(data),ContextCompat.getColor(getContext(),R.color.color_009ACD),new ClickableSpan(){
                     @Override
                     public void onClick(View widget) {
-                        Toast.makeText(getContext(),data.getActor().getLogin(),Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(),EventsFactory.switchDestinationAddress(data),Toast.LENGTH_LONG).show();
                     }
                 })
         );
