@@ -239,6 +239,9 @@ public class NodeView extends View implements NodeInternal{
 
     @Override
     public void start() {
+        if (isAnimation){
+            return;
+        }
         isAnimation = true;
         mColorPosition = 0;
         mDrawOrigin = new RectF(0,0,mNodeSize,mNodeSize);

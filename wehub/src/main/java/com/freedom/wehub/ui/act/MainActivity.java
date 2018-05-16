@@ -1,9 +1,12 @@
 package com.freedom.wehub.ui.act;
 
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.freedom.wecore.model.AccountManager;
@@ -23,6 +26,8 @@ import java.util.Map;
  */
 public class MainActivity extends WeActivity {
 
+    private Toolbar mToolbar;
+    private AppBarLayout mBarView;
     private ImageView mAvatarView;
     private ImageView mAvatarBackgroundView;
     private TextView mUserView;
@@ -44,17 +49,24 @@ public class MainActivity extends WeActivity {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        mBarView = findViewById(R.id.layout_bar);
+        mToolbar = findViewById(R.id.toolbar);
         mMenuView = findViewById(R.id.layout_menu);
         mAvatarBackgroundView = mMenuView.getHeaderView(0).findViewById(R.id.iv_avatar_bg);
         mAvatarView = mMenuView.getHeaderView(0).findViewById(R.id.iv_avatar);
         mUserView = mMenuView.getHeaderView(0).findViewById(R.id.tv_user);
         mNameView = mMenuView.getHeaderView(0).findViewById(R.id.tv_name);
         mBoiView = mMenuView.getHeaderView(0).findViewById(R.id.tv_bio);
+
+        mToolbar.setTitle("News");
     }
 
     @Override
     protected void initStatusBar(int statusHeight) {
-
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mBarView.getLayoutParams();
+        params.height += statusHeight;
+        mBarView.setPadding(0,statusHeight,0,0);
+        mBarView.setLayoutParams(params);
     }
 
     @Override

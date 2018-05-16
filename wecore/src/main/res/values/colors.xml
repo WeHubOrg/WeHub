@@ -5,4 +5,18 @@
     <color name="work_01">#6fc97b</color>
     <color name="work_02">#3b9a23</color>
     <color name="work_03">#276119</color>
+    <color name="colorPrimary">#686770</color>
+    <color name="colorPrimaryDark">#181C26</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="color_theme">#181C26</color>
+    <color name="color_logo_text">#686770</color>
+    <color name="color_444444">#444444</color>
+    <color name="color_with_text">#DBDBDB</color>
+    <color name="color_error">#ff3333</color>
+    <color name="color_9B9B9B">#9B9B9B</color>
+    <color name="color_DBDBDB">#DBDBDB</color>
+    <color name="color_EEEEEE">#EEEEEE</color>
+    <color name="color_323232">#323232</color>
+    <color name="color_009ACD">#009ACD</color>
 </resources>

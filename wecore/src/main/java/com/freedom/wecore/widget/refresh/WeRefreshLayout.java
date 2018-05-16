@@ -2974,6 +2974,7 @@ public class WeRefreshLayout extends ViewGroup implements RefreshLayout, NestedS
          * 移动滚动 Scroll
          * moveSpinner 的取名来自 谷歌官方的 {@link android.support.v4.widget.SwipeRefreshLayout#moveSpinner(float)}
          */
+        @Override
         public RefreshKernel moveSpinner(int spinner, boolean isDragging) {
             if (mSpinner == spinner
                     && (mRefreshHeader == null || !mRefreshHeader.isSupportHorizontalDrag())
