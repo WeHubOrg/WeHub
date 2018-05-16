@@ -83,14 +83,11 @@
 
     </LinearLayout>
 
-    <android.support.v7.widget.AppCompatTextView
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:gravity="center_vertical"
-        android:layout_marginLeft="@dimen/dimen_4"
-        android:text="an hour ago"
-        android:singleLine="true"
-        android:layout_weight="7"/>
+    <com.freedom.wecore.widget.el.EventsLayout
+        android:id="@+id/tv_msg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimen_4"/>
 
 </LinearLayout>
 
