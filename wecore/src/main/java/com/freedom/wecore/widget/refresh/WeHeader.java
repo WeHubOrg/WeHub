@@ -29,8 +29,8 @@ public class WeHeader extends InternalAbstract implements RefreshHeader {
     private NodeView mLoadView;
     protected RefreshKernel mRefreshKernel;
 
-    protected int mPaddingTop = 20;
-    protected int mPaddingBottom = 20;
+    protected int mPaddingTop = 18;
+    protected int mPaddingBottom = 18;
 
     public WeHeader(Context context) {
         this(context, null);
@@ -48,18 +48,14 @@ public class WeHeader extends InternalAbstract implements RefreshHeader {
     }
 
     private void init(){
-        mHeaderLayout = LayoutInflater.from(context).inflate(R.layout.layout_loading_alone, null);
-        mLoadView = mHeaderLayout.findViewById(R.id.layout_load);
+        LayoutInflater.from(context).inflate(R.layout.layout_loading_alone, this, true);
+        mLoadView = findViewById(R.id.layout_load);
     }
 
     @NonNull
     @Override
     public View getView() {
-        TextView textView = new TextView(context);
-        textView.setText("我爱我到家奥 i 我到家啊我 i 哦 ");
-        textView.setTextColor(Color.YELLOW);
-        textView.setTextSize(23);
-        return textView;
+        return this;
     }
 
     @Override
@@ -78,22 +74,14 @@ public class WeHeader extends InternalAbstract implements RefreshHeader {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        mLoadView.finish();
-    }
-//
-//    @Override
-//    public void onReleased(@NonNull RefreshLayout layout, int height, int maxDragHeight) {
-//        mLoadView.start();
-//    }
 
     @Override
     public void onStateChanged(@NonNull RefreshLayout refreshLayout, @NonNull RefreshState oldState,
                                @NonNull RefreshState newState) {
         switch (newState) {
             case None:
+                mLoadView.reSet();
+                break;
             case PullDownToRefresh:
                 break;
             case Refreshing:
@@ -109,28 +97,20 @@ public class WeHeader extends InternalAbstract implements RefreshHeader {
     @Override
     public void onInitialized(@NonNull RefreshKernel kernel, int height, int maxDragHeight) {
         mRefreshKernel = kernel;
-        mRefreshKernel.requestDrawBackgroundFor(this, Color.RED);
-//        if (this instanceof RefreshHeader) {
-//            mRefreshKernel.requestDrawBackgroundForHeader(mBackgroundColor);
-//        } else if (this instanceof RefreshFooter) {
-//            mRefreshKernel.requestDrawBackgroundForFooter(mBackgroundColor);
-//        }
+        mRefreshKernel.requestDrawBackgroundFor(this, Color.WHITE);
     }
 
-
-    @Override
-    public int onFinish(@NonNull RefreshLayout layout, boolean success) {
-        if (success) {
-
-        } else {
-
-        }
-        return super.onFinish(layout, success);
-    }
 
     @Override
     public void onStartAnimator(RefreshLayout layout, int headHeight, int maxDragHeight) {
         mLoadView.start();
     }
+
+    @Override
+    public int onFinish(RefreshLayout layout, boolean success) {
+        mLoadView.finish();
+        return 500;
+    }
+
 
 }

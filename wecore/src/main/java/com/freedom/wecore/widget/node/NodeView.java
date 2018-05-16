@@ -61,6 +61,8 @@ public class NodeView extends View implements NodeInternal{
     private RectF mDrawOrigin;
     /** 动画中 */
     private boolean isAnimation;
+    /** 动画暂停 */
+    private boolean isPause;
     /** 随机数 */
     private Random mRandom;
     /** 动画角标 */
@@ -74,10 +76,6 @@ public class NodeView extends View implements NodeInternal{
         @Override
         public void run() {
             mColorPosition ++;
-            mDrawOrigin.left = 0;
-            mDrawOrigin.top = 0;
-            mDrawOrigin.right = mNodeSize;
-            mDrawOrigin.bottom = mNodeSize;
             if (mColorPosition < mNodeCount){
                 postInvalidate();
             }else {
@@ -126,9 +124,18 @@ public class NodeView extends View implements NodeInternal{
         mPresenter = NodePresenter.instance(context);
     }
 
+    public void reSet(){
+        isPause = false;
+        invalidate();
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        mDrawOrigin.left = 0;
+        mDrawOrigin.top = 0;
+        mDrawOrigin.right = mNodeSize;
+        mDrawOrigin.bottom = mNodeSize;
         for (int i=0;i<mNodeCount;i++){
             if (mDrawOrigin.top != 0){
                 mDrawOrigin.top += mNodeInterval;
@@ -192,7 +199,7 @@ public class NodeView extends View implements NodeInternal{
 
     private Paint getPaint(int position){
         Paint paint;
-        if (isAnimation || isAutomation){
+        if (isAnimation || isAutomation || isPause){
             if (position <= mColorPosition){
                 paint = mDrawPaint.get(position);
                 if (paint == null) {
@@ -235,8 +242,6 @@ public class NodeView extends View implements NodeInternal{
         }
     }
 
-
-
     @Override
     public void start() {
         if (isAnimation){
@@ -251,8 +256,8 @@ public class NodeView extends View implements NodeInternal{
 
     @Override
     public void finish() {
+        isPause = true;
         isAnimation = false;
-        invalidate();
     }
 
     @Override

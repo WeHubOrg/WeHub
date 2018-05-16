@@ -21,8 +21,10 @@ public class EventsFactory {
                 return MESSAGE_CREATE;
             case EVENT_FORK:
                 return MESSAGE_FORK;
+            default:
+                return "";
+
         }
-        return "";
     }
 
     public static String switchTo(String type){
