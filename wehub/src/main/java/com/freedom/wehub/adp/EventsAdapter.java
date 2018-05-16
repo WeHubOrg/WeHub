@@ -3,6 +3,7 @@ package com.freedom.wehub.adp;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.text.style.ClickableSpan;
+import android.util.SparseArray;
 import android.view.View;
 import android.widget.Toast;
 
@@ -22,6 +23,8 @@ import java.util.List;
  */
 public class EventsAdapter extends WeAdapter<Events>{
 
+    private SparseArray<EventsTextView> mSparse = new SparseArray<>();
+
     public EventsAdapter(Context context, List<Events> data) {
         super(R.layout.item_events, context, data);
     }
@@ -36,32 +39,35 @@ public class EventsAdapter extends WeAdapter<Events>{
                 .setText(R.id.tv_time, DateUtil.getLongFromStringWithTZ(data.getCreatedAt()))
                 .displayRoundImage(R.id.iv_avatar,data.getActor().getAvatarUrl(),R.drawable.ic_hub_small);
 
-        EventsTextView messageTv = holder.findView(R.id.tv_msg);
-        messageTv.setTextPair(
-                new EventsPair(data.getActor().getLogin(), ContextCompat.getColor(getContext(),R.color.color_009ACD),new ClickableSpan(){
-                    @Override
-                    public void onClick(View widget) {
-                        Toast.makeText(getContext(),data.getActor().getLogin(),Toast.LENGTH_LONG).show();
-                    }
-                }),
+        EventsTextView messageTv = mSparse.get(R.id.tv_msg);
+        if (messageTv == null){
+            messageTv = convertView.findViewById(R.id.tv_msg);
+            messageTv.setTextPair(
+                    new EventsPair(data.getActor().getLogin(), ContextCompat.getColor(getContext(),R.color.color_009ACD),new ClickableSpan(){
+                        @Override
+                        public void onClick(View widget) {
+                            Toast.makeText(getContext(),data.getActor().getLogin(),Toast.LENGTH_LONG).show();
+                        }
+                    }),
 
-                new EventsPair(EventsFactory.switchMssage(data.getType()), ContextCompat.getColor(getContext(),R.color.color_323232),null),
+                    new EventsPair(EventsFactory.switchMssage(data.getType()), ContextCompat.getColor(getContext(),R.color.color_323232),null),
 
-                new EventsPair(data.getRepo().getName(), ContextCompat.getColor(getContext(),R.color.color_009ACD),new ClickableSpan(){
-                    @Override
-                    public void onClick(View widget) {
-                        Toast.makeText(getContext(),data.getRepo().getName(),Toast.LENGTH_LONG).show();
-                    }
-                }),
+                    new EventsPair(data.getRepo().getName(), ContextCompat.getColor(getContext(),R.color.color_009ACD),new ClickableSpan(){
+                        @Override
+                        public void onClick(View widget) {
+                            Toast.makeText(getContext(),data.getRepo().getName(),Toast.LENGTH_LONG).show();
+                        }
+                    }),
 
-                new EventsPair(EventsFactory.switchTo(data.getType()), ContextCompat.getColor(getContext(),R.color.color_323232),null),
+                    new EventsPair(EventsFactory.switchTo(data.getType()), ContextCompat.getColor(getContext(),R.color.color_323232),null),
 
-                new EventsPair(EventsFactory.switchDestinationAddress(data),ContextCompat.getColor(getContext(),R.color.color_009ACD),new ClickableSpan(){
-                    @Override
-                    public void onClick(View widget) {
-                        Toast.makeText(getContext(),EventsFactory.switchDestinationAddress(data),Toast.LENGTH_LONG).show();
-                    }
-                })
-        );
+                    new EventsPair(EventsFactory.switchDestinationAddress(data),ContextCompat.getColor(getContext(),R.color.color_009ACD),new ClickableSpan(){
+                        @Override
+                        public void onClick(View widget) {
+                            Toast.makeText(getContext(),EventsFactory.switchDestinationAddress(data),Toast.LENGTH_LONG).show();
+                        }
+                    })
+            );
+        }
     }
 }
