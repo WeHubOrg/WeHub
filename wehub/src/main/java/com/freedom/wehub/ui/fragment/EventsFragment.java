@@ -38,9 +38,7 @@ public class EventsFragment extends WeFragment<EventsContract.IEventsView, Event
 
 
     private RecyclerView mRecyclerView;
-
-
-
+    private WeRefreshLayout mRefreshLayout;
 
     private User mUser;
     private EventsAdapter mAdapter;
@@ -57,6 +55,7 @@ public class EventsFragment extends WeFragment<EventsContract.IEventsView, Event
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        mRefreshLayout = findViewById(R.id.refreshLayout);
         mRecyclerView = findViewById(R.id.layout_recycler);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -74,6 +73,18 @@ public class EventsFragment extends WeFragment<EventsContract.IEventsView, Event
 
     @Override
     protected void initEvent() {
+        mRefreshLayout.setOnRefreshListener(new OnRefreshLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+
+            }
+
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                isRefresh = true;
+                mPresenter.requestEvents(0,mUser.getLogin());
+            }
+        });
     }
 
     @Override
@@ -87,7 +98,15 @@ public class EventsFragment extends WeFragment<EventsContract.IEventsView, Event
     public void onResponseEvents(List<Events> events) {
         if (isLoading()){
             hideLoad();
+            mAdapter.setDatas(events);
+            return;
+        }
+        if (isRefresh){
+            mRefreshLayout.finishRefresh(500);
+            mAdapter.setDatas(events);
+            return;
         }
         mAdapter.addDatas(events);
+
     }
 }
