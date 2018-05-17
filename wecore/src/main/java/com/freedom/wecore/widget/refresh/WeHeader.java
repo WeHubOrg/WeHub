@@ -60,7 +60,7 @@ public class WeHeader extends InternalAbstract implements RefreshHeader {
     @NonNull
     @Override
     public SpinnerStyle getSpinnerStyle() {
-        return SpinnerStyle.Translate;
+        return SpinnerStyle.Scale;
     }
 
     @Override

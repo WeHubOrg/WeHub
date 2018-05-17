@@ -62,8 +62,6 @@ public class EventsFragment extends WeFragment<EventsContract.IEventsView, Event
         mAdapter = new EventsAdapter(context,new ArrayList<>());
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addItemDecoration(new HorizontalDecoration(DeviceUtil.dip2Px(context,8)));
-
-
     }
 
     @Override

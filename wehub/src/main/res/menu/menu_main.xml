@@ -2,9 +2,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:id="@+id/news"
-        android:title="@string/title_news"
-        android:icon="@drawable/ic_broadcast"/>
+    <group android:id="@+id/group_one" android:checkableBehavior="single" >
+        <item
+            android:id="@+id/news"
+            android:title="@string/title_news"
+            android:icon="@drawable/ic_broadcast"
+            android:checked="true"/>
 
+        <item
+            android:id="@+id/events"
+            android:title="@string/title_events"
+            android:icon="@drawable/ic_events"/>
+    </group>
+
+    <group android:id="@+id/group_events" android:checkableBehavior="single" >
+
+    </group>
 </menu>
