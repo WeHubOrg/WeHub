@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,6 +31,7 @@ public class MainActivity extends WeActivity {
     private Toolbar mToolbar;
     private AppBarLayout mBarView;
     private ImageView mAvatarView;
+    private DrawerLayout mDrawerLayout;
     private ImageView mAvatarBackgroundView;
     private TextView mUserView;
     private TextView mNameView;
@@ -52,11 +55,16 @@ public class MainActivity extends WeActivity {
         mBarView = findViewById(R.id.layout_bar);
         mToolbar = findViewById(R.id.toolbar);
         mMenuView = findViewById(R.id.layout_menu);
+        mDrawerLayout = findViewById(R.id.layout_drawer);
         mAvatarBackgroundView = mMenuView.getHeaderView(0).findViewById(R.id.iv_avatar_bg);
         mAvatarView = mMenuView.getHeaderView(0).findViewById(R.id.iv_avatar);
         mUserView = mMenuView.getHeaderView(0).findViewById(R.id.tv_user);
         mNameView = mMenuView.getHeaderView(0).findViewById(R.id.tv_name);
         mBoiView = mMenuView.getHeaderView(0).findViewById(R.id.tv_bio);
+
+
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mToolbar.setTitle("News");
     }
@@ -71,7 +79,10 @@ public class MainActivity extends WeActivity {
 
     @Override
     protected void initEvent() {
-
+        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.app_name,
+                R.string.sign_in);
+        mDrawerLayout.addDrawerListener(drawerToggle);
+        drawerToggle.syncState();
     }
 
     @Override

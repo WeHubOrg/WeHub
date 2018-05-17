@@ -21,7 +21,7 @@ import com.freedom.wecore.widget.refresh.internal.InternalAbstract;
 /**
  * @author vurtne on 15-May-18.
  */
-public class WeHeader extends InternalAbstract implements RefreshHeader {
+public class WeFooter extends InternalAbstract implements RefreshHeader {
 
     private Context context;
     private View mHeaderLayout;
@@ -31,15 +31,15 @@ public class WeHeader extends InternalAbstract implements RefreshHeader {
     protected int mPaddingTop = 18;
     protected int mPaddingBottom = 18;
 
-    public WeHeader(Context context) {
+    public WeFooter(Context context) {
         this(context, null);
     }
 
-    public WeHeader(Context context, @Nullable AttributeSet attrs) {
+    public WeFooter(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    protected WeHeader(Context context, AttributeSet attrs, int defStyleAttr) {
+    protected WeFooter(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
         init();

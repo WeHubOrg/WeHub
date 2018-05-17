@@ -208,6 +208,7 @@ public abstract class WeActivity<V extends IWeContract.View,P extends WePresente
 
     /**
      * 界面设置
+     * @param savedInstanceState savedInstanceState
      */
     protected abstract void initView(Bundle savedInstanceState);
 
