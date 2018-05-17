@@ -103,7 +103,7 @@ public class MainActivity extends WeActivity implements NavigationView.OnNavigat
         mUserView.setText(mUser.getLogin());
         mNameView.setText(mUser.getName());
         mBoiView.setText(mUser.getBio());
-        showFragment(getString(R.string.title_news));
+        showFragment(Key.NEWS);
     }
 
     @Override
@@ -111,10 +111,10 @@ public class MainActivity extends WeActivity implements NavigationView.OnNavigat
         item.setChecked(true);
         switch (item.getItemId()){
             case R.id.menu_news:
-                showFragment(getString(R.string.title_news));
+                showFragment(Key.NEWS);
                 break;
             case R.id.menu_events:
-                showFragment(getString(R.string.title_events));
+                showFragment(Key.EVENTS);
                 break;
             default:
                 break;
@@ -140,7 +140,7 @@ public class MainActivity extends WeActivity implements NavigationView.OnNavigat
             name = EventsFragment.class.getName();
             mFragments.put(tag,name);
             bundle = new Bundle();
-            bundle.putString(Key.TYPE_EVENTS,Key.EVENTS);
+            bundle.putString(Key.TYPE_EVENTS,tag);
             bundle.putParcelable(Key.USER,mUser);
         }
         showFragment(name,tag,bundle,R.id.layout_content);
