@@ -1,5 +1,8 @@
 package com.freedom.wecore.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -8,7 +11,7 @@ import java.util.List;
  * @author vurtne on 17-May-18.
  */
 @SuppressWarnings({"unused"})
-public class Payload {
+public class Payload implements Parcelable {
     /**
      * action : started
      *  "ref": null,
@@ -29,6 +32,30 @@ public class Payload {
     private String head;
     private String before;
     private List<Commits> commits;
+
+    protected Payload(Parcel in) {
+        action = in.readString();
+        description = in.readString();
+        pushId = in.readLong();
+        size = in.readInt();
+        distinctSize = in.readInt();
+        ref = in.readString();
+        head = in.readString();
+        before = in.readString();
+        commits = in.createTypedArrayList(Commits.CREATOR);
+    }
+
+    public static final Creator<Payload> CREATOR = new Creator<Payload>() {
+        @Override
+        public Payload createFromParcel(Parcel in) {
+            return new Payload(in);
+        }
+
+        @Override
+        public Payload[] newArray(int size) {
+            return new Payload[size];
+        }
+    };
 
     public String getAction() {
         return action;
@@ -100,5 +127,23 @@ public class Payload {
 
     public void setCommits(List<Commits> commits) {
         this.commits = commits;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(action);
+        dest.writeString(description);
+        dest.writeLong(pushId);
+        dest.writeInt(size);
+        dest.writeInt(distinctSize);
+        dest.writeString(ref);
+        dest.writeString(head);
+        dest.writeString(before);
+        dest.writeTypedList(commits);
     }
 }

@@ -32,7 +32,7 @@ public class FragmentHolder {
             sFragmentTag.add(tag);
         }else {
             if (fragment instanceof WeFragment){
-                ((WeFragment)fragment).setArguments(args);
+                (fragment).setArguments(args);
             }
             hideAllFragment(transaction,manager);
             transaction.show(fragment);

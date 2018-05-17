@@ -1,5 +1,8 @@
 package com.freedom.wecore.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
@@ -9,7 +12,7 @@ import java.util.List;
  * @author vurtne on 1-May-18.
  */
 @SuppressWarnings({"unused"})
-public class BaseToken {
+public class BaseToken implements Parcelable {
     private int id;
     private String url;
     private String token;
@@ -19,6 +22,25 @@ public class BaseToken {
     private Date updatedAt;
     private List<String> scopes;
 
+
+    protected BaseToken(Parcel in) {
+        id = in.readInt();
+        url = in.readString();
+        token = in.readString();
+        scopes = in.createStringArrayList();
+    }
+
+    public static final Creator<BaseToken> CREATOR = new Creator<BaseToken>() {
+        @Override
+        public BaseToken createFromParcel(Parcel in) {
+            return new BaseToken(in);
+        }
+
+        @Override
+        public BaseToken[] newArray(int size) {
+            return new BaseToken[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -66,5 +88,18 @@ public class BaseToken {
 
     public void setScopes(List<String> scopes) {
         this.scopes = scopes;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(url);
+        dest.writeString(token);
+        dest.writeStringList(scopes);
     }
 }

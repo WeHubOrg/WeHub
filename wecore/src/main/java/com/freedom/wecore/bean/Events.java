@@ -1,23 +1,16 @@
 package com.freedom.wecore.bean;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
  * @author vurtne on 5-May-18.
  */
 @SuppressWarnings({"unused"})
-public class Events {
-    /**
-     * id : 7674052789
-     * type : WatchEvent
-     * Actor : {"id":6065046,"login":"zhourihu5","display_login":"zhourihu5","gravatar_id":"","url":"https://api.github.com/users/zhourihu5","avatar_url":"https://avatars.githubusercontent.com/u/6065046?"}
-     * repo : {"id":131495635,"name":"JiLiren/WeHub","url":"https://api.github.com/repos/JiLiren/WeHub"}
-     * payload : {"action":"started"}
-     * public : true
-     * created_at : 2018-05-15T01:34:57Z
-     * org : {"id":22327943,"login":"objectbox","gravatar_id":"","url":"https://api.github.com/orgs/objectbox","avatar_url":"https://avatars.githubusercontent.com/u/22327943?"}
-     */
+public class Events implements Parcelable {
 
     private String id;
     private String type;
@@ -29,6 +22,26 @@ public class Events {
     @SerializedName("created_at")
     private String createdAt;
     private Org org;
+
+    protected Events(Parcel in) {
+        id = in.readString();
+        type = in.readString();
+        actor = in.readParcelable(Actor.class.getClassLoader());
+        publicX = in.readByte() != 0;
+        createdAt = in.readString();
+    }
+
+    public static final Creator<Events> CREATOR = new Creator<Events>() {
+        @Override
+        public Events createFromParcel(Parcel in) {
+            return new Events(in);
+        }
+
+        @Override
+        public Events[] newArray(int size) {
+            return new Events[size];
+        }
+    };
 
     public String getId() {
         return id;
@@ -94,4 +107,17 @@ public class Events {
         this.org = org;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(type);
+        dest.writeParcelable(actor, flags);
+        dest.writeByte((byte) (publicX ? 1 : 0));
+        dest.writeString(createdAt);
+    }
 }

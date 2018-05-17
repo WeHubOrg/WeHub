@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.SparseArray;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -19,9 +20,6 @@ import com.freedom.wecore.common.WeActivity;
 import com.freedom.wecore.common.WePresenter;
 import com.freedom.wecore.tools.ImageBridge;
 import com.freedom.wehub.R;
-import com.freedom.wehub.ui.fragment.EventsFragment;
-
-import java.util.Map;
 
 
 
@@ -40,7 +38,7 @@ public class MainActivity extends WeActivity implements NavigationView.OnNavigat
     private TextView mBoiView;
     private NavigationView mMenuView;
 
-    private Map<String,Class> mFragments;
+    private SparseArray<Class> mFragments;
 
     @Override
     protected int contentView() {
@@ -101,8 +99,9 @@ public class MainActivity extends WeActivity implements NavigationView.OnNavigat
         mUserView.setText(user.getLogin());
         mNameView.setText(user.getName());
         mBoiView.setText(user.getBio());
-
-        showFragment(EventsFragment.class.getName(),EventsFragment.class.getSimpleName(),new Bundle(),R.id.layout_content);
+        Bundle bundle = new Bundle();
+//        bundle.p
+        showFragment(getString(R.string.title_news),null);
     }
 
     @Override
@@ -122,9 +121,8 @@ public class MainActivity extends WeActivity implements NavigationView.OnNavigat
         }
     }
 
-    private void fragment(String tag){
-       Bundle args = new Bundle();
-       showFragment(Fragment.class.getName(),Fragment.class.getSimpleName(),args,R.id.layout_content);
+    private void showFragment(String tag,Bundle bundle){
+       showFragment(Fragment.class.getName(),tag,bundle,R.id.layout_content);
     }
 
 
