@@ -55,6 +55,7 @@ public class EventsAdapter extends WeAdapter<Events>{
         }
     }
 
+    /** 设置新闻消息 */
     private void setNewsMessage(View convertView, Events data){
         EventsTextView messageTv = mSparse.get(R.id.tv_msg);
         if (messageTv == null){
@@ -88,6 +89,7 @@ public class EventsAdapter extends WeAdapter<Events>{
         }
     }
 
+    /** 设置事件消息 */
     private void setEventsMessage(View convertView, Events data){
         EventsTextView messageTv = mSparse.get(R.id.tv_msg);
         if (messageTv == null){
@@ -103,7 +105,7 @@ public class EventsAdapter extends WeAdapter<Events>{
                     new EventsPair(EventsFactory.switchMessage(data), ContextCompat.getColor(getContext(),R.color.color_323232),null),
 
 
-                    new EventsPair("XXX", ContextCompat.getColor(getContext(),R.color.color_009ACD),new ClickableSpan(){
+                    new EventsPair(getEventsNumber(data), ContextCompat.getColor(getContext(),R.color.color_009ACD),new ClickableSpan(){
                         @Override
                         public void onClick(View widget) {
                             Toast.makeText(getContext(),data.getRepo().getName(),Toast.LENGTH_LONG).show();
@@ -120,5 +122,17 @@ public class EventsAdapter extends WeAdapter<Events>{
                     })
             );
         }
+    }
+
+    /** 获取提交的分之 和 issues 的序号 */
+    private String getEventsNumber(Events data){
+        if (EventsFactory.switchIssues(data.getType())){
+            return "#"+data.getPayload().getIssues().getNumber();
+        }else if (EventsFactory.EVENT_PUSH.equals(data.getType())){
+            return data.getPayload().getRef().substring(data.getPayload().getRef().
+                            lastIndexOf("/") + 1,
+                    data.getPayload().getRef().length());
+        }
+        return "";
     }
 }

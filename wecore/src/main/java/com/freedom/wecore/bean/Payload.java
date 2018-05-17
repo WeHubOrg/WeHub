@@ -32,6 +32,7 @@ public class Payload implements Parcelable {
     private String head;
     private String before;
     private List<Commits> commits;
+    private Issues issues;
 
     protected Payload(Parcel in) {
         action = in.readString();
@@ -43,6 +44,7 @@ public class Payload implements Parcelable {
         head = in.readString();
         before = in.readString();
         commits = in.createTypedArrayList(Commits.CREATOR);
+        issues = in.readParcelable(Issues.class.getClassLoader());
     }
 
     public static final Creator<Payload> CREATOR = new Creator<Payload>() {
@@ -129,6 +131,18 @@ public class Payload implements Parcelable {
         this.commits = commits;
     }
 
+    public Issues getIssues() {
+        return issues;
+    }
+
+    public void setIssues(Issues issues) {
+        this.issues = issues;
+    }
+
+    public static Creator<Payload> getCREATOR() {
+        return CREATOR;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -145,5 +159,11 @@ public class Payload implements Parcelable {
         dest.writeString(head);
         dest.writeString(before);
         dest.writeTypedList(commits);
+        if (issues != null){
+            dest.writeParcelable(issues, flags);
+        }else {
+            dest.writeParcelable(null, flags);
+        }
+
     }
 }

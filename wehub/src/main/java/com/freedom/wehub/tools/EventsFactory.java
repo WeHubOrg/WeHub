@@ -70,6 +70,21 @@ public class EventsFactory {
     }
 
     /**
+     * 是否是issues 类的
+     * */
+    public static boolean switchIssues(String type){
+        switch (type){
+            case MESSAGE_ISSUES_OPENED:
+            case MESSAGE_ISSUES_CLOSED:
+            case MESSAGE_ISSUES_COMMENT:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+
+    /**
      * 是否是news 类的
      * */
     public static boolean switchNews(String type){

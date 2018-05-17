@@ -13,7 +13,7 @@ public class Key {
 
 
     /** news */
-    public final static String NEWS = "news";
+    public final static String NEWS = "News";
     /** events */
-    public final static String EVENTS = "events";
+    public final static String EVENTS = "Events";
 }
