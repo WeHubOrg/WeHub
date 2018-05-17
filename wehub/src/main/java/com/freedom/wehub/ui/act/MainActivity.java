@@ -1,12 +1,14 @@
 package com.freedom.wehub.ui.act;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -26,7 +28,7 @@ import java.util.Map;
 /**
  * @author vurtne on 1-May-18.
  */
-public class MainActivity extends WeActivity {
+public class MainActivity extends WeActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private Toolbar mToolbar;
     private AppBarLayout mBarView;
@@ -64,9 +66,10 @@ public class MainActivity extends WeActivity {
 
 
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        mToolbar.setTitle("News");
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//            getSupportActionBar().setTitle(getString(R.string.title_news));
+        }
     }
 
     @Override
@@ -83,6 +86,8 @@ public class MainActivity extends WeActivity {
                 R.string.sign_in);
         mDrawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
+
+        mMenuView.setNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -100,9 +105,27 @@ public class MainActivity extends WeActivity {
         showFragment(EventsFragment.class.getName(),EventsFragment.class.getSimpleName(),new Bundle(),R.id.layout_content);
     }
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        setTitle(item.getTitle());
+        item.setChecked(true);
+        if (mDrawerLayout.isDrawerOpen(mMenuView)) {
+            mDrawerLayout.closeDrawer(mMenuView);
+        }
+        return true;
+    }
+
+    private void setTitle(String title){
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle(getString(R.string.title_news));
+        }
+    }
+
     private void fragment(String tag){
        Bundle args = new Bundle();
        showFragment(Fragment.class.getName(),Fragment.class.getSimpleName(),args,R.id.layout_content);
     }
+
 
 }
