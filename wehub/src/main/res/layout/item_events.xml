@@ -64,6 +64,24 @@
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/ic_event_fork"/>
 
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/iv_push"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_event_push"/>
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/iv_issues"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_events_issues"/>
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/iv_issues_comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_events_issues_commit"/>
+
             </LinearLayout>
 
             <android.support.v7.widget.AppCompatTextView
