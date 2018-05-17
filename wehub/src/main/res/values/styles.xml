@@ -28,4 +28,11 @@
         <item name="colorControlActivated">@color/color_with_text</item>
     </style>
 
+    <style name="AppTheme.NavigationView">
+        <item name="android:textColorPrimary">#444444</item>
+        <item name="colorPrimary">@color/accent_material_light</item>
+    </style>
+
+
+
 </resources>

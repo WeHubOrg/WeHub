@@ -23,6 +23,7 @@
     </string>
 
 
+    <string name="title_profile">Profiles</string>
     <string name="title_news">News</string>
     <string name="title_events">Events</string>
 </resources>
