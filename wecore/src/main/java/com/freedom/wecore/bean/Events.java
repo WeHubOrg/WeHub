@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * @author vurtne on 5-May-18.
  */
-
+@SuppressWarnings({"unused"})
 public class Events {
     /**
      * id : 7674052789

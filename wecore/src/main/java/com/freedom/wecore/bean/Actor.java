@@ -2,6 +2,10 @@ package com.freedom.wecore.bean;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * @author vurtne on 5-May-18.
+ */
+@SuppressWarnings({"unused"})
 public class Actor {
     /**
      * id : 6065046

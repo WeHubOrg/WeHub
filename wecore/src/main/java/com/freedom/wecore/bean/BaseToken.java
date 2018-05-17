@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * @author vurtne on 1-May-18.
  */
-
+@SuppressWarnings({"unused"})
 public class BaseToken {
     private int id;
     private String url;

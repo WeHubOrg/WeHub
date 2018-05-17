@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 
 import com.google.gson.JsonElement;
 
-import java.util.ArrayList;
 
 import io.reactivex.Observable;
 import retrofit2.Response;
@@ -20,7 +19,7 @@ import retrofit2.http.Url;
 /**
  * @author vurtne on 30-Apr-18.
  */
-
+@SuppressWarnings({"unused"})
 public interface ConnectService {
 
     /**
@@ -49,6 +48,8 @@ public interface ConnectService {
 
     /**
      * 登陆
+     * @param forceNetWork forceNetWork
+     * @return Response
      * */
     @GET("user")
     @Headers("Accept: application/json")
@@ -57,10 +58,30 @@ public interface ConnectService {
 
     /**
      * 获取news
+     * @param forceNetWork forceNetWork
+     * @param user user
+     * @param page page
+     * @return Response
      * */
     @NonNull
     @GET("users/{user}/received_events")
     Observable<Response<JsonElement>> getNewsEvent(
+            @Header("forceNetWork") boolean forceNetWork,
+            @Path("user") String user,
+            @Query("page") int page
+    );
+
+
+    /**
+     * 获取Events
+     * @param forceNetWork forceNetWork
+     * @param user user
+     * @param page page
+     * @return Response
+     */
+    @NonNull
+    @GET("users/{user}/events")
+    Observable<Response<JsonElement>> getUserEvents(
             @Header("forceNetWork") boolean forceNetWork,
             @Path("user") String user,
             @Query("page") int page

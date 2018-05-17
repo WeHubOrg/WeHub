@@ -1,5 +1,11 @@
 package com.freedom.wecore.bean;
 
+import com.google.gson.annotations.SerializedName;
+
+/**
+ * @author vurtne on 5-May-18.
+ */
+@SuppressWarnings({"unused"})
 public class Org {
     /**
      * id : 22327943
@@ -11,9 +17,11 @@ public class Org {
 
     private int id;
     private String login;
-    private String gravatar_id;
+    @SerializedName("gravatar_id")
+    private String gravatarId;
     private String url;
-    private String avatar_url;
+    @SerializedName("avatar_url")
+    private String avatarUrl;
 
     public int getId() {
         return id;
@@ -31,12 +39,12 @@ public class Org {
         this.login = login;
     }
 
-    public String getGravatar_id() {
-        return gravatar_id;
+    public String getGravatarId() {
+        return gravatarId;
     }
 
-    public void setGravatar_id(String gravatar_id) {
-        this.gravatar_id = gravatar_id;
+    public void setGravatarId(String gravatarId) {
+        this.gravatarId = gravatarId;
     }
 
     public String getUrl() {
@@ -47,11 +55,11 @@ public class Org {
         this.url = url;
     }
 
-    public String getAvatar_url() {
-        return avatar_url;
+    public String getAvatarUrl() {
+        return avatarUrl;
     }
 
-    public void setAvatar_url(String avatar_url) {
-        this.avatar_url = avatar_url;
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 }

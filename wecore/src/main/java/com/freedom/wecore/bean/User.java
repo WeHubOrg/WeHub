@@ -12,7 +12,7 @@ import java.util.Date;
 /**
  * @author vurtne on 1-May-18.
  */
-
+@SuppressWarnings({"unused"})
 public class User implements Parcelable {
 
     public enum UserType{
