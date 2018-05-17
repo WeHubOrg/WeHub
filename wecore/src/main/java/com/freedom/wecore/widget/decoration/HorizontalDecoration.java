@@ -30,7 +30,7 @@ public class HorizontalDecoration extends RecyclerView.ItemDecoration {
         if (parent.getChildAdapterPosition(view) != 0){
             outRect.top = mSpace;
         }else {
-            outRect.top = 1;
+            outRect.top = 2;
         }
     }
 
@@ -44,7 +44,7 @@ public class HorizontalDecoration extends RecyclerView.ItemDecoration {
             View view = parent.getChildAt(i);
 
             int index = parent.getChildAdapterPosition(view);
-            float dividerTop = view.getTop() - (i == 0 ? 1 : mDividerHeight) ;
+            float dividerTop = view.getTop() - (i == 0 ? 2 : mDividerHeight) ;
             float dividerLeft = parent.getPaddingLeft();
             float dividerBottom = view.getTop();
             float dividerRight = parent.getWidth() - parent.getPaddingRight();

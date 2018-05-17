@@ -24,4 +24,14 @@ public class EventsService extends RetrofitClient {
                         user,page));
     }
 
+    /**
+     * 获取news events
+     * */
+    public void requestUserEvents(int page,String user,OnResponseListener<List> listener){
+        createRequest(listener)
+                .clazz(Events.class)
+                .request(RetrofitClient.getService().getUserEvents(true,
+                        user,page));
+    }
+
 }

@@ -11,15 +11,20 @@ import java.util.List;
 public interface EventsContract {
 
     interface IEventsView extends IWeContract.View{
+        /**
+         * 回调
+         * @param events 事件
+         * */
         void onResponseEvents(List<Events> events);
     }
 
     interface IEventsPresenter{
         /**
          * 请求事件
+         * @param type 类型
          * @param page 页码
          * @param user 用户
          * */
-        void requestEvents(int page,String user);
+        void requestEvents(String type,int page,String user);
     }
 }

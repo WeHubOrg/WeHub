@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.freedom.wecore.bean.Actor;
 import com.freedom.wecore.bean.Events;
 import com.freedom.wecore.bean.User;
+import com.freedom.wecore.common.Key;
 import com.freedom.wecore.common.WeFragment;
 import com.freedom.wecore.model.AccountManager;
 import com.freedom.wecore.tools.DateUtil;
@@ -42,6 +43,7 @@ public class EventsFragment extends WeFragment<EventsContract.IEventsView, Event
 
     private User mUser;
     private EventsAdapter mAdapter;
+    private String mType;
 
     @Override
     protected int contentView() {
@@ -80,16 +82,21 @@ public class EventsFragment extends WeFragment<EventsContract.IEventsView, Event
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 isRefresh = true;
-                mPresenter.requestEvents(0,mUser.getLogin());
+                mPresenter.requestEvents(mType,0,mUser.getLogin());
             }
         });
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        mUser = AccountManager.instance().getUser();
+        Bundle bundle = getArgs();
+        if (bundle == null){
+            return;
+        }
+        mType = bundle.getString(Key.TYPE_EVENTS);
+        mUser = bundle.getParcelable(Key.USER);
         showLoad();
-        mPresenter.requestEvents(0,mUser.getLogin());
+        mPresenter.requestEvents(mType,0,mUser.getLogin());
     }
 
     @Override

@@ -82,14 +82,16 @@ public abstract class WeFragment<V extends IWeContract.View,P extends WePresente
         initEvent();
     }
 
+    @Override
     public void setArguments(Bundle args) {
         super.setArguments(args);
         mArgs = new Bundle(args);
     }
 
-    public Bundle getmArgs() {
+    public Bundle getArgs() {
         return mArgs;
     }
+
     protected CompositeDisposable getCompositeDisposable(){
         if (mCompositeDisposable == null || mCompositeDisposable.isDisposed()){
             synchronized (this){

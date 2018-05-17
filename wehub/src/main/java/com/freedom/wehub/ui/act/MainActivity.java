@@ -8,19 +8,22 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.SparseArray;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.freedom.wecore.common.Key;
 import com.freedom.wecore.model.AccountManager;
 import com.freedom.wecore.bean.User;
 import com.freedom.wecore.common.WeActivity;
 import com.freedom.wecore.common.WePresenter;
 import com.freedom.wecore.tools.ImageBridge;
 import com.freedom.wehub.R;
+import com.freedom.wehub.ui.fragment.EventsFragment;
 
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -38,7 +41,9 @@ public class MainActivity extends WeActivity implements NavigationView.OnNavigat
     private TextView mBoiView;
     private NavigationView mMenuView;
 
-    private SparseArray<Class> mFragments;
+    private final Map<String, String> mFragments = new HashMap<>();
+
+    private User mUser;
 
     @Override
     protected int contentView() {
@@ -66,7 +71,6 @@ public class MainActivity extends WeActivity implements NavigationView.OnNavigat
         setSupportActionBar(mToolbar);
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//            getSupportActionBar().setTitle(getString(R.string.title_news));
         }
     }
 
@@ -90,24 +94,31 @@ public class MainActivity extends WeActivity implements NavigationView.OnNavigat
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        User user = AccountManager.instance().getUser();
-        if (user == null){
+        mUser = AccountManager.instance().getUser();
+        if (mUser == null){
             return;
         }
-        ImageBridge.displayBlurImageValue(user.getAvatarUrl(),mAvatarBackgroundView,50);
-        ImageBridge.displayRoundImage(user.getAvatarUrl(), mAvatarView);
-        mUserView.setText(user.getLogin());
-        mNameView.setText(user.getName());
-        mBoiView.setText(user.getBio());
-        Bundle bundle = new Bundle();
-//        bundle.p
-        showFragment(getString(R.string.title_news),null);
+        ImageBridge.displayBlurImageValue(mUser.getAvatarUrl(),mAvatarBackgroundView,50);
+        ImageBridge.displayRoundImage(mUser.getAvatarUrl(), mAvatarView);
+        mUserView.setText(mUser.getLogin());
+        mNameView.setText(mUser.getName());
+        mBoiView.setText(mUser.getBio());
+        showFragment(getString(R.string.title_news));
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        setTitle(item.getTitle());
         item.setChecked(true);
+        switch (item.getItemId()){
+            case R.id.menu_news:
+                showFragment(getString(R.string.title_news));
+                break;
+            case R.id.menu_events:
+                showFragment(getString(R.string.title_events));
+                break;
+            default:
+                break;
+        }
         if (mDrawerLayout.isDrawerOpen(mMenuView)) {
             mDrawerLayout.closeDrawer(mMenuView);
         }
@@ -115,14 +126,24 @@ public class MainActivity extends WeActivity implements NavigationView.OnNavigat
     }
 
     private void setTitle(String title){
-        if (getSupportActionBar() != null){
+        if (getSupportActionBar() != null && title != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle(getString(R.string.title_news));
+            getSupportActionBar().setTitle(title);
         }
     }
 
-    private void showFragment(String tag,Bundle bundle){
-       showFragment(Fragment.class.getName(),tag,bundle,R.id.layout_content);
+    private void showFragment(String tag){
+        setTitle(tag);
+        String name = mFragments.get(tag);
+        Bundle bundle = null;
+        if (name == null){
+            name = EventsFragment.class.getName();
+            mFragments.put(tag,name);
+            bundle = new Bundle();
+            bundle.putString(Key.TYPE_EVENTS,Key.EVENTS);
+            bundle.putParcelable(Key.USER,mUser);
+        }
+        showFragment(name,tag,bundle,R.id.layout_content);
     }
 
 
