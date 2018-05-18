@@ -10,13 +10,35 @@ import com.freedom.wecore.bean.User;
 public interface AccountContract {
 
     interface IAccountLoginView extends IWeContract.View{
+        /**
+         * 登录
+         * @param user user
+         * */
         void onLogin(User user);
+        /**
+         * 失败
+         * */
         void onFailed();
 
     }
 
+    interface IUserView extends IWeContract.View{
+
+    }
+
     interface IAccountPresenter{
+        /**
+         * 获取token
+         * @param userName userName
+         * @param password password
+         * */
         void requestToken(String userName,String password);
+        /**
+         * 获取用户
+         * */
         void requestPersonInfo();
     }
+
+
+
 }

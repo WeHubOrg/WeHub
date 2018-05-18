@@ -13,7 +13,6 @@ import okhttp3.Credentials;
 /**
  * @author vurtne on 1-May-18.
  */
-
 public class AccountPresenter extends WePresenter<AccountContract.IAccountLoginView> implements AccountContract.IAccountPresenter{
 
     private AuthService mService;

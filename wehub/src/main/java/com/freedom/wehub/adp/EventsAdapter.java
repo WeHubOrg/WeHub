@@ -164,7 +164,6 @@ public class EventsAdapter extends WeAdapter<Events>{
         if (EventsFactory.EVENT_PUSH.equals(data.getType())){
             isVisible = true;
             EventsChildAdapter adapter = mAdapterSparse.get(R.id.rv_child);
-//                     EventsChildAdapter adapter = mAdapterSparse.get(convertView.getId());
             if (adapter == null){
                 adapter = new EventsChildAdapter(getContext(),data.getPayload().getCommits());
             }
