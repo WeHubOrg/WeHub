@@ -63,19 +63,23 @@ public class LoginActivity extends WeActivity<AccountContract.IAccountLoginView,
 
     @Override
     protected void initEvent() {
-        RxTextView.textChanges(mAccountView).subscribe(charSequence -> {
-            if (isAccountError){
-                isAccountError = false;
-                mParentLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.color_theme));
-            }
-        });
+        getCompositeDisposable().add(
+            RxTextView.textChanges(mAccountView).subscribe(charSequence -> {
+                if (isAccountError){
+                    isAccountError = false;
+                    mParentLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.color_theme));
+                }
+            })
+        );
 
-        RxTextView.textChanges(mPasswordView).subscribe(charSequence -> {
-            if (isPasswordError){
-                isPasswordError = false;
-                mParentLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.color_theme));
-            }
-        });
+        getCompositeDisposable().add(
+            RxTextView.textChanges(mPasswordView).subscribe(charSequence -> {
+                if (isPasswordError){
+                    isPasswordError = false;
+                    mParentLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.color_theme));
+                }
+            })
+        );
 
         setClick(mLoginView, o -> {
             if (isPasswordError || isAccountError){
