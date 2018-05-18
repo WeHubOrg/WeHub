@@ -2,9 +2,12 @@ package com.freedom.wehub.ui.fragment;
 
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.Toolbar;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.freedom.wecore.bean.User;
 import com.freedom.wecore.common.Key;
@@ -21,9 +24,10 @@ import com.freedom.wehub.event.FragmentVisibleEvent;
 public class ProfileFragment extends WeFragment {
 
     private Toolbar mToolbar;
-    private AppBarLayout mBarLayout;
-    private ImageView mAvatarView;
-    private ImageView mAvatarBackgroundView;
+    private AppBarLayout mAppBarLayout;
+    private CollapsingToolbarLayout mCollapsingLayout;
+//    private ImageView mAvatarView;
+//    private ImageView mAvatarBackgroundView;
 
 
     private User mUser;
@@ -41,19 +45,31 @@ public class ProfileFragment extends WeFragment {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        mBarLayout = (AppBarLayout) findViewById(R.id.layout_bar);
+        mAppBarLayout = (AppBarLayout) findViewById(R.id.layout_bar);
+        mCollapsingLayout = (CollapsingToolbarLayout) findViewById(R.id.layout_collapsing);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mAvatarBackgroundView = (ImageView) findViewById(R.id.iv_avatar_bg);
-        mAvatarView = (ImageView) findViewById(R.id.iv_avatar);
+//        mAvatarBackgroundView = (ImageView) findViewById(R.id.iv_avatar_bg);
+//        mAvatarView = (ImageView) findViewById(R.id.iv_avatar);
     }
 
     @Override
     protected void initStatusBar(int statusHeight) {
-        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) mBarLayout.getLayoutParams();
-        params.height += statusHeight / 1.5;
-        mBarLayout.setLayoutParams(params);
+//        CoordinatorLayout.LayoutParams appBarParams = (CoordinatorLayout.LayoutParams) mAppBarLayout.getLayoutParams();
+//        appBarParams.height += statusHeight / 1.5;
+//        mAppBarLayout.setLayoutParams(appBarParams);
 
+//        mCollapsingLayoutr.setPadding(0, (int) (statusHeight / 1.5),0,0);
+//        LinearLayout.LayoutParams collapsingParams = (LinearLayout.LayoutParams) mCollapsingLayout.getLayoutParams();
+//        collapsingParams.height += (statusHeight / 1.5);
+//        mCollapsingLayout.setLayoutParams(collapsingParams);
+
+        FrameLayout.LayoutParams toolParams = (FrameLayout.LayoutParams) mToolbar.getLayoutParams();
+//        toolParams.height += statusHeight / 1.5;
         mToolbar.setPadding(0, (int) (statusHeight / 1.5),0,0);
+//        toolParams
+//        params1.setMargins(0, (int) (statusHeight / 1.5),0,0);
+//        mToolbar.setLayoutParams(toolParams);
+//
 
     }
 
@@ -75,8 +91,8 @@ public class ProfileFragment extends WeFragment {
         mToolbar.setTitle(mUser.getLogin());
         RxBus.get().post(FragmentVisibleEvent.create(mToolbar));
 
-        ImageBridge.displayBlurImageValue(mUser.getAvatarUrl(),mAvatarBackgroundView,50);
-        ImageBridge.displayRoundImage(mUser.getAvatarUrl(), mAvatarView);
+//        ImageBridge.displayBlurImageValue(mUser.getAvatarUrl(),mAvatarBackgroundView,50);
+//        ImageBridge.displayRoundImage(mUser.getAvatarUrl(), mAvatarView);
 
     }
 
