@@ -41,8 +41,11 @@
             android:id="@+id/layout_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:overScrollMode="never"/>
+            android:clipToPadding="false"/>
+
+        <com.freedom.wecore.widget.refresh.footer.ClassicsFooter
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
     </com.freedom.wecore.widget.refresh.WeRefreshLayout>
 

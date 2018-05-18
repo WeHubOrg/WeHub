@@ -38,7 +38,6 @@ public class EventsFragment extends WeFragment<EventsContract.IEventsView, Event
 
     private Toolbar mToolbar;
     private AppBarLayout mBarView;
-    private View mPlaceholderView;
     private RecyclerView mRecyclerView;
     private WeRefreshLayout mRefreshLayout;
 
@@ -58,7 +57,6 @@ public class EventsFragment extends WeFragment<EventsContract.IEventsView, Event
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-//        mPlaceholderView = findViewById(R.id.placeholder);
         mBarView = findViewById(R.id.layout_bar);
         mToolbar = findViewById(R.id.toolbar);
         mRefreshLayout = findViewById(R.id.refreshLayout);
@@ -68,6 +66,8 @@ public class EventsFragment extends WeFragment<EventsContract.IEventsView, Event
         mAdapter = new EventsAdapter(context,new ArrayList<>());
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addItemDecoration(new HorizontalDecoration(DeviceUtil.dip2Px(context,8)));
+        mRefreshLayout.setEnableFooterFollowWhenLoadFinished(true);
+        mRefreshLayout.setEnableLoadMore(true);
     }
 
     @Override
@@ -80,10 +80,21 @@ public class EventsFragment extends WeFragment<EventsContract.IEventsView, Event
 
     @Override
     protected void initEvent() {
+        mRefreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                mPresenter.requestEvents(mType,mAdapter.getDataPage() + 1,mUser.getLogin());
+            }
+
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+
+            }
+        });
         mRefreshLayout.setOnRefreshListener(new OnRefreshLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-
+                mPresenter.requestEvents(mType,mAdapter.getDataPage() + 1,mUser.getLogin());
             }
 
             @Override
@@ -112,15 +123,19 @@ public class EventsFragment extends WeFragment<EventsContract.IEventsView, Event
     public void onResponseEvents(List<Events> events) {
         if (isLoading()){
             hideLoad();
+            mAdapter.setDataPage(0);
             mAdapter.setDatas(events);
             return;
         }
         if (isRefresh){
+            isRefresh = false;
+            mAdapter.setDataPage(0);
             mRefreshLayout.finishRefresh(500);
             mAdapter.setDatas(events);
             return;
         }
+        mAdapter.setDataPage(mAdapter.getDataPage() + 1);
         mAdapter.addDatas(events);
-
+        mRefreshLayout.finishLoadMore();
     }
 }

@@ -23,6 +23,7 @@ public abstract class WeAdapter<T> extends RecyclerView.Adapter<WeHolder> {
     private OnSelectListener<T> onSelectListener;
     private Activity mActivity;
     private Fragment mFragment;
+    private int mDataPage;
 
     public WeAdapter(int layoutId, Context context, List<T> datas) {
         this.layoutId = layoutId;
@@ -79,6 +80,14 @@ public abstract class WeAdapter<T> extends RecyclerView.Adapter<WeHolder> {
     }
 
     protected abstract void convert(WeHolder holder, int position, View convertView, T data);
+
+    public int getDataPage(){
+        return mDataPage;
+    }
+
+    public void setDataPage(int dataPage){
+        this.mDataPage = dataPage;
+    }
 
     @Override
     public int getItemCount() {

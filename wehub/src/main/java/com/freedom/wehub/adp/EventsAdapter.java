@@ -48,7 +48,7 @@ public class EventsAdapter extends WeAdapter<Events>{
                 .displayRoundImage(R.id.iv_avatar,data.getActor().getAvatarUrl(),
                         DeviceUtil.dip2Px(getContext(),12),R.drawable.ic_hub_small);
         setContent(holder,data);
-        setChild(holder,convertView,data);
+        setChildAdapter(holder,data);
         if (EventsFactory.switchNews(data.getType())){
             setNewsMessage(convertView,data);
         }else if (EventsFactory.switchEvents(data.getType())){
@@ -159,17 +159,24 @@ public class EventsAdapter extends WeAdapter<Events>{
               .setText(R.id.tv_description,msg);
     }
 
-    private void setChild(WeHolder holder, View convertView,Events data){
+    private void setChildAdapter(WeHolder holder,Events data){
         boolean isVisible = false;
         if (EventsFactory.EVENT_PUSH.equals(data.getType())){
             isVisible = true;
-            EventsChildAdapter adapter = mAdapterSparse.get(R.id.rv_child);
-            if (adapter == null){
-                adapter = new EventsChildAdapter(getContext(),data.getPayload().getCommits());
-            }
+            //TODO 暂时代替
             RecyclerView recyclerView = holder.findView(R.id.rv_child);
+            EventsChildAdapter adapter = new EventsChildAdapter(getContext(),data.getPayload().getCommits());
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             recyclerView.setAdapter(adapter);
+
+            //TODO 为什么这里代码之前好好的，今天编译就报错了 奇怪奇怪
+//            EventsChildAdapter adapter = mAdapterSparse.get(R.id.rv_child);
+//            if (adapter == null){
+//                adapter = new EventsChildAdapter(getContext(),data.getPayload().getCommits());
+//            }
+//            RecyclerView recyclerView = holder.findView(R.id.rv_child);
+//            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+//            recyclerView.setAdapter(adapter);
         }
         holder.setVisibility(isVisible,R.id.rv_child);
 
