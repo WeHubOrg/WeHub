@@ -11,7 +11,8 @@ public class Key {
     /** type */
     public final static String TYPE_EVENTS = "type_events";
 
-
+    /** profile */
+    public final static String PROFILE = "profile";
     /** news */
     public final static String NEWS = "News";
     /** events */

@@ -23,6 +23,7 @@ import com.freedom.wecore.tools.RxBus;
 import com.freedom.wehub.R;
 import com.freedom.wehub.event.FragmentVisibleEvent;
 import com.freedom.wehub.ui.fragment.EventsFragment;
+import com.freedom.wehub.ui.fragment.ProfileFragment;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -114,6 +115,9 @@ public class MainActivity extends WeActivity implements NavigationView.OnNavigat
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         item.setChecked(true);
         switch (item.getItemId()){
+            case R.id.menu_profile:
+                showFragment(Key.PROFILE);
+                break;
             case R.id.menu_news:
                 showFragment(Key.NEWS);
                 break;
@@ -141,7 +145,11 @@ public class MainActivity extends WeActivity implements NavigationView.OnNavigat
         String name = mFragments.get(tag);
         Bundle bundle = null;
         if (name == null){
-            name = EventsFragment.class.getName();
+            if (Key.PROFILE.equals(tag)){
+                name = ProfileFragment.class.getName();
+            }else {
+                name = EventsFragment.class.getName();
+            }
             mFragments.put(tag,name);
             bundle = new Bundle();
             bundle.putString(Key.TYPE_EVENTS,tag);

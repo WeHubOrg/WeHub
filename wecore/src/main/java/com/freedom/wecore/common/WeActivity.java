@@ -26,6 +26,7 @@ import io.reactivex.functions.Consumer;
  * @author vurtne on 1-May-18.
  *
  */
+@SuppressWarnings({"unused"})
 public abstract class WeActivity<V extends IWeContract.View,P extends WePresenter> extends AppCompatActivity {
 
     /**

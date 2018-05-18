@@ -15,6 +15,11 @@ import com.freedom.wecore.tools.LogUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author vurtne on 1-May-18.
+ *
+ */
+@SuppressWarnings({"unused"})
 public abstract class WeAdapter<T> extends RecyclerView.Adapter<WeHolder> {
 
     protected List<T> datas = new ArrayList<>();

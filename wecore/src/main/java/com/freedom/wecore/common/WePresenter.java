@@ -5,6 +5,7 @@ import android.content.Context;
 /**
  * @author vurtne on 1-May-18.
  */
+@SuppressWarnings({"unused"})
 public abstract class WePresenter<V extends IWeContract.View> implements IWeContract.Presenter<V>  {
 
     protected V mView;
@@ -25,7 +26,6 @@ public abstract class WePresenter<V extends IWeContract.View> implements IWeCont
         this.mContext = context;
         init(context);
     }
-
 
     /**
      * 是否关联

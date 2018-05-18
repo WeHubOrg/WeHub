@@ -8,8 +8,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.LinearLayout;
 
 import com.freedom.wecore.bean.Events;
 import com.freedom.wecore.bean.User;
@@ -74,7 +72,7 @@ public class EventsFragment extends WeFragment<EventsContract.IEventsView, Event
     protected void initStatusBar(int statusHeight) {
         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) mBarView.getLayoutParams();
         params.height += statusHeight;
-        mBarView.setPadding(0, (int) (statusHeight / 2),0,0);
+        mBarView.setPadding(0, (int) (statusHeight / 1.5),0,0);
         mBarView.setLayoutParams(params);
     }
 
@@ -130,12 +128,12 @@ public class EventsFragment extends WeFragment<EventsContract.IEventsView, Event
         if (isRefresh){
             isRefresh = false;
             mAdapter.setDataPage(0);
-            mRefreshLayout.finishRefresh(500);
+            mRefreshLayout.finishRefresh();
             mAdapter.setDatas(events);
             return;
         }
         mAdapter.setDataPage(mAdapter.getDataPage() + 1);
         mAdapter.addDatas(events);
-        mRefreshLayout.finishLoadMore();
+        mRefreshLayout.finishLoadMore(500);
     }
 }

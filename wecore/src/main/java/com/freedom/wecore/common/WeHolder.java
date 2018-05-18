@@ -23,7 +23,7 @@ import android.widget.TextView;
 
 import com.freedom.wecore.tools.DeviceUtil;
 import com.freedom.wecore.tools.ImageBridge;
-
+@SuppressWarnings({"unused"})
 public class WeHolder extends RecyclerView.ViewHolder{
     /***
      * 用来存放所使用的控件
