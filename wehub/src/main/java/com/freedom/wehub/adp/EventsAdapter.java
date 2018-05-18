@@ -2,6 +2,8 @@ package com.freedom.wehub.adp;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.text.style.ClickableSpan;
 import android.util.SparseArray;
@@ -26,6 +28,7 @@ import java.util.List;
 public class EventsAdapter extends WeAdapter<Events>{
 
     private SparseArray<EventsTextView> mSparse = new SparseArray<>();
+    private SparseArray<EventsChildAdapter> mAdapterSparse = new SparseArray<>();
 
     public EventsAdapter(Context context, List<Events> data) {
         super(R.layout.item_events, context, data);
@@ -33,7 +36,6 @@ public class EventsAdapter extends WeAdapter<Events>{
 
     @Override
     protected void convert(WeHolder holder, int position, View convertView, Events data) {
-
         holder
                 .setText(R.id.tv_name,data.getActor().getLogin())
                 .setVisibility(EventsFactory.EVENT_WATCH.equals(data.getType()),R.id.iv_start)
@@ -44,9 +46,9 @@ public class EventsAdapter extends WeAdapter<Events>{
                 .setVisibility(EventsFactory.EVENT_ISSUES_COMMENT.equals(data.getType()),R.id.iv_issues_comment)
                 .setText(R.id.tv_time, DateUtil.getLongFromStringWithTZ(data.getCreatedAt()))
                 .displayRoundImage(R.id.iv_avatar,data.getActor().getAvatarUrl(),
-                        DeviceUtil.dip2Px(getContext(),12),R.drawable.ic_hub_small)
-                .setVisibility(EventsFactory.switchCreate(data),R.id.tv_description)
-                .setText(R.id.tv_description,TextUtils.isEmpty(data.getPayload().getDescription())?"":data.getPayload().getDescription());
+                        DeviceUtil.dip2Px(getContext(),12),R.drawable.ic_hub_small);
+        setContent(holder,data);
+        setChild(holder,convertView,data);
         if (EventsFactory.switchNews(data.getType())){
             setNewsMessage(convertView,data);
         }else if (EventsFactory.switchEvents(data.getType())){
@@ -126,12 +128,51 @@ public class EventsAdapter extends WeAdapter<Events>{
     /** 获取提交的分之 和 issues 的序号 */
     private String getEventsNumber(Events data){
         if (EventsFactory.switchIssues(data.getType())){
-            return "#"+data.getPayload().getIssues().getNumber();
+            return "#"+data.getPayload().getIssue().getNumber();
         }else if (EventsFactory.EVENT_PUSH.equals(data.getType())){
             return data.getPayload().getRef().substring(data.getPayload().getRef().
                             lastIndexOf("/") + 1,
                     data.getPayload().getRef().length());
         }
         return "";
+    }
+
+    /** 设置事件的正文 */
+    private void setContent(WeHolder holder, Events data){
+        boolean isVisible = false;
+        String msg = "";
+        if (EventsFactory.switchContent(data)){
+            isVisible = true;
+            if (EventsFactory.EVENT_CREATE.equals(data.getType())){
+                msg = TextUtils.isEmpty(data.getPayload().getDescription())?"":data.getPayload().getDescription();
+            }else if (EventsFactory.EVENT_ISSUES.equals(data.getType())){
+                if (data.getPayload() != null && data.getPayload().getIssue() != null && data.getPayload().getIssue().getTitle() != null){
+                    msg = data.getPayload().getIssue().getTitle();
+                }
+            }else if ( EventsFactory.EVENT_ISSUES_COMMENT.equals(data.getType())){
+                if (data.getPayload() != null && data.getPayload().getComment() != null && data.getPayload().getComment().getBody() != null){
+                    msg = data.getPayload().getComment().getBody();
+                }
+            }
+        }
+        holder.setVisibility(isVisible,R.id.tv_description)
+              .setText(R.id.tv_description,msg);
+    }
+
+    private void setChild(WeHolder holder, View convertView,Events data){
+        boolean isVisible = false;
+        if (EventsFactory.EVENT_PUSH.equals(data.getType())){
+            isVisible = true;
+            EventsChildAdapter adapter = mAdapterSparse.get(R.id.rv_child);
+//                     EventsChildAdapter adapter = mAdapterSparse.get(convertView.getId());
+            if (adapter == null){
+                adapter = new EventsChildAdapter(getContext(),data.getPayload().getCommits());
+            }
+            RecyclerView recyclerView = holder.findView(R.id.rv_child);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            recyclerView.setAdapter(adapter);
+        }
+        holder.setVisibility(isVisible,R.id.rv_child);
+
     }
 }

@@ -11,7 +11,6 @@
     android:background="#fff"
     android:orientation="vertical">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -112,13 +111,23 @@
         android:id="@+id/tv_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/color_9B9B9B"
+        android:textColor="@color/color_666666"
         android:textSize="@dimen/text_13"
         android:layout_marginLeft="@dimen/dimen_18"
         android:layout_marginRight="@dimen/dimen_18"
         android:layout_marginTop="@dimen/dimen_8"
+        android:lineSpacingExtra="@dimen/dimen_4"
         android:visibility="gone"
-        android:singleLine="true"/>
+        android:maxLines="2"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_child"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginLeft="@dimen/dimen_18"
+        android:layout_marginRight="@dimen/dimen_18"
+        android:layout_marginTop="@dimen/dimen_8"/>
 
 </LinearLayout>
 

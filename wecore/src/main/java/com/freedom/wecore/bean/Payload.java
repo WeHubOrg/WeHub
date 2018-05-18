@@ -12,14 +12,6 @@ import java.util.List;
  */
 @SuppressWarnings({"unused"})
 public class Payload implements Parcelable {
-    /**
-     * action : started
-     *  "ref": null,
-     "ref_type": "repository",
-     "master_branch": "master",
-     "description": null,
-     "pusher_type": "user"
-     */
 
     private String action;
     private String description;
@@ -33,6 +25,7 @@ public class Payload implements Parcelable {
     private String before;
     private List<Commits> commits;
     private Issues issue;
+    private Comment comment;
 
     protected Payload(Parcel in) {
         action = in.readString();
@@ -45,6 +38,7 @@ public class Payload implements Parcelable {
         before = in.readString();
         commits = in.createTypedArrayList(Commits.CREATOR);
         issue = in.readParcelable(Issues.class.getClassLoader());
+        comment = in.readParcelable(Comment.class.getClassLoader());
     }
 
     public static final Creator<Payload> CREATOR = new Creator<Payload>() {
@@ -131,12 +125,20 @@ public class Payload implements Parcelable {
         this.commits = commits;
     }
 
-    public Issues getIssues() {
+    public Issues getIssue() {
         return issue;
     }
 
-    public void setIssues(Issues issues) {
-        this.issue = issues;
+    public void setIssue(Issues issue) {
+        this.issue = issue;
+    }
+
+    public Comment getComment() {
+        return comment;
+    }
+
+    public void setComment(Comment comment) {
+        this.comment = comment;
     }
 
     public static Creator<Payload> getCREATOR() {
@@ -164,6 +166,12 @@ public class Payload implements Parcelable {
         }else {
             dest.writeParcelable(null, flags);
         }
+        if (issue != null){
+            dest.writeParcelable(comment, flags);
+        }else {
+            dest.writeParcelable(null, flags);
+        }
 
     }
+
 }

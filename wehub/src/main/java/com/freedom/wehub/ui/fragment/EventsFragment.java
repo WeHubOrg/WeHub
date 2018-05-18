@@ -2,22 +2,14 @@ package com.freedom.wehub.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
-import com.freedom.wecore.bean.Actor;
 import com.freedom.wecore.bean.Events;
 import com.freedom.wecore.bean.User;
 import com.freedom.wecore.common.Key;
 import com.freedom.wecore.common.WeFragment;
-import com.freedom.wecore.model.AccountManager;
-import com.freedom.wecore.tools.DateUtil;
 import com.freedom.wecore.tools.DeviceUtil;
 import com.freedom.wecore.widget.decoration.HorizontalDecoration;
 import com.freedom.wecore.widget.refresh.WeRefreshLayout;

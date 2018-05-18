@@ -22,8 +22,10 @@ public class User implements Parcelable {
     private String login;
     private String id;
     private String name;
-    @SerializedName("avatar_url") private String avatarUrl;
-    @SerializedName("html_url") private String htmlUrl;
+    @SerializedName("avatar_url")
+    private String avatarUrl;
+    @SerializedName("html_url")
+    private String htmlUrl;
     private UserType type;
     private String company;
     private String blog;
@@ -31,12 +33,16 @@ public class User implements Parcelable {
     private String email;
     private String bio;
 
-    @SerializedName("public_repos") private int publicRepos;
-    @SerializedName("public_gists") private int publicGists;
+    @SerializedName("public_repos")
+    private int publicRepos;
+    @SerializedName("public_gists")
+    private int publicGists;
     private int followers;
     private int following;
-    @SerializedName("created_at") private Date createdAt;
-    @SerializedName("updated_at") private Date updatedAt;
+    @SerializedName("created_at")
+    private Date createdAt;
+    @SerializedName("updated_at")
+    private Date updatedAt;
 
     public User() {
 

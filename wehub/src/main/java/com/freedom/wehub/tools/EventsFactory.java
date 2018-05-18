@@ -120,8 +120,15 @@ public class EventsFactory {
         }
     }
 
-    /** 是否是创建事件 */
-    public static boolean switchCreate(Events data){
-        return EVENT_CREATE.equals(data.getType());
+    /** 是否需要显示事件正文 */
+    public static boolean switchContent(Events data){
+        switch (data.getType()){
+            case EVENT_CREATE:
+            case EVENT_ISSUES:
+            case EVENT_ISSUES_COMMENT:
+                return true;
+            default:
+                return false;
+        }
     }
 }
