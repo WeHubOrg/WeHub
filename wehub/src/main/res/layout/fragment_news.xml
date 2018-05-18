@@ -7,6 +7,19 @@
     android:background="#FFF"
     android:orientation="vertical">
 
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/layout_bar"
+        android:layout_width="match_parent"
+        android:background="#FFF"
+        android:layout_height="@dimen/dimen_48">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_48"/>
+
+    </android.support.design.widget.AppBarLayout>
+
     <com.freedom.wecore.widget.refresh.WeRefreshLayout
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"

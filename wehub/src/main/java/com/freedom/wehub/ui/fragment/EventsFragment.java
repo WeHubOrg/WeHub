@@ -2,15 +2,19 @@ package com.freedom.wehub.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.widget.LinearLayout;
 
 import com.freedom.wecore.bean.Events;
 import com.freedom.wecore.bean.User;
 import com.freedom.wecore.common.Key;
 import com.freedom.wecore.common.WeFragment;
 import com.freedom.wecore.tools.DeviceUtil;
+import com.freedom.wecore.tools.RxBus;
 import com.freedom.wecore.widget.decoration.HorizontalDecoration;
 import com.freedom.wecore.widget.refresh.WeRefreshLayout;
 import com.freedom.wecore.widget.refresh.api.RefreshLayout;
@@ -18,6 +22,7 @@ import com.freedom.wecore.widget.refresh.listener.OnRefreshLoadMoreListener;
 import com.freedom.wehub.R;
 import com.freedom.wehub.adp.EventsAdapter;
 import com.freedom.wehub.contract.EventsContract;
+import com.freedom.wehub.event.FragmentVisibleEvent;
 import com.freedom.wehub.presenter.EventsPresenter;
 
 import java.util.ArrayList;
@@ -29,7 +34,8 @@ import java.util.List;
 public class EventsFragment extends WeFragment<EventsContract.IEventsView, EventsPresenter> implements
         EventsContract.IEventsView{
 
-
+    private Toolbar mToolbar;
+    private AppBarLayout mBarView;
     private RecyclerView mRecyclerView;
     private WeRefreshLayout mRefreshLayout;
 
@@ -49,6 +55,8 @@ public class EventsFragment extends WeFragment<EventsContract.IEventsView, Event
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        mBarView = findViewById(R.id.layout_bar);
+        mToolbar = findViewById(R.id.toolbar);
         mRefreshLayout = findViewById(R.id.refreshLayout);
         mRecyclerView = findViewById(R.id.layout_recycler);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -60,7 +68,10 @@ public class EventsFragment extends WeFragment<EventsContract.IEventsView, Event
 
     @Override
     protected void initStatusBar(int statusHeight) {
-
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mBarView.getLayoutParams();
+        params.height += statusHeight;
+        mBarView.setPadding(0,statusHeight,0,0);
+        mBarView.setLayoutParams(params);
     }
 
     @Override
@@ -87,6 +98,8 @@ public class EventsFragment extends WeFragment<EventsContract.IEventsView, Event
         }
         mType = bundle.getString(Key.TYPE_EVENTS);
         mUser = bundle.getParcelable(Key.USER);
+        mToolbar.setTitle(mType);
+        RxBus.get().post(FragmentVisibleEvent.create(mToolbar));
         showLoad();
         mPresenter.requestEvents(mType,0,mUser.getLogin());
     }

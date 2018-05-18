@@ -19,11 +19,15 @@ import com.freedom.wecore.bean.User;
 import com.freedom.wecore.common.WeActivity;
 import com.freedom.wecore.common.WePresenter;
 import com.freedom.wecore.tools.ImageBridge;
+import com.freedom.wecore.tools.RxBus;
 import com.freedom.wehub.R;
+import com.freedom.wehub.event.FragmentVisibleEvent;
 import com.freedom.wehub.ui.fragment.EventsFragment;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import io.reactivex.functions.Consumer;
 
 
 /**
@@ -31,8 +35,6 @@ import java.util.Map;
  */
 public class MainActivity extends WeActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private Toolbar mToolbar;
-    private AppBarLayout mBarView;
     private ImageView mAvatarView;
     private DrawerLayout mDrawerLayout;
     private ImageView mAvatarBackgroundView;
@@ -42,6 +44,7 @@ public class MainActivity extends WeActivity implements NavigationView.OnNavigat
     private NavigationView mMenuView;
 
     private final Map<String, String> mFragments = new HashMap<>();
+    private final Map<Toolbar, ActionBarDrawerToggle> mToggles = new HashMap<>();
 
     private User mUser;
 
@@ -57,8 +60,6 @@ public class MainActivity extends WeActivity implements NavigationView.OnNavigat
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        mBarView = findViewById(R.id.layout_bar);
-        mToolbar = findViewById(R.id.toolbar);
         mMenuView = findViewById(R.id.layout_menu);
         mDrawerLayout = findViewById(R.id.layout_drawer);
         mAvatarBackgroundView = mMenuView.getHeaderView(0).findViewById(R.id.iv_avatar_bg);
@@ -67,27 +68,30 @@ public class MainActivity extends WeActivity implements NavigationView.OnNavigat
         mNameView = mMenuView.getHeaderView(0).findViewById(R.id.tv_name);
         mBoiView = mMenuView.getHeaderView(0).findViewById(R.id.tv_bio);
 
-
-        setSupportActionBar(mToolbar);
-        if (getSupportActionBar() != null){
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
     }
 
     @Override
     protected void initStatusBar(int statusHeight) {
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mBarView.getLayoutParams();
-        params.height += statusHeight;
-        mBarView.setPadding(0,statusHeight,0,0);
-        mBarView.setLayoutParams(params);
+
     }
 
     @Override
     protected void initEvent() {
-        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.app_name,
-                R.string.sign_in);
-        mDrawerLayout.addDrawerListener(drawerToggle);
-        drawerToggle.syncState();
+
+        getCompositeDisposable().add(RxBus.get().add(FragmentVisibleEvent.class).subscribe(event -> {
+            if(event != null){
+                Toolbar toolbar = event.getToolbar();
+                if (toolbar != null){
+                    ActionBarDrawerToggle drawerToggle = mToggles.get(toolbar);
+                    if (drawerToggle == null){
+                        drawerToggle = new ActionBarDrawerToggle(MainActivity.this, mDrawerLayout, toolbar, R.string.app_name,
+                                R.string.sign_in);
+                    }
+                    mDrawerLayout.addDrawerListener(drawerToggle);
+                    drawerToggle.syncState();
+                }
+            }
+        }));
 
         mMenuView.setNavigationItemSelectedListener(this);
     }
