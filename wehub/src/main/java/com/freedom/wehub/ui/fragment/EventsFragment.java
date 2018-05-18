@@ -3,10 +3,12 @@ package com.freedom.wehub.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.LinearLayout;
 
 import com.freedom.wecore.bean.Events;
@@ -36,6 +38,7 @@ public class EventsFragment extends WeFragment<EventsContract.IEventsView, Event
 
     private Toolbar mToolbar;
     private AppBarLayout mBarView;
+    private View mPlaceholderView;
     private RecyclerView mRecyclerView;
     private WeRefreshLayout mRefreshLayout;
 
@@ -55,6 +58,7 @@ public class EventsFragment extends WeFragment<EventsContract.IEventsView, Event
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+//        mPlaceholderView = findViewById(R.id.placeholder);
         mBarView = findViewById(R.id.layout_bar);
         mToolbar = findViewById(R.id.toolbar);
         mRefreshLayout = findViewById(R.id.refreshLayout);
@@ -68,9 +72,9 @@ public class EventsFragment extends WeFragment<EventsContract.IEventsView, Event
 
     @Override
     protected void initStatusBar(int statusHeight) {
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mBarView.getLayoutParams();
+        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) mBarView.getLayoutParams();
         params.height += statusHeight;
-        mBarView.setPadding(0,statusHeight,0,0);
+        mBarView.setPadding(0, (int) (statusHeight / 2),0,0);
         mBarView.setLayoutParams(params);
     }
 
