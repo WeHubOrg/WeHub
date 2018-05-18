@@ -21,6 +21,19 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            def date = new Date().format("yyyyMMdd")
+            if(variant.buildType.name.equals('debug')){
+                outputFileName = "WeHub${versionName}_${date}_debug.apk"
+            }
+            if(variant.buildType.name.equals('release')){
+                outputFileName = "WeHub${versionName}.apk"
+            }
+        }
+    }
 }
 
 dependencies {
