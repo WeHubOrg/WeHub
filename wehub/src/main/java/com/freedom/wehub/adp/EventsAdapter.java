@@ -17,7 +17,6 @@ import com.freedom.wecore.widget.el.EventsPair;
 import com.freedom.wecore.widget.el.EventsTextView;
 import com.freedom.wehub.R;
 import com.freedom.wehub.tools.EventsFactory;
-import com.freedom.wehub.ui.fragment.EventsFragment;
 
 import java.util.List;
 

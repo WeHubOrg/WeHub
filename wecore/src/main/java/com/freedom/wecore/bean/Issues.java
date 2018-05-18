@@ -6,9 +6,8 @@ import android.os.Parcelable;
 import java.util.List;
 
 /**
- * Created by vurtne on 2018/5/17.
+ *  @author vurtne on 17-May-18.
  */
-
 public class Issues implements Parcelable {
     private String url;
     private String repository_url;

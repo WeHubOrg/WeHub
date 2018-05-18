@@ -74,9 +74,8 @@ public class EventsFactory {
      * */
     public static boolean switchIssues(String type){
         switch (type){
-            case MESSAGE_ISSUES_OPENED:
-            case MESSAGE_ISSUES_CLOSED:
-            case MESSAGE_ISSUES_COMMENT:
+            case EVENT_ISSUES:
+            case EVENT_ISSUES_COMMENT:
                 return true;
             default:
                 return false;
