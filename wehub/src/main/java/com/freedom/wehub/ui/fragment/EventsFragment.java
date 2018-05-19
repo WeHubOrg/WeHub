@@ -132,8 +132,11 @@ public class EventsFragment extends WeFragment<EventsContract.IEventsView, Event
             mAdapter.setDatas(events);
             return;
         }
+        mRefreshLayout.finishLoadMore(500);
+        if (events.size() <= 0){
+            return;
+        }
         mAdapter.setDataPage(mAdapter.getDataPage() + 1);
         mAdapter.addDatas(events);
-        mRefreshLayout.finishLoadMore(500);
     }
 }
