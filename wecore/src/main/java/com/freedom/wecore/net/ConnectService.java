@@ -88,5 +88,11 @@ public interface ConnectService {
     );
 
 
+    @NonNull @GET("users/{user}")
+    Observable<Response<JsonElement>> getUserInfo(
+            @Header("forceNetWork") boolean forceNetWork,
+            @Path("user") String user
+    );
+
 
 }

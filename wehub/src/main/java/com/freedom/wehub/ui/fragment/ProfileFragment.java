@@ -1,9 +1,8 @@
 package com.freedom.wehub.ui.fragment;
 
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,16 +10,18 @@ import android.widget.TextView;
 import com.freedom.wecore.bean.User;
 import com.freedom.wecore.common.Key;
 import com.freedom.wecore.common.WeFragment;
-import com.freedom.wecore.common.WePresenter;
 import com.freedom.wecore.tools.ImageBridge;
 import com.freedom.wecore.tools.RxBus;
 import com.freedom.wehub.R;
+import com.freedom.wehub.contract.AccountContract;
 import com.freedom.wehub.event.FragmentVisibleEvent;
+import com.freedom.wehub.presenter.AccountPresenter;
 
 /**
  * @author vurtne on 18-May-18.
  */
-public class ProfileFragment extends WeFragment {
+public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, AccountPresenter> implements
+        AccountContract.IProfilerView{
 
     private Toolbar mToolbar;
     private ImageView mAvatarView;
@@ -40,8 +41,8 @@ public class ProfileFragment extends WeFragment {
     }
 
     @Override
-    protected WePresenter createPresenter() {
-        return null;
+    protected AccountPresenter createPresenter() {
+        return new AccountPresenter();
     }
 
     @Override
@@ -81,7 +82,12 @@ public class ProfileFragment extends WeFragment {
         if (bundle == null){
             return;
         }
-        mUser = bundle.getParcelable(Key.USER);
+        String user = bundle.getString(Key.USER);
+        if (TextUtils.isEmpty(user)){
+            return;
+        }
+        showLoad();
+
         if (mUser == null){
             return;
         }

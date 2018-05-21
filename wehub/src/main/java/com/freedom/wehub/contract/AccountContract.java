@@ -22,6 +22,10 @@ public interface AccountContract {
 
     }
 
+    interface IProfilerView extends IWeContract.View{
+
+    }
+
     interface IUserView extends IWeContract.View{
 
     }

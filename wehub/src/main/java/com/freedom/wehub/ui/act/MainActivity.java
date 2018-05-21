@@ -145,15 +145,17 @@ public class MainActivity extends WeActivity implements NavigationView.OnNavigat
         String name = mFragments.get(tag);
         Bundle bundle = null;
         if (name == null){
+            bundle = new Bundle();
             if (Key.PROFILE.equals(tag)){
                 name = ProfileFragment.class.getName();
+                bundle.putString(Key.USER,mUser.getLogin());
             }else {
                 name = EventsFragment.class.getName();
+                bundle.putParcelable(Key.USER,mUser);
             }
             mFragments.put(tag,name);
-            bundle = new Bundle();
             bundle.putString(Key.TYPE_EVENTS,tag);
-            bundle.putParcelable(Key.USER,mUser);
+
         }
         showFragment(name,tag,bundle,R.id.layout_content);
     }

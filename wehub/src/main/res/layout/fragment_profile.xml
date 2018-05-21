@@ -22,9 +22,6 @@
             app:expandedTitleMarginStart="@dimen/dimen_14"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <!--<include-->
-                <!--layout="@layout/layout_profile_header"/>-->
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

@@ -15,23 +15,96 @@ import java.util.Date;
 @SuppressWarnings({"unused"})
 public class User implements Parcelable {
 
+    protected User(Parcel in) {
+        login = in.readString();
+        id = in.readString();
+        name = in.readString();
+        avatarUrl = in.readString();
+        gravatarId = in.readString();
+        url = in.readString();
+        htmlUrl = in.readString();
+        followersUrl = in.readString();
+        followingUrl = in.readString();
+        site_admin = in.readByte() != 0;
+        company = in.readString();
+        blog = in.readString();
+        location = in.readString();
+        email = in.readString();
+        bio = in.readString();
+        publicRepos = in.readInt();
+        publicGists = in.readInt();
+        followers = in.readInt();
+        following = in.readInt();
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(login);
+        dest.writeString(id);
+        dest.writeString(name);
+        dest.writeString(avatarUrl);
+        dest.writeString(gravatarId);
+        dest.writeString(url);
+        dest.writeString(htmlUrl);
+        dest.writeString(followersUrl);
+        dest.writeString(followingUrl);
+        dest.writeByte((byte) (site_admin ? 1 : 0));
+        dest.writeString(company);
+        dest.writeString(blog);
+        dest.writeString(location);
+        dest.writeString(email);
+        dest.writeString(bio);
+        dest.writeInt(publicRepos);
+        dest.writeInt(publicGists);
+        dest.writeInt(followers);
+        dest.writeInt(following);
+    }
+
     public enum UserType{
         User, Organization
     }
+
 
     private String login;
     private String id;
     private String name;
     @SerializedName("avatar_url")
     private String avatarUrl;
+    @SerializedName("gravatar_id")
+    private String gravatarId;
+    private String url;
     @SerializedName("html_url")
     private String htmlUrl;
+    @SerializedName("followers_url")
+    private String followersUrl;
+    @SerializedName("following_url")
+    private String followingUrl;
     private UserType type;
+    private boolean site_admin;
     private String company;
     private String blog;
     private String location;
     private String email;
+    private Object hireable;
     private String bio;
+
 
     @SerializedName("public_repos")
     private int publicRepos;
@@ -56,20 +129,20 @@ public class User implements Parcelable {
         this.login = login;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getId() {
         return id;
     }
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getAvatarUrl() {
@@ -80,6 +153,22 @@ public class User implements Parcelable {
         this.avatarUrl = avatarUrl;
     }
 
+    public String getGravatarId() {
+        return gravatarId;
+    }
+
+    public void setGravatarId(String gravatarId) {
+        this.gravatarId = gravatarId;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     public String getHtmlUrl() {
         return htmlUrl;
     }
@@ -88,12 +177,36 @@ public class User implements Parcelable {
         this.htmlUrl = htmlUrl;
     }
 
+    public String getFollowersUrl() {
+        return followersUrl;
+    }
+
+    public void setFollowersUrl(String followersUrl) {
+        this.followersUrl = followersUrl;
+    }
+
+    public String getFollowingUrl() {
+        return followingUrl;
+    }
+
+    public void setFollowingUrl(String followingUrl) {
+        this.followingUrl = followingUrl;
+    }
+
     public UserType getType() {
         return type;
     }
 
     public void setType(UserType type) {
         this.type = type;
+    }
+
+    public boolean isSite_admin() {
+        return site_admin;
+    }
+
+    public void setSite_admin(boolean site_admin) {
+        this.site_admin = site_admin;
     }
 
     public String getCompany() {
@@ -126,6 +239,14 @@ public class User implements Parcelable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Object getHireable() {
+        return hireable;
+    }
+
+    public void setHireable(Object hireable) {
+        this.hireable = hireable;
     }
 
     public String getBio() {
@@ -182,78 +303,5 @@ public class User implements Parcelable {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    public boolean isUser(){
-        return UserType.User.equals(type);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.login);
-        dest.writeString(this.id);
-        dest.writeString(this.name);
-        dest.writeString(this.avatarUrl);
-        dest.writeString(this.htmlUrl);
-        dest.writeInt(this.type == null ? -1 : this.type.ordinal());
-        dest.writeString(this.company);
-        dest.writeString(this.blog);
-        dest.writeString(this.location);
-        dest.writeString(this.email);
-        dest.writeString(this.bio);
-        dest.writeInt(this.publicRepos);
-        dest.writeInt(this.publicGists);
-        dest.writeInt(this.followers);
-        dest.writeInt(this.following);
-        dest.writeLong(this.createdAt != null ? this.createdAt.getTime() : -1);
-        dest.writeLong(this.updatedAt != null ? this.updatedAt.getTime() : -1);
-    }
-
-    protected User(Parcel in) {
-        this.login = in.readString();
-        this.id = in.readString();
-        this.name = in.readString();
-        this.avatarUrl = in.readString();
-        this.htmlUrl = in.readString();
-        int tmpType = in.readInt();
-        this.type = tmpType == -1 ? null : UserType.values()[tmpType];
-        this.company = in.readString();
-        this.blog = in.readString();
-        this.location = in.readString();
-        this.email = in.readString();
-        this.bio = in.readString();
-        this.publicRepos = in.readInt();
-        this.publicGists = in.readInt();
-        this.followers = in.readInt();
-        this.following = in.readInt();
-        long tmpCreatedAt = in.readLong();
-        this.createdAt = tmpCreatedAt == -1 ? null : new Date(tmpCreatedAt);
-        long tmpUpdatedAt = in.readLong();
-        this.updatedAt = tmpUpdatedAt == -1 ? null : new Date(tmpUpdatedAt);
-    }
-
-    public static final Creator<User> CREATOR = new Creator<User>() {
-        @Override
-        public User createFromParcel(Parcel source) {
-            return new User(source);
-        }
-
-        @Override
-        public User[] newArray(int size) {
-            return new User[size];
-        }
-    };
-
-    @Override
-    public boolean equals(Object obj) {
-        if(obj != null && obj instanceof User){
-            return ((User)obj).getLogin().equals(login);
-        }
-        return super.equals(obj);
     }
 }
