@@ -9,6 +9,8 @@
     <string name="name">name</string>
     <string name="bio">bio</string>
 
+
+
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
@@ -26,4 +28,9 @@
     <string name="title_profile">Profiles</string>
     <string name="title_news">News</string>
     <string name="title_events">Events</string>
+    <string name="title_repositories">Repositories</string>
+    <string name="title_stars">Stars</string>
+    <string name="title_followers">Followers</string>
+    <string name="title_following">Following</string>
+
 </resources>

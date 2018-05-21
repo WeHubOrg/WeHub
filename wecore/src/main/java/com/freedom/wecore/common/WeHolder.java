@@ -396,7 +396,7 @@ public class WeHolder extends RecyclerView.ViewHolder{
     }
 
     public WeHolder displayRoundImage(@IdRes int viewID, String uri, int roundRadius, int defaultResId) {
-        return displayRoundImage((ImageView) findView(viewID), uri, DeviceUtil.dip2Px(getmContext(), roundRadius), defaultResId);
+        return displayRoundImage(findView(viewID), uri, DeviceUtil.dip2Px(getmContext(), roundRadius), defaultResId);
     }
 
     public WeHolder displayOvalImage(ImageView mImageVIew, String uri, int defaultResId) {
