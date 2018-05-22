@@ -32,5 +32,6 @@
     <string name="title_stars">Stars</string>
     <string name="title_followers">Followers</string>
     <string name="title_following">Following</string>
+    <string name="title_gists">Gists</string>
 
 </resources>

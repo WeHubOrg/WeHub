@@ -23,7 +23,10 @@ public interface AccountContract {
     }
 
     interface IProfilerView extends IWeContract.View{
-
+        /**
+         * 获取指定用户
+         * */
+        void requestPerson(User user);
     }
 
     interface IUserView extends IWeContract.View{
@@ -41,6 +44,11 @@ public interface AccountContract {
          * 获取用户
          * */
         void requestPersonInfo();
+
+        /**
+         * 获取指定用户
+         * */
+        void requestPersonInfo(String user);
     }
 
 

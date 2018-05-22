@@ -55,6 +55,19 @@ public interface ConnectService {
     @Headers("Accept: application/json")
     Observable<Response<JsonElement>> getPersonInfo(@Header("forceNetWork") boolean forceNetWork);
 
+    /**
+     * 获取指定用户
+     * @param forceNetWork forceNetWork
+     * @param user user
+     * @return Response
+     */
+    @NonNull @GET("users/{user}")
+    Observable<Response<JsonElement>> getPersonInfo(
+            @Header("forceNetWork") boolean forceNetWork,
+            @Path("user") String user
+    );
+
+
 
     /**
      * 获取news
@@ -87,12 +100,6 @@ public interface ConnectService {
             @Query("page") int page
     );
 
-
-    @NonNull @GET("users/{user}")
-    Observable<Response<JsonElement>> getUserInfo(
-            @Header("forceNetWork") boolean forceNetWork,
-            @Path("user") String user
-    );
 
 
 }

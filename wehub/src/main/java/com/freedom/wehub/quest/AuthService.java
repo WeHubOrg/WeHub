@@ -26,4 +26,10 @@ public class AuthService extends RetrofitClient {
                 .clazz(User.class)
                 .request(RetrofitClient.getService().getPersonInfo(true));
     }
+
+    public void requestPersonInfo(String user,OnResponseListener<User> listener){
+        createRequest(listener)
+                .clazz(User.class)
+                .request(RetrofitClient.getService().getPersonInfo(true,user));
+    }
 }

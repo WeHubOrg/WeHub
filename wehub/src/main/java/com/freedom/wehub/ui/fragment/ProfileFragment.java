@@ -28,9 +28,9 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
     private TextView mUserTv;
     private TextView mNameTv;
     private TextView mRepositoriesTv;
-    private TextView mStarsTv;
-    private TextView mFollowwersTv;
+    private TextView mFollowersTv;
     private TextView mFollowingTv;
+    private TextView mGistsTv;
 
     private User mUser;
 
@@ -52,8 +52,8 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
         mUserTv = findViewById(R.id.tv_user);
         mNameTv = findViewById(R.id.tv_name);
         mRepositoriesTv = findViewById(R.id.tv_repositories);
-        mStarsTv = findViewById(R.id.tv_stars);
-        mFollowwersTv = findViewById(R.id.tv_followers);
+        mGistsTv = findViewById(R.id.tv_gists);
+        mFollowersTv = findViewById(R.id.tv_followers);
         mFollowingTv = findViewById(R.id.tv_following);
 //        mAvatarBackgroundView = (ImageView) findViewById(R.id.iv_avatar_bg);
 //        mAvatarView = (ImageView) findViewById(R.id.iv_avatar);
@@ -87,7 +87,13 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
             return;
         }
         showLoad();
+        mPresenter.requestPersonInfo(user);
+    }
 
+    @Override
+    public void requestPerson(User user) {
+        hideLoad();
+        mUser = user;
         if (mUser == null){
             return;
         }
@@ -95,15 +101,12 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
         ImageBridge.displayRoundImageWithDefault(mUser.getAvatarUrl(), mAvatarView,R.drawable.ic_hub_round);
         mUserTv.setText(mUser.getLogin());
         mNameTv.setText(mUser.getName());
-
-        mFollowwersTv.setText(mUser.getFollowers()+"");
-        mFollowingTv.setText(mUser.getFollowing()+"");
-
-//        mRepositoriesTv.setText();
+        mFollowersTv.setText(mUser.getFollowers() + "");
+        mFollowingTv.setText(mUser.getFollowing() + "");
+        mRepositoriesTv.setText(user.getPublicRepos() + "");
+        mGistsTv.setText(user.getPublicGists() + "");
 //        mUserTv.setText();
 //        mUserTv.setText(mUser.getLogin());
 //        mUserTv.setText(mUser.getLogin());
-
     }
-
 }

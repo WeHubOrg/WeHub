@@ -102,7 +102,7 @@ public class User implements Parcelable {
     private String blog;
     private String location;
     private String email;
-    private Object hireable;
+    private String hireable;
     private String bio;
 
 
@@ -241,11 +241,11 @@ public class User implements Parcelable {
         this.email = email;
     }
 
-    public Object getHireable() {
+    public String getHireable() {
         return hireable;
     }
 
-    public void setHireable(Object hireable) {
+    public void setHireable(String hireable) {
         this.hireable = hireable;
     }
 

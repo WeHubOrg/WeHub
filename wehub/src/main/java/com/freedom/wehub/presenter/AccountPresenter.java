@@ -1,6 +1,7 @@
 package com.freedom.wehub.presenter;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.freedom.wecore.model.AccountManager;
 import com.freedom.wecore.common.WePresenter;
@@ -53,6 +54,18 @@ public class AccountPresenter extends WePresenter implements AccountContract.IAc
         mService.requestPersonInfo(innerResponse -> {
             AccountManager.instance().setUser(innerResponse.get());
             ((AccountContract.IAccountLoginView)mView).onLogin(innerResponse.get());
+        });
+    }
+
+
+    @Override
+    public void requestPersonInfo(String user) {
+        if (mService == null){
+            mService = new AuthService();
+        }
+        mService.requestPersonInfo(user,innerResponse -> {
+            int i = 1;
+            ((AccountContract.IProfilerView)mView).requestPerson(innerResponse.get());
         });
     }
 }
