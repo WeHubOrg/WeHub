@@ -13,7 +13,7 @@ import okhttp3.Credentials;
 /**
  * @author vurtne on 1-May-18.
  */
-public class AccountPresenter extends WePresenter<AccountContract.IAccountLoginView> implements AccountContract.IAccountPresenter{
+public class AccountPresenter extends WePresenter implements AccountContract.IAccountPresenter{
 
     private AuthService mService;
 
@@ -37,7 +37,7 @@ public class AccountPresenter extends WePresenter<AccountContract.IAccountLoginV
         }
         mService.requestToken(Credentials.basic(userName, password),authRequest, response -> {
             if (response.get() == null){
-                mView.onFailed();
+                ((AccountContract.IAccountLoginView)mView).onFailed();
                 return;
             }
             AccountManager.instance().setToken(response.get());
@@ -52,7 +52,7 @@ public class AccountPresenter extends WePresenter<AccountContract.IAccountLoginV
         }
         mService.requestPersonInfo(innerResponse -> {
             AccountManager.instance().setUser(innerResponse.get());
-            mView.onLogin(innerResponse.get());
+            ((AccountContract.IAccountLoginView)mView).onLogin(innerResponse.get());
         });
     }
 }

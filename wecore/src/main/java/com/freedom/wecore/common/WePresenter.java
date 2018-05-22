@@ -6,13 +6,13 @@ import android.content.Context;
  * @author vurtne on 1-May-18.
  */
 @SuppressWarnings({"unused"})
-public abstract class WePresenter<V extends IWeContract.View> implements IWeContract.Presenter<V>  {
+public abstract class WePresenter implements IWeContract.Presenter  {
 
-    protected V mView;
+    protected IWeContract.View mView;
     protected Context mContext;
 
     @Override
-    public void attachView(V view) {
+    public void attachView(IWeContract.View view) {
         this.mView = view;
     }
 

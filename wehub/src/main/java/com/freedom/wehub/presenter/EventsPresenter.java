@@ -13,7 +13,7 @@ import com.freedom.wehub.quest.EventsService;
  * @author vurtne on 5-May-18.
  */
 
-public class EventsPresenter extends WePresenter<EventsContract.IEventsView> implements EventsContract.IEventsPresenter{
+public class EventsPresenter extends WePresenter implements EventsContract.IEventsPresenter{
 
     private EventsService mService;
 
@@ -35,13 +35,13 @@ public class EventsPresenter extends WePresenter<EventsContract.IEventsView> imp
         if (Key.NEWS.equals(type)){
             mService.requestNewsEvents(page, user, response -> {
                 if (mView != null){
-                    mView.onResponseEvents(response.get());
+                    ((EventsContract.IEventsView)mView).onResponseEvents(response.get());
                 }
             });
         }else if (Key.EVENTS.equals(type)){
             mService.requestUserEvents(page, user, response -> {
                 if (mView != null){
-                    mView.onResponseEvents(response.get());
+                    ((EventsContract.IEventsView)mView).onResponseEvents(response.get());
                 }
             });
         }
