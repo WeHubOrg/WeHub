@@ -100,11 +100,12 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
         RxBus.get().post(FragmentVisibleEvent.create(mToolbar));
         ImageBridge.displayRoundImageWithDefault(mUser.getAvatarUrl(), mAvatarView,R.drawable.ic_hub_round);
         mUserTv.setText(mUser.getLogin());
+
         mNameTv.setText(mUser.getName());
-        mFollowersTv.setText(mUser.getFollowers() + "");
-        mFollowingTv.setText(mUser.getFollowing() + "");
-        mRepositoriesTv.setText(user.getPublicRepos() + "");
-        mGistsTv.setText(user.getPublicGists() + "");
+        mFollowersTv.setText(String.valueOf(mUser.getFollowers()));
+        mFollowingTv.setText(String.valueOf(mUser.getFollowing()));
+        mRepositoriesTv.setText(String.valueOf(user.getPublicRepos()));
+        mGistsTv.setText(String.valueOf(user.getPublicGists()));
 //        mUserTv.setText();
 //        mUserTv.setText(mUser.getLogin());
 //        mUserTv.setText(mUser.getLogin());
