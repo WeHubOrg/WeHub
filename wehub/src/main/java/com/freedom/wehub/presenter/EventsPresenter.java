@@ -2,17 +2,11 @@ package com.freedom.wehub.presenter;
 
 import android.content.Context;
 
-import com.freedom.wecore.bean.BaseToken;
-import com.freedom.wecore.bean.Events;
 import com.freedom.wecore.common.Key;
 import com.freedom.wecore.common.WePresenter;
-import com.freedom.wecore.net.OnResponseListener;
-import com.freedom.wecore.net.Response;
 import com.freedom.wehub.contract.EventsContract;
-import com.freedom.wehub.model.EventModel;
 import com.freedom.wehub.quest.EventsService;
 
-import java.util.List;
 
 
 /**

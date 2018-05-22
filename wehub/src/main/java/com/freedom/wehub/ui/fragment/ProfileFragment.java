@@ -47,14 +47,14 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mAvatarView = (ImageView) findViewById(R.id.iv_avatar);
-        mUserTv = (TextView) findViewById(R.id.tv_user);
-        mNameTv = (TextView) findViewById(R.id.tv_name);
-        mRepositoriesTv = (TextView) findViewById(R.id.tv_repositories);
-        mStarsTv = (TextView) findViewById(R.id.tv_stars);
-        mFollowwersTv = (TextView) findViewById(R.id.tv_followers);
-        mFollowingTv = (TextView) findViewById(R.id.tv_following);
+        mToolbar = findViewById(R.id.toolbar);
+        mAvatarView = findViewById(R.id.iv_avatar);
+        mUserTv = findViewById(R.id.tv_user);
+        mNameTv = findViewById(R.id.tv_name);
+        mRepositoriesTv = findViewById(R.id.tv_repositories);
+        mStarsTv = findViewById(R.id.tv_stars);
+        mFollowwersTv = findViewById(R.id.tv_followers);
+        mFollowingTv = findViewById(R.id.tv_following);
 //        mAvatarBackgroundView = (ImageView) findViewById(R.id.iv_avatar_bg);
 //        mAvatarView = (ImageView) findViewById(R.id.iv_avatar);
     }
