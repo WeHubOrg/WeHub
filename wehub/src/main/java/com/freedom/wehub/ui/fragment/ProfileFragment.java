@@ -56,7 +56,6 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
         mFollowersTv = findViewById(R.id.tv_followers);
         mFollowingTv = findViewById(R.id.tv_following);
 //        mAvatarBackgroundView = (ImageView) findViewById(R.id.iv_avatar_bg);
-//        mAvatarView = (ImageView) findViewById(R.id.iv_avatar);
     }
 
     @Override
@@ -106,8 +105,6 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
         mFollowingTv.setText(String.valueOf(mUser.getFollowing()));
         mRepositoriesTv.setText(String.valueOf(user.getPublicRepos()));
         mGistsTv.setText(String.valueOf(user.getPublicGists()));
-//        mUserTv.setText();
-//        mUserTv.setText(mUser.getLogin());
-//        mUserTv.setText(mUser.getLogin());
+
     }
 }
