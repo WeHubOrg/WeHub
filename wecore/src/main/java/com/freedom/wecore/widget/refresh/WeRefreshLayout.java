@@ -1003,6 +1003,7 @@ public class WeRefreshLayout extends ViewGroup implements RefreshLayout, NestedS
                     return true;
                 }
                 break;
+            default:break;
         }
         return super.dispatchTouchEvent(e);
     }

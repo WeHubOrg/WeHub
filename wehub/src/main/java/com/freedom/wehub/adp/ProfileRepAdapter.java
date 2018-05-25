@@ -1,8 +1,7 @@
 package com.freedom.wehub.adp;
 
 /**
- * Created by vurtne on 2018/5/24.
+ * @author vurtne on 24-May-18.
  */
-
 public class ProfileRepAdapter {
 }

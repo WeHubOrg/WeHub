@@ -1,6 +1,6 @@
 package com.freedom.wehub.ui.fragment;
 
-import android.os.Bundle;
+import  android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.widget.FrameLayout;
@@ -32,6 +32,7 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
     private TextView mFollowingTv;
     private TextView mGistsTv;
 
+
     private User mUser;
 
 
@@ -55,6 +56,8 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
         mGistsTv = findViewById(R.id.tv_gists);
         mFollowersTv = findViewById(R.id.tv_followers);
         mFollowingTv = findViewById(R.id.tv_following);
+
+
 //        mAvatarBackgroundView = (ImageView) findViewById(R.id.iv_avatar_bg);
     }
 
@@ -72,9 +75,6 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
 
     }
 
-    /**
-     * //        ImageBridge.displayBlurImageValue(mUser.getAvatarUrl(),mAvatarBackgroundView,50);
-     * */
     @Override
     protected void initData(Bundle savedInstanceState) {
         Bundle bundle = getArgs();
