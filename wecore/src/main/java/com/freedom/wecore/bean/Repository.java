@@ -7,7 +7,7 @@ import android.os.Parcelable;
  * @author vurtne on 5-May-18.
  */
 @SuppressWarnings({"unused"})
-public class Repo implements Parcelable {
+public class Repository implements Parcelable {
 
     /**
      * id : 131495635
@@ -19,21 +19,21 @@ public class Repo implements Parcelable {
     private String name;
     private String url;
 
-    protected Repo(Parcel in) {
+    protected Repository(Parcel in) {
         id = in.readInt();
         name = in.readString();
         url = in.readString();
     }
 
-    public static final Creator<Repo> CREATOR = new Creator<Repo>() {
+    public static final Creator<Repository> CREATOR = new Creator<Repository>() {
         @Override
-        public Repo createFromParcel(Parcel in) {
-            return new Repo(in);
+        public Repository createFromParcel(Parcel in) {
+            return new Repository(in);
         }
 
         @Override
-        public Repo[] newArray(int size) {
-            return new Repo[size];
+        public Repository[] newArray(int size) {
+            return new Repository[size];
         }
     };
 

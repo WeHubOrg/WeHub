@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 import com.google.gson.JsonElement;
 
 
+import java.util.ArrayList;
+
 import io.reactivex.Observable;
 import retrofit2.Response;
 import retrofit2.http.Body;
@@ -100,6 +102,23 @@ public interface ConnectService {
             @Query("page") int page
     );
 
+    /**
+     * 获取用户仓库
+     * @param forceNetWork forceNetWork
+     * @param page page
+     * @param type type
+     * @param sort sort
+     * @param direction direction
+     * @return Response
+     */
+    @NonNull @GET("user/repos")
+    Observable<retrofit2.Response<JsonElement>> getRepositories(
+            @Header("forceNetWork") boolean forceNetWork,
+            @Query("page") int page,
+            @Query("type") String type,
+            @Query("sort") String sort,
+            @Query("direction") String direction
+    );
 
 
 }

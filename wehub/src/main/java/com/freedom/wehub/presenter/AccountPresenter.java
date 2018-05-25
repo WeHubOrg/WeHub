@@ -68,4 +68,15 @@ public class AccountPresenter extends WePresenter implements AccountContract.IAc
             ((AccountContract.IProfilerView)mView).requestPerson(innerResponse.get());
         });
     }
+
+//    @Override
+    public void requestRepositories(int page,String type,String sort,String direction) {
+        if (mService == null){
+            mService = new AuthService();
+        }
+        mService.requestRepositories(user,innerResponse -> {
+            int i = 1;
+            ((AccountContract.IProfilerView)mView).requestPerson(innerResponse.get());
+        });
+    }
 }

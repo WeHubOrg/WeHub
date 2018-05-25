@@ -5,6 +5,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.freedom.wecore.bean.User;
@@ -31,6 +32,7 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
     private TextView mFollowersTv;
     private TextView mFollowingTv;
     private TextView mGistsTv;
+    private ProgressBar mProProgress;
 
 
     private User mUser;
@@ -56,6 +58,7 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
         mGistsTv = findViewById(R.id.tv_gists);
         mFollowersTv = findViewById(R.id.tv_followers);
         mFollowingTv = findViewById(R.id.tv_following);
+        mProProgress = findViewById(R.id.progress_pro);
 
 
 //        mAvatarBackgroundView = (ImageView) findViewById(R.id.iv_avatar_bg);

@@ -15,7 +15,7 @@ public class Events implements Parcelable {
     private String id;
     private String type;
     private Actor actor;
-    private Repo repo;
+    private Repository repo;
     private Payload payload;
     @SerializedName("public")
     private boolean publicX;
@@ -67,11 +67,11 @@ public class Events implements Parcelable {
         this.actor = actor;
     }
 
-    public Repo getRepo() {
+    public Repository getRepo() {
         return repo;
     }
 
-    public void setRepo(Repo repo) {
+    public void setRepo(Repository repo) {
         this.repo = repo;
     }
 
