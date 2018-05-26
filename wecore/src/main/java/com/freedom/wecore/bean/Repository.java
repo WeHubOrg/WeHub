@@ -26,7 +26,7 @@ public class Repository implements Parcelable {
     private boolean privateX;
     @SerializedName("html_url")
     private String htmlUrl;
-    private Object description;
+    private String description;
     private boolean fork;
     private String url;
     @SerializedName("forks_url")
@@ -148,6 +148,7 @@ public class Repository implements Parcelable {
     private String defaultBranch;
     private Permissions permissions;
 
+
     protected Repository(Parcel in) {
         id = in.readInt();
         name = in.readString();
@@ -155,6 +156,7 @@ public class Repository implements Parcelable {
         owner = in.readParcelable(Owner.class.getClassLoader());
         privateX = in.readByte() != 0;
         htmlUrl = in.readString();
+        description = in.readString();
         fork = in.readByte() != 0;
         url = in.readString();
         forksUrl = in.readString();
@@ -234,86 +236,6 @@ public class Repository implements Parcelable {
         }
     };
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
-        dest.writeString(name);
-        dest.writeString(fullName);
-        dest.writeParcelable(owner, flags);
-        dest.writeByte((byte) (privateX ? 1 : 0));
-        dest.writeString(htmlUrl);
-        dest.writeByte((byte) (fork ? 1 : 0));
-        dest.writeString(url);
-        dest.writeString(forksUrl);
-        dest.writeString(keysUrl);
-        dest.writeString(collaboratorsUrl);
-        dest.writeString(teamsUrl);
-        dest.writeString(hooksUrl);
-        dest.writeString(issueEventsUrl);
-        dest.writeString(eventsUrl);
-        dest.writeString(assigneesUrl);
-        dest.writeString(branchesUrl);
-        dest.writeString(tagsUrl);
-        dest.writeString(blobsUrl);
-        dest.writeString(gitTagsUrl);
-        dest.writeString(gitRefsUrl);
-        dest.writeString(treesUrl);
-        dest.writeString(statusesUrl);
-        dest.writeString(languagesUrl);
-        dest.writeString(stargazersUrl);
-        dest.writeString(contributorsUrl);
-        dest.writeString(subscribersUrl);
-        dest.writeString(subscriptionUrl);
-        dest.writeString(commitsUrl);
-        dest.writeString(gitCommitsUrl);
-        dest.writeString(commentsUrl);
-        dest.writeString(issueCommentUrl);
-        dest.writeString(contentsUrl);
-        dest.writeString(compareUrl);
-        dest.writeString(mergesUrl);
-        dest.writeString(archiveUrl);
-        dest.writeString(downloadsUrl);
-        dest.writeString(issuesUrl);
-        dest.writeString(pullsUrl);
-        dest.writeString(milestonesUrl);
-        dest.writeString(notificationsUrl);
-        dest.writeString(labelsUrl);
-        dest.writeString(releasesUrl);
-        dest.writeString(deploymentsUrl);
-        dest.writeString(createdAt);
-        dest.writeString(updatedAt);
-        dest.writeString(pushedAt);
-        dest.writeString(gitUrl);
-        dest.writeString(sshUrl);
-        dest.writeString(cloneUrl);
-        dest.writeString(svnUrl);
-        dest.writeString(homepage);
-        dest.writeLong(size);
-        dest.writeInt(stargazersCount);
-        dest.writeInt(watchersCount);
-        dest.writeString(language);
-        dest.writeByte((byte) (hasIssues ? 1 : 0));
-        dest.writeByte((byte) (hasProjects ? 1 : 0));
-        dest.writeByte((byte) (hasDownloads ? 1 : 0));
-        dest.writeByte((byte) (hasWiki ? 1 : 0));
-        dest.writeByte((byte) (hasPages ? 1 : 0));
-        dest.writeInt(forksCount);
-        dest.writeString(mirrorUrl);
-        dest.writeByte((byte) (archived ? 1 : 0));
-        dest.writeInt(openIssuesCount);
-        dest.writeParcelable(license,flags);
-        dest.writeInt(forks);
-        dest.writeInt(openIssues);
-        dest.writeInt(watchers);
-        dest.writeString(defaultBranch);
-        dest.writeParcelable(permissions, flags);
-    }
-
     public int getId() {
         return id;
     }
@@ -362,11 +284,11 @@ public class Repository implements Parcelable {
         this.htmlUrl = htmlUrl;
     }
 
-    public Object getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(Object description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -888,5 +810,86 @@ public class Repository implements Parcelable {
 
     public void setPermissions(Permissions permissions) {
         this.permissions = permissions;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeString(fullName);
+        dest.writeParcelable(owner, flags);
+        dest.writeByte((byte) (privateX ? 1 : 0));
+        dest.writeString(htmlUrl);
+        dest.writeString(description);
+        dest.writeByte((byte) (fork ? 1 : 0));
+        dest.writeString(url);
+        dest.writeString(forksUrl);
+        dest.writeString(keysUrl);
+        dest.writeString(collaboratorsUrl);
+        dest.writeString(teamsUrl);
+        dest.writeString(hooksUrl);
+        dest.writeString(issueEventsUrl);
+        dest.writeString(eventsUrl);
+        dest.writeString(assigneesUrl);
+        dest.writeString(branchesUrl);
+        dest.writeString(tagsUrl);
+        dest.writeString(blobsUrl);
+        dest.writeString(gitTagsUrl);
+        dest.writeString(gitRefsUrl);
+        dest.writeString(treesUrl);
+        dest.writeString(statusesUrl);
+        dest.writeString(languagesUrl);
+        dest.writeString(stargazersUrl);
+        dest.writeString(contributorsUrl);
+        dest.writeString(subscribersUrl);
+        dest.writeString(subscriptionUrl);
+        dest.writeString(commitsUrl);
+        dest.writeString(gitCommitsUrl);
+        dest.writeString(commentsUrl);
+        dest.writeString(issueCommentUrl);
+        dest.writeString(contentsUrl);
+        dest.writeString(compareUrl);
+        dest.writeString(mergesUrl);
+        dest.writeString(archiveUrl);
+        dest.writeString(downloadsUrl);
+        dest.writeString(issuesUrl);
+        dest.writeString(pullsUrl);
+        dest.writeString(milestonesUrl);
+        dest.writeString(notificationsUrl);
+        dest.writeString(labelsUrl);
+        dest.writeString(releasesUrl);
+        dest.writeString(deploymentsUrl);
+        dest.writeString(createdAt);
+        dest.writeString(updatedAt);
+        dest.writeString(pushedAt);
+        dest.writeString(gitUrl);
+        dest.writeString(sshUrl);
+        dest.writeString(cloneUrl);
+        dest.writeString(svnUrl);
+        dest.writeString(homepage);
+        dest.writeLong(size);
+        dest.writeInt(stargazersCount);
+        dest.writeInt(watchersCount);
+        dest.writeString(language);
+        dest.writeByte((byte) (hasIssues ? 1 : 0));
+        dest.writeByte((byte) (hasProjects ? 1 : 0));
+        dest.writeByte((byte) (hasDownloads ? 1 : 0));
+        dest.writeByte((byte) (hasWiki ? 1 : 0));
+        dest.writeByte((byte) (hasPages ? 1 : 0));
+        dest.writeInt(forksCount);
+        dest.writeString(mirrorUrl);
+        dest.writeByte((byte) (archived ? 1 : 0));
+        dest.writeInt(openIssuesCount);
+        dest.writeParcelable(license, flags);
+        dest.writeInt(forks);
+        dest.writeInt(openIssues);
+        dest.writeInt(watchers);
+        dest.writeString(defaultBranch);
+        dest.writeParcelable(permissions, flags);
     }
 }

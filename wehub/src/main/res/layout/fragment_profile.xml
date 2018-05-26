@@ -246,7 +246,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="200dp">
 
@@ -256,12 +256,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="top"
-                        android:layout_centerInParent="true"
-                        android:paddingEnd="@dimen/dimen_16"
-                        android:paddingStart="@dimen/dimen_16"
                         android:indeterminate="true"/>
 
-                </LinearLayout>
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/vp_repo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                </RelativeLayout>
 
             </LinearLayout>
 

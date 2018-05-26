@@ -1,12 +1,14 @@
 package com.freedom.wehub.ui.fragment;
 
 import  android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.freedom.wecore.bean.Repository;
@@ -15,13 +17,16 @@ import com.freedom.wecore.common.Key;
 import com.freedom.wecore.common.WeFragment;
 import com.freedom.wecore.tools.ImageBridge;
 import com.freedom.wecore.tools.RxBus;
+import com.freedom.wecore.widget.transformer.WeTransformer;
 import com.freedom.wehub.R;
+import com.freedom.wehub.adp.ProfileRepAdapter;
 import com.freedom.wehub.contract.AccountContract;
 import com.freedom.wehub.event.FragmentVisibleEvent;
-import com.freedom.wehub.model.RepositoryModel;
 import com.freedom.wehub.presenter.AccountPresenter;
 
 import java.util.List;
+
+import static android.widget.RelativeLayout.CENTER_IN_PARENT;
 
 /**
  * @author vurtne on 18-May-18.
@@ -38,9 +43,13 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
     private TextView mFollowingTv;
     private TextView mGistsTv;
     private ProgressBar mProProgress;
+    private ViewPager mRepoVp;
 
 
+    private ProfileRepAdapter mRepoAdapter;
     private User mUser;
+
+
 
 
     @Override
@@ -64,7 +73,7 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
         mFollowersTv = findViewById(R.id.tv_followers);
         mFollowingTv = findViewById(R.id.tv_following);
         mProProgress = findViewById(R.id.progress_pro);
-
+        mRepoVp = findViewById(R.id.vp_repo);
 
 //        mAvatarBackgroundView = (ImageView) findViewById(R.id.iv_avatar_bg);
     }
@@ -118,9 +127,15 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
 
     @Override
     public void requestRepositories(List<Repository> ropes) {
-
         mProProgress.setVisibility(View.GONE);
-        int i = 1;
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams((int) (getResources().getDisplayMetrics().widthPixels * 0.8f),
+                (int) (getResources().getDisplayMetrics().widthPixels * 0.8f));
+        layoutParams.addRule(CENTER_IN_PARENT);
+        mRepoVp.setLayoutParams(layoutParams);
+        mRepoAdapter = new ProfileRepAdapter(getContext(),ropes);
+        mRepoVp.setAdapter(mRepoAdapter);
+        mRepoVp.setPageTransformer(true, new WeTransformer());
+        mRepoVp.setOffscreenPageLimit(Math.min(6,ropes.size()));
     }
 
 
