@@ -120,5 +120,24 @@ public interface ConnectService {
             @Query("direction") String direction
     );
 
+    /**
+     * 获取制定用户仓库
+     * @param user user
+     * @param forceNetWork forceNetWork
+     * @param page page
+     * @param type type
+     * @param sort sort
+     * @param direction direction
+     * @return Response
+     */
+    @NonNull @GET("users/{user}/repos")
+    Observable<retrofit2.Response<JsonElement>> getUserRepositories(
+            @Header("forceNetWork") boolean forceNetWork,
+            @Path("user") @NonNull String user,
+            @Query("page") int page,
+            @Query("type") String type,
+            @Query("sort") String sort,
+            @Query("direction") String direction
+    );
 
 }

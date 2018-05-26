@@ -69,14 +69,23 @@ public class AccountPresenter extends WePresenter implements AccountContract.IAc
         });
     }
 
-//    @Override
+    @Override
     public void requestRepositories(int page,String type,String sort,String direction) {
         if (mService == null){
             mService = new AuthService();
         }
-        mService.requestRepositories(user,innerResponse -> {
-            int i = 1;
-            ((AccountContract.IProfilerView)mView).requestPerson(innerResponse.get());
+        mService.requestRepositories(page,type,sort,direction,innerResponse -> {
+//            ((AccountContract.IProfilerView)mView).requestRepositories(innerResponse.get());
+        });
+    }
+
+    @Override
+    public void requestUserRepositories(String user,int page,String type,String sort,String direction) {
+        if (mService == null){
+            mService = new AuthService();
+        }
+        mService.requestUserRepositories(user,page,type,sort,direction,innerResponse -> {
+            ((AccountContract.IProfilerView)mView).requestRepositories(innerResponse.get());
         });
     }
 }

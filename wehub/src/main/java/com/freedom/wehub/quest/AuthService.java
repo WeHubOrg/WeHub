@@ -8,6 +8,7 @@ import com.freedom.wecore.net.RetrofitClient;
 import com.freedom.wehub.model.AuthModel;
 import com.freedom.wehub.model.RepositoryModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,5 +42,12 @@ public class AuthService extends RetrofitClient {
         createRequest(listener)
                 .clazz(RepositoryModel.class)
                 .request(RetrofitClient.getService().getRepositories(true, page,type,sort,direction));
+    }
+
+    public void requestUserRepositories(String user, int page, String type, String sort, String direction,
+                                        OnResponseListener<List<Repository>>listener) {
+        createRequest(listener)
+                .clazz(Repository.class)
+                .request(RetrofitClient.getService().getUserRepositories(true,user, page,type,sort,direction));
     }
 }

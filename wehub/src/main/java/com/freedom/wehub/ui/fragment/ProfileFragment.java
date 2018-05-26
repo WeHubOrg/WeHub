@@ -3,11 +3,13 @@ package com.freedom.wehub.ui.fragment;
 import  android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.freedom.wecore.bean.Repository;
 import com.freedom.wecore.bean.User;
 import com.freedom.wecore.common.Key;
 import com.freedom.wecore.common.WeFragment;
@@ -16,7 +18,10 @@ import com.freedom.wecore.tools.RxBus;
 import com.freedom.wehub.R;
 import com.freedom.wehub.contract.AccountContract;
 import com.freedom.wehub.event.FragmentVisibleEvent;
+import com.freedom.wehub.model.RepositoryModel;
 import com.freedom.wehub.presenter.AccountPresenter;
+
+import java.util.List;
 
 /**
  * @author vurtne on 18-May-18.
@@ -95,19 +100,28 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
     @Override
     public void requestPerson(User user) {
         hideLoad();
+        mProProgress.setVisibility(View.VISIBLE);
         mUser = user;
         if (mUser == null){
             return;
         }
+        mPresenter.requestUserRepositories(mUser.getLogin(),1,"","","");
         RxBus.get().post(FragmentVisibleEvent.create(mToolbar));
         ImageBridge.displayRoundImageWithDefault(mUser.getAvatarUrl(), mAvatarView,R.drawable.ic_hub_round);
         mUserTv.setText(mUser.getLogin());
-
         mNameTv.setText(mUser.getName());
         mFollowersTv.setText(String.valueOf(mUser.getFollowers()));
         mFollowingTv.setText(String.valueOf(mUser.getFollowing()));
         mRepositoriesTv.setText(String.valueOf(user.getPublicRepos()));
         mGistsTv.setText(String.valueOf(user.getPublicGists()));
-
     }
+
+    @Override
+    public void requestRepositories(List<Repository> ropes) {
+
+        mProProgress.setVisibility(View.GONE);
+        int i = 1;
+    }
+
+
 }
