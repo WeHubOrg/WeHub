@@ -246,9 +246,12 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <RelativeLayout
+                <com.freedom.wecore.widget.PagerContainer
+                    android:id="@+id/layout_container"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp">
+                    android:layout_marginTop="@dimen/dimen_4"
+                    android:gravity="center"
+                    android:layout_height="@dimen/dimen_130">
 
                     <ProgressBar
                         android:id="@+id/progress_pro"
@@ -260,10 +263,13 @@
 
                     <android.support.v4.view.ViewPager
                         android:id="@+id/vp_repo"
+                        android:layout_gravity="center"
+                        android:overScrollMode="never"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content" />
 
-                </RelativeLayout>
+
+                </com.freedom.wecore.widget.PagerContainer>
 
             </LinearLayout>
 

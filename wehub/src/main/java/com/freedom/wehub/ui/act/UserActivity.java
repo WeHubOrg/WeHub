@@ -1,19 +1,14 @@
 package com.freedom.wehub.ui.act;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.widget.FrameLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import com.freedom.wecore.common.WeActivity;
 import com.freedom.wecore.tools.DeviceUtil;
-import com.freedom.wecore.widget.refresh.api.RefreshLayout;
-import com.freedom.wecore.widget.refresh.listener.OnRefreshListener;
+import com.freedom.wecore.widget.PagerContainer;
 import com.freedom.wecore.widget.transformer.ScaleInTransformer;
-import com.freedom.wecore.widget.transformer.WeTransformer;
 import com.freedom.wehub.R;
 import com.freedom.wehub.adp.ProfileRepAdapter;
 import com.freedom.wehub.contract.AccountContract;
@@ -21,14 +16,13 @@ import com.freedom.wehub.presenter.AccountPresenter;
 
 import java.util.ArrayList;
 
-import static android.widget.RelativeLayout.CENTER_IN_PARENT;
-
 /**
  * @author vurtne on 18-May-18.
  */
 public class UserActivity extends WeActivity<AccountContract.IUserView, AccountPresenter> implements
         AccountContract.IUserView {
 
+    private PagerContainer container;
 
     @Override
     protected int contentView() {
@@ -42,17 +36,33 @@ public class UserActivity extends WeActivity<AccountContract.IUserView, AccountP
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+//        ((RelativeLayout)findViewById(R.id.layout_parent)).setClipChildren(false);
         ViewPager mRepoVp = findViewById(R.id.vp_repo);
-        ProfileRepAdapter adapter ;
-        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) mRepoVp.getLayoutParams();
-        layoutParams.width = (int) (DeviceUtil.getScreenWidth(this) - DeviceUtil.dip2Px(UserActivity.this.getApplicationContext(),80f));
-        mRepoVp.setLayoutParams(layoutParams);
-        mRepoVp.setPageMargin(DeviceUtil.dip2Px(this, 10));
-        adapter = new ProfileRepAdapter(this,new ArrayList<>());
+        container = findViewById(R.id.pager_container);
+        ProfileRepAdapter adapter = new ProfileRepAdapter(this,new ArrayList<>());
+
+
+        container.setOnTouchListener((v, event) -> mRepoVp.dispatchTouchEvent(event));
+
+        //设置可滑动Viewpager的范围
+        RelativeLayout.LayoutParams rll = (RelativeLayout.LayoutParams) container.getLayoutParams();
+        rll.width = (int) DeviceUtil.getScreenWidth(this);
+        rll.height = (int) (DeviceUtil.getScreenHeight(this) / 4);
+        container.setLayoutParams(rll);
+
+        //设置Viewpager大小为屏幕的一半
+        FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) mRepoVp.getLayoutParams();
+        lp.width = (int) (DeviceUtil.getScreenWidth(this) / 1.2);
+        lp.height = (int) (DeviceUtil.getScreenHeight(this) / 4);
+        mRepoVp.setLayoutParams(lp);
+
         mRepoVp.setAdapter(adapter);
-        mRepoVp.setOffscreenPageLimit(6);
-//        mRepoVp.setPageTransformer(true, new ScaleInTransformer(1.0f));
-        mRepoVp.setPageTransformer(true, new WeTransformer());
+        //设置缓存数为展示的数目
+        mRepoVp.setOffscreenPageLimit(adapter.getCount());
+        //设置切换动画
+        mRepoVp.setPageTransformer(true, new ScaleInTransformer());
+        //设置Page间间距
+//        mRepoVp.setPageMargin(DeviceUtil.dip2Px(context,4));
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.freedom.wehub.ui.fragment;
 
+import android.annotation.SuppressLint;
 import  android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
@@ -7,6 +8,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -15,9 +17,11 @@ import com.freedom.wecore.bean.Repository;
 import com.freedom.wecore.bean.User;
 import com.freedom.wecore.common.Key;
 import com.freedom.wecore.common.WeFragment;
+import com.freedom.wecore.tools.DeviceUtil;
 import com.freedom.wecore.tools.ImageBridge;
 import com.freedom.wecore.tools.RxBus;
-import com.freedom.wecore.widget.transformer.WeTransformer;
+import com.freedom.wecore.widget.PagerContainer;
+import com.freedom.wecore.widget.transformer.ScaleInTransformer;
 import com.freedom.wehub.R;
 import com.freedom.wehub.adp.ProfileRepAdapter;
 import com.freedom.wehub.contract.AccountContract;
@@ -44,6 +48,7 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
     private TextView mGistsTv;
     private ProgressBar mProProgress;
     private ViewPager mRepoVp;
+    private PagerContainer mContainerLayout;
 
 
     private ProfileRepAdapter mRepoAdapter;
@@ -74,8 +79,18 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
         mFollowingTv = findViewById(R.id.tv_following);
         mProProgress = findViewById(R.id.progress_pro);
         mRepoVp = findViewById(R.id.vp_repo);
+        mContainerLayout = findViewById(R.id.layout_container);
 
-//        mAvatarBackgroundView = (ImageView) findViewById(R.id.iv_avatar_bg);
+        LinearLayout.LayoutParams rll = (LinearLayout.LayoutParams) mContainerLayout.getLayoutParams();
+        rll.width = (int) DeviceUtil.getScreenWidth(getActivity());
+        mContainerLayout.setLayoutParams(rll);
+
+        FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) mRepoVp.getLayoutParams();
+        lp.width = (int) (DeviceUtil.getScreenWidth(getActivity()) / 1.2);
+        mRepoVp.setLayoutParams(lp);
+        mRepoVp.setOffscreenPageLimit(6);
+        mRepoVp.setPageTransformer(true, new ScaleInTransformer());
+        mRepoVp.setPageMargin(100);
     }
 
     @Override
@@ -88,7 +103,9 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
     }
 
     @Override
+    @SuppressLint("ClickableViewAccessibility")
     protected void initEvent() {
+        mContainerLayout.setOnTouchListener((v, event) -> mRepoVp.dispatchTouchEvent(event));
 
     }
 
@@ -128,14 +145,8 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
     @Override
     public void requestRepositories(List<Repository> ropes) {
         mProProgress.setVisibility(View.GONE);
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams((int) (getResources().getDisplayMetrics().widthPixels * 0.8f),
-                (int) (getResources().getDisplayMetrics().widthPixels * 0.8f));
-        layoutParams.addRule(CENTER_IN_PARENT);
-        mRepoVp.setLayoutParams(layoutParams);
         mRepoAdapter = new ProfileRepAdapter(getContext(),ropes);
         mRepoVp.setAdapter(mRepoAdapter);
-        mRepoVp.setPageTransformer(true, new WeTransformer());
-        mRepoVp.setOffscreenPageLimit(Math.min(6,ropes.size()));
     }
 
 
