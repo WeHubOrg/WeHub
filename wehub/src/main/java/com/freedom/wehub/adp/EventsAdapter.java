@@ -46,7 +46,7 @@ public class EventsAdapter extends WeAdapter<Events>{
                 .setVisibility(EventsFactory.EVENT_ISSUES_COMMENT.equals(data.getType()),R.id.iv_issues_comment)
                 .setText(R.id.tv_time, DateUtil.getLongFromStringWithTZ(data.getCreatedAt()))
                 .displayRoundImage(R.id.iv_avatar,data.getActor().getAvatarUrl(),
-                        DeviceUtil.dip2Px(getContext(),12),R.drawable.ic_hub_small);
+                        DeviceUtil.dip2Px(getContext(),1),R.drawable.ic_hub_small);
         setContent(holder,data);
         setChildAdapter(holder,data);
         if (EventsFactory.switchNews(data.getType())){

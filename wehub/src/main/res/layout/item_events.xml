@@ -19,8 +19,8 @@
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/iv_avatar"
-            android:layout_width="@dimen/dimen_24"
-            android:layout_height="@dimen/dimen_24"
+            android:layout_width="@dimen/dimen_28"
+            android:layout_height="@dimen/dimen_28"
             android:layout_alignParentRight="true"
             app:srcCompat="@drawable/ic_hub_small"
             android:layout_marginRight="@dimen/dimen_2"/>
