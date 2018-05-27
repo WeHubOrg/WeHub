@@ -90,7 +90,7 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
         mRepoVp.setLayoutParams(lp);
         mRepoVp.setOffscreenPageLimit(6);
         mRepoVp.setPageTransformer(true, new ScaleInTransformer());
-        mRepoVp.setPageMargin(100);
+        mRepoVp.setPageMargin(DeviceUtil.dip2Px(context,16));
     }
 
     @Override
