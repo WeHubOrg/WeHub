@@ -86,7 +86,7 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
         mContainerLayout.setLayoutParams(rll);
 
         FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) mRepoVp.getLayoutParams();
-        lp.width = (int) (DeviceUtil.getScreenWidth(getActivity()) / 1.2);
+        lp.width = (int) (DeviceUtil.getScreenWidth(getActivity()) / 1.4);
         mRepoVp.setLayoutParams(lp);
         mRepoVp.setOffscreenPageLimit(6);
         mRepoVp.setPageTransformer(true, new ScaleInTransformer());
