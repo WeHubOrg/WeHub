@@ -222,11 +222,34 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/vp_content"
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/ns_nested"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tab_layout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_48"
+                app:tabMode="scrollable"
+                app:tabIndicatorColor="#fff"/>
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/vp_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/color_696BF7"/>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
 
     <!--<android.support.v4.widget.NestedScrollView-->
         <!--android:id="@+id/mScrollView"-->

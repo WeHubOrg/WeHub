@@ -5,7 +5,9 @@ import  android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
@@ -43,9 +45,9 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
 
     private CoordinatorLayout mCoordinatorLayout;
     private CollapsingToolbarLayout mCollapsingLayout;
-
     private AppBarLayout mBarLayout;
     private Toolbar mToolbar;
+    private TabLayout mTabLayout;
     private ImageView mAvatarView;
     private TextView mUserTv;
     private TextView mNameTv;
@@ -53,12 +55,16 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
     private TextView mFollowersTv;
     private TextView mFollowingTv;
     private TextView mGistsTv;
+    private NestedScrollView mNestedView;
+    private ViewPager mContentView;
+
+
 //    private ProgressBar mProProgress;
 //    private ViewPager mRepoVp;
 //    private PagerContainer mContainerLayout;
 
 
-//    private ProfileRepAdapter mRepoAdapter;
+    private ProfileRepAdapter mRepoAdapter;
     private User mUser;
 
 
@@ -87,6 +93,17 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
         mGistsTv = findViewById(R.id.tv_gists);
         mFollowersTv = findViewById(R.id.tv_followers);
         mFollowingTv = findViewById(R.id.tv_following);
+        mContentView = findViewById(R.id.vp_content);
+        mNestedView = findViewById(R.id.ns_nested);
+        mTabLayout = findViewById(R.id.tab_layout);
+        mTabLayout.setupWithViewPager(mContentView);
+
+
+
+        mNestedView.setFillViewport (true);
+
+
+
 //        mProProgress = findViewById(R.id.progress_pro);
 //        mRepoVp = findViewById(R.id.vp_repo);
 //        mContainerLayout = findViewById(R.id.layout_container);
@@ -112,6 +129,12 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
         toolParams.height += statusHeight / 1.5;
         mToolbar.setPadding(0, (int) (statusHeight / 1.5),0,0);
         mToolbar.setLayoutParams(toolParams);
+
+
+//        FrameLayout.LayoutParams tobParams = (FrameLayout.LayoutParams) mTabLayout.getLayoutParams();
+//        tobParams.height += statusHeight / 1.5;
+//        mTabLayout.setPadding(0, (int) (statusHeight / 1.5),0,0);
+//        mTabLayout.setLayoutParams(tobParams);
 
     }
 
@@ -139,7 +162,6 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
     @Override
     public void requestPerson(User user) {
         hideLoad();
-//        mProProgress.setVisibility(View.VISIBLE);
         mUser = user;
         if (mUser == null){
             return;
@@ -158,8 +180,8 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
     @Override
     public void requestRepositories(List<Repository> ropes) {
 //        mProProgress.setVisibility(View.GONE);
-//        mRepoAdapter = new ProfileRepAdapter(getContext(),ropes);
-//        mRepoVp.setAdapter(mRepoAdapter);
+        mRepoAdapter = new ProfileRepAdapter(getContext(),ropes);
+        mContentView.setAdapter(mRepoAdapter);
     }
 
 
