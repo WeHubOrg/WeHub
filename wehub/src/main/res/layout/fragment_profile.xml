@@ -236,6 +236,7 @@
                 android:id="@+id/tab_layout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_48"
+                app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
                 app:tabMode="scrollable"
                 app:tabIndicatorColor="#fff"/>
 

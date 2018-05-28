@@ -28,6 +28,7 @@ import com.freedom.wecore.tools.RxBus;
 import com.freedom.wecore.widget.PagerContainer;
 import com.freedom.wecore.widget.transformer.ScaleInTransformer;
 import com.freedom.wehub.R;
+import com.freedom.wehub.adp.ProfileContentAdapter;
 import com.freedom.wehub.adp.ProfileRepAdapter;
 import com.freedom.wehub.contract.AccountContract;
 import com.freedom.wehub.event.FragmentVisibleEvent;
@@ -64,7 +65,7 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
 //    private PagerContainer mContainerLayout;
 
 
-    private ProfileRepAdapter mRepoAdapter;
+    private ProfileContentAdapter mContentAdapter;
     private User mUser;
 
 
@@ -102,12 +103,9 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
 
         mNestedView.setFillViewport (true);
 
-
-
 //        mProProgress = findViewById(R.id.progress_pro);
 //        mRepoVp = findViewById(R.id.vp_repo);
 //        mContainerLayout = findViewById(R.id.layout_container);
-
 
 
 //        LinearLayout.LayoutParams rll = (LinearLayout.LayoutParams) mContainerLayout.getLayoutParams();
@@ -130,7 +128,7 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
         mToolbar.setPadding(0, (int) (statusHeight / 1.5),0,0);
         mToolbar.setLayoutParams(toolParams);
 
-
+        //        mProProgress.setVisibility(View.GONE);
 //        FrameLayout.LayoutParams tobParams = (FrameLayout.LayoutParams) mTabLayout.getLayoutParams();
 //        tobParams.height += statusHeight / 1.5;
 //        mTabLayout.setPadding(0, (int) (statusHeight / 1.5),0,0);
@@ -157,6 +155,9 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
         }
         showLoad();
         mPresenter.requestPersonInfo(user);
+        mContentAdapter = new ProfileContentAdapter(this.getChildFragmentManager());
+        mContentView.setAdapter(mContentAdapter);
+
     }
 
     @Override
@@ -166,7 +167,7 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
         if (mUser == null){
             return;
         }
-        mPresenter.requestUserRepositories(mUser.getLogin(),1,"","","");
+//        mPresenter.requestUserRepositories(mUser.getLogin(),1,"","","");
         RxBus.get().post(FragmentVisibleEvent.create(mToolbar));
         ImageBridge.displayRoundImageWithDefault(mUser.getAvatarUrl(), mAvatarView,R.drawable.ic_hub_round);
         mUserTv.setText(mUser.getLogin());
@@ -179,9 +180,7 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
 
     @Override
     public void requestRepositories(List<Repository> ropes) {
-//        mProProgress.setVisibility(View.GONE);
-        mRepoAdapter = new ProfileRepAdapter(getContext(),ropes);
-        mContentView.setAdapter(mRepoAdapter);
+
     }
 
 

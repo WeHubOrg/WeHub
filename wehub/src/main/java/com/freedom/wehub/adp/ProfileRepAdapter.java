@@ -39,10 +39,6 @@ public class ProfileRepAdapter extends PagerAdapter {
     }
 
 
-    @Override
-    public CharSequence getPageTitle(int position) {
-        return "asdasd";
-    }
 //    @Override
 //    public float getPageWidth(int position) {
 //        return 0.9f;
