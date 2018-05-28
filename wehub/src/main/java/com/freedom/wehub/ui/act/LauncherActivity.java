@@ -28,7 +28,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
  * */
 public class LauncherActivity extends WeActivity {
 
-    private TextView mLogoNameView;
+//    private TextView mLogoNameView;
     private ImageView mLogoView;
 
     @Override
@@ -38,9 +38,9 @@ public class LauncherActivity extends WeActivity {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        mLogoNameView = findViewById(R.id.tv_name);
+//        mLogoNameView = findViewById(R.id.tv_name);
         mLogoView = findViewById(R.id.iv_logo);
-        DeviceUtil.setTypeface(this,mLogoNameView,"fonts/affiliation.ttf");
+//        DeviceUtil.setTypeface(this,mLogoNameView,"fonts/affiliation.ttf");
     }
 
     @Override
@@ -66,7 +66,7 @@ public class LauncherActivity extends WeActivity {
                         final Pair<View, String>[] pairs = TransitionHelper.createSafeTransitionParticipants(
                                 LauncherActivity.this, false,
                                 new Pair<>(mLogoView,getString(R.string.transition_logo))
-                                ,new Pair<>(mLogoNameView,getString(R.string.transition_logo_name))
+//                                ,new Pair<>(mLogoNameView,getString(R.string.transition_logo_name))
                         );
                         Intent intent  = new Intent(LauncherActivity.this,LoginActivity.class);
                         ActivityOptionsCompat options =

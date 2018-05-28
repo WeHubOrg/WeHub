@@ -27,17 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:transitionName="@string/transition_logo"
-                app:srcCompat="@drawable/ic_hub_round"/>
-
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/tv_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:transitionName="@string/transition_logo_name"
-                android:textSize="@dimen/text_38"
-                android:layout_marginTop="@dimen/dimen_8"
-                android:textColor="@color/color_logo_text"
-                android:text="@string/app_name"/>
+                android:src="@mipmap/icon_logo"/>
 
             <LinearLayout
                 android:id="@+id/layout_account"

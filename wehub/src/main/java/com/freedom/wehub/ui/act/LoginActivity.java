@@ -26,7 +26,7 @@ import com.jakewharton.rxbinding2.widget.RxTextView;
 public class LoginActivity extends WeActivity<AccountContract.IAccountLoginView, AccountPresenter> implements
         AccountContract.IAccountLoginView  {
 
-    private TextView mLogoNameView;
+//    private TextView mLogoNameView;
     private EditText mAccountView;
     private EditText mPasswordView;
     private LinearLayout mParentLayout;
@@ -48,12 +48,12 @@ public class LoginActivity extends WeActivity<AccountContract.IAccountLoginView,
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        mLogoNameView = findViewById(R.id.tv_name);
+//        mLogoNameView = findViewById(R.id.tv_name);
         mParentLayout = findViewById(R.id.layout_parent);
         mAccountView = findViewById(R.id.et_account);
         mPasswordView = findViewById(R.id.et_password);
         mLoginView = findViewById(R.id.btn_login);
-        DeviceUtil.setTypeface(this,mLogoNameView,"fonts/affiliation.ttf");
+//        DeviceUtil.setTypeface(this,mLogoNameView,"fonts/affiliation.ttf");
     }
 
     @Override
