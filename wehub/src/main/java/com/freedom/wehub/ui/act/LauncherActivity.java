@@ -69,8 +69,8 @@ public class LauncherActivity extends WeActivity {
 //                                ,new Pair<>(mLogoNameView,getString(R.string.transition_logo_name))
                         );
                         Intent intent  = new Intent(LauncherActivity.this,LoginActivity.class);
-                        ActivityOptionsCompat options =
-                                ActivityOptionsCompat.makeSceneTransitionAnimation(LauncherActivity.this, pairs);
+                        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                LauncherActivity.this, pairs);
                         ActivityCompat.startActivity(LauncherActivity.this.context,intent, options.toBundle());
                         onFinish();
                     }else {

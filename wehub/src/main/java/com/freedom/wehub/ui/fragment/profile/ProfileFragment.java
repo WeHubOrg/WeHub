@@ -1,7 +1,10 @@
-package com.freedom.wehub.ui.fragment;
+package com.freedom.wehub.ui.fragment.profile;
 
 import android.annotation.SuppressLint;
 import  android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -38,6 +41,10 @@ import static android.widget.RelativeLayout.CENTER_IN_PARENT;
 public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, AccountPresenter> implements
         AccountContract.IProfilerView{
 
+    private CoordinatorLayout mCoordinatorLayout;
+    private CollapsingToolbarLayout mCollapsingLayout;
+
+    private AppBarLayout mBarLayout;
     private Toolbar mToolbar;
     private ImageView mAvatarView;
     private TextView mUserTv;
@@ -46,12 +53,12 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
     private TextView mFollowersTv;
     private TextView mFollowingTv;
     private TextView mGistsTv;
-    private ProgressBar mProProgress;
-    private ViewPager mRepoVp;
-    private PagerContainer mContainerLayout;
+//    private ProgressBar mProProgress;
+//    private ViewPager mRepoVp;
+//    private PagerContainer mContainerLayout;
 
 
-    private ProfileRepAdapter mRepoAdapter;
+//    private ProfileRepAdapter mRepoAdapter;
     private User mUser;
 
 
@@ -69,6 +76,9 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        mCoordinatorLayout = findViewById(R.id.cd_parent);
+        mCollapsingLayout = findViewById(R.id.layout_collapsing);
+        mBarLayout = findViewById(R.id.layout_bar);
         mToolbar = findViewById(R.id.toolbar);
         mAvatarView = findViewById(R.id.iv_avatar);
         mUserTv = findViewById(R.id.tv_user);
@@ -77,20 +87,23 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
         mGistsTv = findViewById(R.id.tv_gists);
         mFollowersTv = findViewById(R.id.tv_followers);
         mFollowingTv = findViewById(R.id.tv_following);
-        mProProgress = findViewById(R.id.progress_pro);
-        mRepoVp = findViewById(R.id.vp_repo);
-        mContainerLayout = findViewById(R.id.layout_container);
+//        mProProgress = findViewById(R.id.progress_pro);
+//        mRepoVp = findViewById(R.id.vp_repo);
+//        mContainerLayout = findViewById(R.id.layout_container);
 
-        LinearLayout.LayoutParams rll = (LinearLayout.LayoutParams) mContainerLayout.getLayoutParams();
-        rll.width = (int) DeviceUtil.getScreenWidth(getActivity());
-        mContainerLayout.setLayoutParams(rll);
 
-        FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) mRepoVp.getLayoutParams();
-        lp.width = (int) (DeviceUtil.getScreenWidth(getActivity()) / 1.4);
-        mRepoVp.setLayoutParams(lp);
-        mRepoVp.setOffscreenPageLimit(6);
-        mRepoVp.setPageTransformer(true, new ScaleInTransformer());
-        mRepoVp.setPageMargin(DeviceUtil.dip2Px(context,16));
+
+//        LinearLayout.LayoutParams rll = (LinearLayout.LayoutParams) mContainerLayout.getLayoutParams();
+//        rll.width = (int) DeviceUtil.getScreenWidth(getActivity());
+//        mContainerLayout.setLayoutParams(rll);
+//
+//        FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) mRepoVp.getLayoutParams();
+//        lp.width = (int) (DeviceUtil.getScreenWidth(getActivity()) / 1.4);
+//        mRepoVp.setLayoutParams(lp);
+//        mRepoVp.setOffscreenPageLimit(6);
+//        mRepoVp.setPageTransformer(true, new ScaleInTransformer());
+//        mRepoVp.setPageMargin(DeviceUtil.dip2Px(context,16));
+
     }
 
     @Override
@@ -105,7 +118,7 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
     @Override
     @SuppressLint("ClickableViewAccessibility")
     protected void initEvent() {
-        mContainerLayout.setOnTouchListener((v, event) -> mRepoVp.dispatchTouchEvent(event));
+//        mContainerLayout.setOnTouchListener((v, event) -> mRepoVp.dispatchTouchEvent(event));
 
     }
 
@@ -126,7 +139,7 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
     @Override
     public void requestPerson(User user) {
         hideLoad();
-        mProProgress.setVisibility(View.VISIBLE);
+//        mProProgress.setVisibility(View.VISIBLE);
         mUser = user;
         if (mUser == null){
             return;
@@ -144,9 +157,9 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
 
     @Override
     public void requestRepositories(List<Repository> ropes) {
-        mProProgress.setVisibility(View.GONE);
-        mRepoAdapter = new ProfileRepAdapter(getContext(),ropes);
-        mRepoVp.setAdapter(mRepoAdapter);
+//        mProProgress.setVisibility(View.GONE);
+//        mRepoAdapter = new ProfileRepAdapter(getContext(),ropes);
+//        mRepoVp.setAdapter(mRepoAdapter);
     }
 
 

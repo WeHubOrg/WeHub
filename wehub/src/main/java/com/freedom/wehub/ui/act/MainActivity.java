@@ -2,15 +2,12 @@ package com.freedom.wehub.ui.act;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.freedom.wecore.common.Key;
@@ -23,12 +20,10 @@ import com.freedom.wecore.tools.RxBus;
 import com.freedom.wehub.R;
 import com.freedom.wehub.event.FragmentVisibleEvent;
 import com.freedom.wehub.ui.fragment.EventsFragment;
-import com.freedom.wehub.ui.fragment.ProfileFragment;
+import com.freedom.wehub.ui.fragment.profile.ProfileFragment;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import io.reactivex.functions.Consumer;
 
 
 /**
