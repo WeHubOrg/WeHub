@@ -34,6 +34,13 @@
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"/>
 
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/iv_avatar_prospect"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#3fff"
+                    android:scaleType="centerCrop"/>
+
                 <RelativeLayout
                     android:id="@+id/layout_user"
                     android:layout_width="match_parent"

@@ -50,6 +50,7 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
     private Toolbar mToolbar;
     private TabLayout mTabLayout;
     private ImageView mAvatarView;
+    private ImageView mAvatarBackgroundView;
     private TextView mUserTv;
     private TextView mNameTv;
     private TextView mRepositoriesTv;
@@ -97,10 +98,12 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
         mContentView = findViewById(R.id.vp_content);
         mNestedView = findViewById(R.id.ns_nested);
         mTabLayout = findViewById(R.id.tab_layout);
+        mAvatarBackgroundView = findViewById(R.id.iv_avatar_bg);
+
+
+
+
         mTabLayout.setupWithViewPager(mContentView);
-
-
-
         mNestedView.setFillViewport (true);
 
 //        mProProgress = findViewById(R.id.progress_pro);
@@ -167,11 +170,11 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
         if (mUser == null){
             return;
         }
-//        mPresenter.requestUserRepositories(mUser.getLogin(),1,"","","");
         RxBus.get().post(FragmentVisibleEvent.create(mToolbar));
         ImageBridge.displayRoundImageWithDefault(mUser.getAvatarUrl(), mAvatarView,R.drawable.ic_hub_round);
         mUserTv.setText(mUser.getLogin());
         mNameTv.setText(mUser.getName());
+        ImageBridge.displayBlurImageValue(user.getAvatarUrl(),mAvatarBackgroundView,50);
         mFollowersTv.setText(String.valueOf(mUser.getFollowers()));
         mFollowingTv.setText(String.valueOf(mUser.getFollowing()));
         mRepositoriesTv.setText(String.valueOf(user.getPublicRepos()));
