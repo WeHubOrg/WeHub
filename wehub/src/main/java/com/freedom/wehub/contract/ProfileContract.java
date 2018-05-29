@@ -1,6 +1,9 @@
 package com.freedom.wehub.contract;
 
+import com.freedom.wecore.bean.Repository;
 import com.freedom.wecore.common.IWeContract;
+
+import java.util.List;
 
 
 /**
@@ -11,7 +14,11 @@ public interface ProfileContract {
 
 
     interface IOverviewView extends IWeContract.View{
-
+        /**
+         * 获取指定用户
+         * @param ropes RepositoryModel
+         * */
+        void requestRepositories(List<Repository> ropes);
     }
 
     interface IProfilePresenter{

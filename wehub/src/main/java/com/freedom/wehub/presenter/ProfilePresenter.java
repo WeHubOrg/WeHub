@@ -45,7 +45,7 @@ public class ProfilePresenter extends WePresenter implements ProfileContract.IPr
             mService = new AuthService();
         }
         mService.requestUserRepositories(user,page,type,sort,direction,innerResponse -> {
-            ((AccountContract.IProfilerView)mView).requestRepositories(innerResponse.get());
+            ((ProfileContract.IOverviewView)mView).requestRepositories(innerResponse.get());
         });
     }
 }

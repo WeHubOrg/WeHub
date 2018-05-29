@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.freedom.wecore.widget.refresh.WeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/rl_parent">
+
+    <com.freedom.wecore.widget.refresh.WeHeader
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.freedom.wecore.widget.PagerContainer
+            android:id="@+id/layout_container"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_160">
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/vp_rope"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_160"/>
+
+        </com.freedom.wecore.widget.PagerContainer>
+
+    </LinearLayout>
+
+    <com.freedom.wecore.widget.refresh.footer.ClassicsFooter
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</com.freedom.wecore.widget.refresh.WeRefreshLayout>

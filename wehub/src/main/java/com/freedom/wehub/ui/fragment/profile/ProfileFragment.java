@@ -148,6 +148,7 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+        RxBus.get().post(FragmentVisibleEvent.create(mToolbar));
         Bundle bundle = getArgs();
         if (bundle == null){
             return;
@@ -158,9 +159,6 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
         }
         showLoad();
         mPresenter.requestPersonInfo(user);
-        mContentAdapter = new ProfileContentAdapter(this.getChildFragmentManager());
-        mContentView.setAdapter(mContentAdapter);
-
     }
 
     @Override
@@ -170,7 +168,8 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
         if (mUser == null){
             return;
         }
-        RxBus.get().post(FragmentVisibleEvent.create(mToolbar));
+        mContentAdapter = new ProfileContentAdapter(this.getChildFragmentManager(),mUser);
+        mContentView.setAdapter(mContentAdapter);
         ImageBridge.displayRoundImageWithDefault(mUser.getAvatarUrl(), mAvatarView,R.drawable.ic_hub_round);
         mUserTv.setText(mUser.getLogin());
         mNameTv.setText(mUser.getName());
@@ -180,11 +179,5 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
         mRepositoriesTv.setText(String.valueOf(user.getPublicRepos()));
         mGistsTv.setText(String.valueOf(user.getPublicGists()));
     }
-
-    @Override
-    public void requestRepositories(List<Repository> ropes) {
-
-    }
-
 
 }
