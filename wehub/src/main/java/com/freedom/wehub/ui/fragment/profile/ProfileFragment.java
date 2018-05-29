@@ -2,41 +2,49 @@ package com.freedom.wehub.ui.fragment.profile;
 
 import android.annotation.SuppressLint;
 import  android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.NestedScrollView;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.freedom.wecore.bean.Repository;
 import com.freedom.wecore.bean.User;
 import com.freedom.wecore.common.Key;
 import com.freedom.wecore.common.WeFragment;
-import com.freedom.wecore.tools.DeviceUtil;
 import com.freedom.wecore.tools.ImageBridge;
 import com.freedom.wecore.tools.RxBus;
-import com.freedom.wecore.widget.PagerContainer;
-import com.freedom.wecore.widget.transformer.ScaleInTransformer;
+import com.freedom.wecore.widget.refresh.WeRefreshLayout;
+import com.freedom.wecore.widget.refresh.api.RefreshLayout;
+import com.freedom.wecore.widget.refresh.header.ClassicsHeader;
 import com.freedom.wehub.R;
 import com.freedom.wehub.adp.ProfileContentAdapter;
-import com.freedom.wehub.adp.ProfileRepAdapter;
 import com.freedom.wehub.contract.AccountContract;
 import com.freedom.wehub.event.FragmentVisibleEvent;
 import com.freedom.wehub.presenter.AccountPresenter;
+import com.freedom.wehub.test.BaseRecyclerAdapter;
+import com.freedom.wehub.test.SmartViewHolder;
+import com.freedom.wehub.test.UserActivity;
 
-import java.util.List;
+import java.util.Arrays;
+import java.util.Collection;
 
-import static android.widget.RelativeLayout.CENTER_IN_PARENT;
 
 /**
  * @author vurtne on 18-May-18.
@@ -57,7 +65,6 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
     private TextView mFollowersTv;
     private TextView mFollowingTv;
     private TextView mGistsTv;
-    private NestedScrollView mNestedView;
     private ViewPager mContentView;
 
 
@@ -96,7 +103,6 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
         mFollowersTv = findViewById(R.id.tv_followers);
         mFollowingTv = findViewById(R.id.tv_following);
         mContentView = findViewById(R.id.vp_content);
-        mNestedView = findViewById(R.id.ns_nested);
         mTabLayout = findViewById(R.id.tab_layout);
         mAvatarBackgroundView = findViewById(R.id.iv_avatar_bg);
 
@@ -104,7 +110,7 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
 
 
         mTabLayout.setupWithViewPager(mContentView);
-        mNestedView.setFillViewport (true);
+//        mNestedView.setFillViewport (true);
 
 //        mProProgress = findViewById(R.id.progress_pro);
 //        mRepoVp = findViewById(R.id.vp_repo);
@@ -169,7 +175,11 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
             return;
         }
         mContentAdapter = new ProfileContentAdapter(this.getChildFragmentManager(),mUser);
-        mContentView.setAdapter(mContentAdapter);
+//        mContentView.setAdapter(mContentAdapter);
+        mContentView.setAdapter(new SmartPagerAdapter());
+
+
+
         ImageBridge.displayRoundImageWithDefault(mUser.getAvatarUrl(), mAvatarView,R.drawable.ic_hub_round);
         mUserTv.setText(mUser.getLogin());
         mNameTv.setText(mUser.getName());
@@ -180,4 +190,94 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
         mGistsTv.setText(String.valueOf(user.getPublicGists()));
     }
 
+
+    private class SmartPagerAdapter extends FragmentStatePagerAdapter {
+
+        private final UserActivity.SmartFragment[] fragments;
+
+        SmartPagerAdapter() {
+            super(getChildFragmentManager());
+            this.fragments = new UserActivity.SmartFragment[]{
+                    new UserActivity.SmartFragment(),new UserActivity.SmartFragment()
+            };
+        }
+
+        @Nullable
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return "asdsada";
+        }
+
+        @Override
+        public int getCount() {
+            return fragments.length;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return fragments[position];
+        }
+    }
+
+
+    public static class SmartFragment extends Fragment {
+
+        private RecyclerView mRecyclerView;
+        private BaseRecyclerAdapter<Void> mAdapter;
+
+        @Override
+        public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            RefreshLayout refreshLayout = new WeRefreshLayout(inflater.getContext());
+            refreshLayout.setRefreshHeader(new ClassicsHeader(inflater.getContext()));
+            refreshLayout.setRefreshContent(mRecyclerView = new RecyclerView(inflater.getContext()));
+            refreshLayout.setPrimaryColorsId(R.color.colorPrimary, android.R.color.white);
+            return refreshLayout.getLayout();
+        }
+
+        @Override
+        public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+            super.onViewCreated(view, savedInstanceState);
+            mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+            mRecyclerView.setAdapter(mAdapter = new BaseRecyclerAdapter<Void>(initData(), android.R.layout.simple_list_item_2) {
+                @Override
+                protected void onBindViewHolder(SmartViewHolder holder, Void model, int position) {
+                    holder.text(android.R.id.text1, "item"+position);
+                    holder.text(android.R.id.text2, "This is the abstract item "+ position);
+                    holder.textColorId(android.R.id.text2, R.color.color_2D3E4F);
+                }
+            });
+        }
+
+        private Collection<Void> initData() {
+            return Arrays.asList(null,null,null);
+        }
+
+        public void onRefresh(final RefreshLayout refreshLayout) {
+            refreshLayout.getLayout().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mAdapter.refresh(initData());
+                    refreshLayout.finishRefresh();
+                    refreshLayout.setNoMoreData(false);
+                }
+            }, 2000);
+        }
+
+        public void onLoadMore(final RefreshLayout refreshLayout) {
+            refreshLayout.getLayout().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mAdapter.loadMore(initData());
+                    if (mAdapter.getItemCount() > 60) {
+                        Toast.makeText(getContext(), "数据全部加载完毕", Toast.LENGTH_SHORT).show();
+                        refreshLayout.finishLoadMoreWithNoMoreData();//将不会再次触发加载更多事件
+                    } else {
+                        refreshLayout.finishLoadMore();
+                    }
+                }
+            }, 2000);
+        }
+    }
 }

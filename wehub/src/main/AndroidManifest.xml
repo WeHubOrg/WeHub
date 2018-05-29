@@ -36,7 +36,7 @@
             android:name=".ui.act.MainActivity"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".ui.act.UserActivity"
+        <activity android:name=".test.UserActivity"
             android:screenOrientation="portrait">
 
         </activity>
