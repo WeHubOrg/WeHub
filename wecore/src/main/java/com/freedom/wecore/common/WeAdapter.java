@@ -67,7 +67,7 @@ public abstract class WeAdapter<T> extends RecyclerView.Adapter<WeHolder> {
     @Override
     public WeHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         WeHolder viewHolders = new WeHolder(
-                layoutId.length == 1?layoutId[1]:bindChildViewLayout(layoutId,viewType),
+                layoutId.length == 1?layoutId[0]:bindChildViewLayout(layoutId,viewType),
                 parent, mContext);
         if (mActivity != null) {
             viewHolders.setActivity(mActivity);
