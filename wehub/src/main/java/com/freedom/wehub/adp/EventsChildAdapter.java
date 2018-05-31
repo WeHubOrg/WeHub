@@ -22,7 +22,7 @@ import java.util.List;
 public class EventsChildAdapter extends WeAdapter<Commits> {
 
     public EventsChildAdapter( Context context, List<Commits> datas) {
-        super(R.layout.item_events_child, context, datas);
+        super(context, datas,R.layout.item_events_child);
     }
 
     @Override

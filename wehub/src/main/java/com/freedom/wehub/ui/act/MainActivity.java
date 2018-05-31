@@ -20,7 +20,7 @@ import com.freedom.wecore.tools.RxBus;
 import com.freedom.wehub.R;
 import com.freedom.wehub.event.FragmentVisibleEvent;
 import com.freedom.wehub.ui.fragment.EventsFragment;
-import com.freedom.wehub.ui.fragment.profile.ProfileFragment;
+import com.freedom.wehub.ui.fragment.ProfileFragment;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -31,7 +31,7 @@ public class EventsAdapter extends WeAdapter<Events>{
     private SparseArray<EventsChildAdapter> mAdapterSparse = new SparseArray<>();
 
     public EventsAdapter(Context context, List<Events> data) {
-        super(R.layout.item_events, context, data);
+        super( context, data,R.layout.item_events);
     }
 
     @Override

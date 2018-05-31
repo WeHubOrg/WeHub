@@ -1,4 +1,4 @@
-package com.freedom.wehub.ui.fragment.profile;
+package com.freedom.wehub.ui.fragment;
 
 import android.annotation.SuppressLint;
 import  android.os.Bundle;
@@ -9,6 +9,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -34,16 +35,16 @@ import com.freedom.wecore.widget.refresh.WeRefreshLayout;
 import com.freedom.wecore.widget.refresh.api.RefreshLayout;
 import com.freedom.wecore.widget.refresh.header.ClassicsHeader;
 import com.freedom.wehub.R;
-import com.freedom.wehub.adp.ProfileContentAdapter;
 import com.freedom.wehub.contract.AccountContract;
 import com.freedom.wehub.event.FragmentVisibleEvent;
 import com.freedom.wehub.presenter.AccountPresenter;
 import com.freedom.wehub.test.BaseRecyclerAdapter;
 import com.freedom.wehub.test.SmartViewHolder;
-import com.freedom.wehub.test.UserActivity;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -73,7 +74,7 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
 //    private PagerContainer mContainerLayout;
 
 
-    private ProfileContentAdapter mContentAdapter;
+    private ContentAdapter mContentAdapter;
     private User mUser;
 
 
@@ -174,9 +175,8 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
         if (mUser == null){
             return;
         }
-        mContentAdapter = new ProfileContentAdapter(this.getChildFragmentManager(),mUser);
-//        mContentView.setAdapter(mContentAdapter);
-        mContentView.setAdapter(new SmartPagerAdapter());
+        mContentAdapter = new ContentAdapter(this.getChildFragmentManager());
+        mContentView.setAdapter(mContentAdapter);
 
 
 
@@ -190,37 +190,40 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
         mGistsTv.setText(String.valueOf(user.getPublicGists()));
     }
 
+    public class ContentAdapter extends FragmentStatePagerAdapter {
 
-    private class SmartPagerAdapter extends FragmentStatePagerAdapter {
+        private final String[] mTitles = {"Overview", "Repositories", "Stars", "Followers", "Following"};
+        private final Map<String,ContentFragment> mFragments = new HashMap<>();
 
-        private final UserActivity.SmartFragment[] fragments;
+        public ContentAdapter(FragmentManager fm) {
+            super(fm);
+        }
 
-        SmartPagerAdapter() {
-            super(getChildFragmentManager());
-            this.fragments = new UserActivity.SmartFragment[]{
-                    new UserActivity.SmartFragment(),new UserActivity.SmartFragment()
-            };
+        @Override
+        public int getCount() {
+            return mTitles.length;
         }
 
         @Nullable
         @Override
         public CharSequence getPageTitle(int position) {
-            return "asdsada";
-        }
-
-        @Override
-        public int getCount() {
-            return fragments.length;
+            return mTitles[position];
         }
 
         @Override
         public Fragment getItem(int position) {
-            return fragments[position];
+            ContentFragment fragment = mFragments.get(mTitles[position]);
+            if (fragment == null){
+                fragment = new ContentFragment();
+                mFragments.put(mTitles[position],fragment);
+            }
+            return fragment;
         }
+
+
     }
 
-
-    public static class SmartFragment extends Fragment {
+    public static class ContentFragment extends Fragment {
 
         private RecyclerView mRecyclerView;
         private BaseRecyclerAdapter<Void> mAdapter;
@@ -280,4 +283,5 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
             }, 2000);
         }
     }
+
 }

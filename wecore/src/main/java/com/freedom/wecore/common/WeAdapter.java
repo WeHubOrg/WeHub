@@ -3,6 +3,7 @@ package com.freedom.wecore.common;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -23,14 +24,14 @@ import java.util.List;
 public abstract class WeAdapter<T> extends RecyclerView.Adapter<WeHolder> {
 
     protected List<T> datas = new ArrayList<>();
-    private int layoutId;
+    private int[] layoutId;
     private Context mContext;
     private OnSelectListener<T> onSelectListener;
     private Activity mActivity;
     private Fragment mFragment;
     private int mDataPage;
 
-    public WeAdapter(int layoutId, Context context, List<T> datas) {
+    public WeAdapter(Context context, List<T> datas,int... layoutId) {
         this.layoutId = layoutId;
         this.mContext = context;
         LogUtil.v("Adapter", this.getClass().getSimpleName());
@@ -42,8 +43,8 @@ public abstract class WeAdapter<T> extends RecyclerView.Adapter<WeHolder> {
         }
     }
 
-    public WeAdapter(int layoutId, Fragment fragment, List<T> datas) {
-        this(layoutId, fragment.getContext(), datas);
+    public WeAdapter( Fragment fragment, List<T> datas,int... layoutId) {
+        this(fragment.getContext(), datas,layoutId);
         this.mFragment = fragment;
     }
 
@@ -62,9 +63,12 @@ public abstract class WeAdapter<T> extends RecyclerView.Adapter<WeHolder> {
         return mContext;
     }
 
+    @NonNull
     @Override
-    public WeHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        WeHolder viewHolders = new WeHolder(layoutId, parent, mContext);
+    public WeHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        WeHolder viewHolders = new WeHolder(
+                layoutId.length == 1?layoutId[1]:bindChildViewLayout(layoutId,viewType),
+                parent, mContext);
         if (mActivity != null) {
             viewHolders.setActivity(mActivity);
         } else if (mFragment != null) {
@@ -85,6 +89,15 @@ public abstract class WeAdapter<T> extends RecyclerView.Adapter<WeHolder> {
     }
 
     protected abstract void convert(WeHolder holder, int position, View convertView, T data);
+
+    /**
+     *  绑定不同的View
+     * @param layoutId id
+     * @param viewType type
+     * */
+    protected int bindChildViewLayout(int[] layoutId,int viewType){
+        return 0;
+    }
 
     public int getDataPage(){
         return mDataPage;
@@ -150,8 +163,9 @@ public abstract class WeAdapter<T> extends RecyclerView.Adapter<WeHolder> {
         return datas.get(position);
     }
 
-
     public void startActivity(Intent intent) {
         getContext().startActivity(intent);
     }
+
+
 }
