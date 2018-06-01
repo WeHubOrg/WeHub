@@ -258,27 +258,21 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
         }
 
         public void onRefresh(final RefreshLayout refreshLayout) {
-            refreshLayout.getLayout().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mAdapter.refresh(initData());
-                    refreshLayout.finishRefresh();
-                    refreshLayout.setNoMoreData(false);
-                }
+            refreshLayout.getLayout().postDelayed(() -> {
+                mAdapter.refresh(initData());
+                refreshLayout.finishRefresh();
+                refreshLayout.setNoMoreData(false);
             }, 2000);
         }
 
         public void onLoadMore(final RefreshLayout refreshLayout) {
-            refreshLayout.getLayout().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mAdapter.loadMore(initData());
-                    if (mAdapter.getItemCount() > 60) {
-                        Toast.makeText(getContext(), "数据全部加载完毕", Toast.LENGTH_SHORT).show();
-                        refreshLayout.finishLoadMoreWithNoMoreData();//将不会再次触发加载更多事件
-                    } else {
-                        refreshLayout.finishLoadMore();
-                    }
+            refreshLayout.getLayout().postDelayed(() -> {
+                mAdapter.loadMore(initData());
+                if (mAdapter.getItemCount() > 60) {
+                    Toast.makeText(getContext(), "数据全部加载完毕", Toast.LENGTH_SHORT).show();
+                    refreshLayout.finishLoadMoreWithNoMoreData();//将不会再次触发加载更多事件
+                } else {
+                    refreshLayout.finishLoadMore();
                 }
             }, 2000);
         }

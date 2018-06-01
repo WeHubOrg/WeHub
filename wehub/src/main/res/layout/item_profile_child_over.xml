@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.freedom.wecore.widget.PagerContainer
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_container"
+    android:layout_width="match_parent"
+    android:background="#fff"
+    android:layout_height="@dimen/dimen_160">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_rope"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</com.freedom.wecore.widget.PagerContainer>
+
+
