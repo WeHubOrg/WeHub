@@ -20,8 +20,7 @@ public class MagicalLayout extends GLSurfaceView {
 
     private void init(){
         setEGLContextClientVersion(2);
-        setRenderer( mRender = new MagicalRenderer());
+        setRenderer( mRender = new MagicalRenderer(context));
         setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
-
     }
 }
