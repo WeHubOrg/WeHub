@@ -50,7 +50,8 @@ public class MagicalRenderer implements GLSurfaceView.Renderer {
     private float[] mMVPMatrix=new float[16];
 
     static final float[] sGary = new float[]{0.299f,0.587f,0.114f};
-    static final float[] sBlur = new float[]{0.006f,0.004f,0.002f};
+//    static final float[] sBlur = new float[]{0.006f,0.004f,0.002f};
+    static final float[] sBlur = new float[]{0.008f,0.008f,0.008f};
 
     private final float[] sPos={
             -1.0f,1.0f,
