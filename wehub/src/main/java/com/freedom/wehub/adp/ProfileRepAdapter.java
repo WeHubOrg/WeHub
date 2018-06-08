@@ -56,6 +56,7 @@ public class ProfileRepAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
+
         Repository bean = data.get(position);
         View view = LayoutInflater.from(context).inflate(R.layout.item_pro_repo, null);
 //        if (bean == null){
