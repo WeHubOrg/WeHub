@@ -31,6 +31,7 @@ import com.freedom.wecore.common.Key;
 import com.freedom.wecore.common.WeFragment;
 import com.freedom.wecore.tools.ImageBridge;
 import com.freedom.wecore.tools.RxBus;
+import com.freedom.wecore.widget.magical.MagicalLayout;
 import com.freedom.wecore.widget.refresh.WeRefreshLayout;
 import com.freedom.wecore.widget.refresh.api.RefreshLayout;
 import com.freedom.wecore.widget.refresh.header.ClassicsHeader;
@@ -59,7 +60,7 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
     private Toolbar mToolbar;
     private TabLayout mTabLayout;
     private ImageView mAvatarView;
-    private ImageView mAvatarBackgroundView;
+    private MagicalLayout mAvatarBackgroundView;
     private TextView mUserTv;
     private TextView mNameTv;
     private TextView mRepositoriesTv;
@@ -183,7 +184,8 @@ public class ProfileFragment extends WeFragment<AccountContract.IProfilerView, A
         ImageBridge.displayRoundImageWithDefault(mUser.getAvatarUrl(), mAvatarView,R.drawable.ic_hub_round);
         mUserTv.setText(mUser.getLogin());
         mNameTv.setText(mUser.getName());
-        ImageBridge.displayBlurImageValue(user.getAvatarUrl(),mAvatarBackgroundView,50);
+
+        mAvatarBackgroundView.loadImage(user.getAvatarUrl());
         mFollowersTv.setText(String.valueOf(mUser.getFollowers()));
         mFollowingTv.setText(String.valueOf(mUser.getFollowing()));
         mRepositoriesTv.setText(String.valueOf(user.getPublicRepos()));

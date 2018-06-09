@@ -65,9 +65,9 @@ public class MagicalRenderer implements GLSurfaceView.Renderer {
 
     private final float[] sMiniaturePos={
             -1.0f,-0.5f,
-            -1.0f,-0.96f,
+            -1.0f,-1.0f,
             1.0f,-0.5f,
-            1.0f,-0.96f
+            1.0f,-1.0f
     };
 
 

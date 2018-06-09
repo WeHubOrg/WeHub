@@ -34,7 +34,6 @@ import java.util.Collection;
  */
 public class UserActivity extends WeActivity {
 
-    private TestService service;
     @Override
     protected int contentView() {
         return R.layout.activity_user;
@@ -47,7 +46,6 @@ public class UserActivity extends WeActivity {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        service = new TestService();
 
     }
 
