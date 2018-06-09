@@ -140,4 +140,10 @@ public interface ConnectService {
             @Query("direction") String direction
     );
 
+
+    @NonNull
+    @GET
+    Observable<retrofit2.Response<JsonElement>> test(
+            @Url String url
+    );
 }

@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
+import java.util.Random;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -37,6 +38,8 @@ public class MagicalRenderer implements GLSurfaceView.Renderer {
     private FloatBuffer bMiniaturePos;
     private FloatBuffer bCoord;
     private FloatBuffer bMiniatureCoord;
+
+    private boolean isGary;
 
     private int textureId;
     private boolean isHalf;
@@ -119,7 +122,12 @@ public class MagicalRenderer implements GLSurfaceView.Renderer {
         bMiniatureCoord.put(sMiniatureCoord);
         bMiniatureCoord.position(0);
         try {
-            mBitmap = BitmapFactory.decodeStream(context.getResources().getAssets().open("magical/icon_head_bg.jpg"));
+            StringBuilder builder = new StringBuilder();
+            builder.append("magical/icon_head_bg_");
+            Random ran=new Random();
+            builder.append(String.valueOf(ran.nextInt(5) + 1));
+            builder.append(".png");
+            mBitmap = BitmapFactory.decodeStream(context.getResources().getAssets().open(builder.toString()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -160,9 +168,7 @@ public class MagicalRenderer implements GLSurfaceView.Renderer {
                 Matrix.orthoM(mProjectMatrix, 0, -1, 1, -sWH/sWidthHeight, sWH/sWidthHeight,3, 5);
             }
         }
-        //设置相机位置
         Matrix.setLookAtM(mViewMatrix, 0, 0, 0, 5.0f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
-        //计算变换矩阵
         Matrix.multiplyMM(mMVPMatrix,0,mProjectMatrix,0,mViewMatrix,0);
     }
 
@@ -182,6 +188,9 @@ public class MagicalRenderer implements GLSurfaceView.Renderer {
         GLES20.glVertexAttribPointer(glHCoordinate,2,GLES20.GL_FLOAT,false,0,bCoord);
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP,0,4);
 
+        if (!isGary){
+            return;
+        }
         onDrawSet();
         GLES20.glUniform1i(hIsHalf,isHalf?1:0);
         GLES20.glUniform1f(glHUxy,uXY);
@@ -212,25 +221,19 @@ public class MagicalRenderer implements GLSurfaceView.Renderer {
 
     public void setBitmap(Bitmap bitmap){
         this.mBitmap = bitmap;
+        this.isGary = true;
     }
 
 
     private int createTexture(){
         int[] texture=new int[1];
         if(mBitmap!=null&&!mBitmap.isRecycled()){
-            //生成纹理
             GLES20.glGenTextures(1,texture,0);
-            //生成纹理
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,texture[0]);
-            //设置缩小过滤为使用纹理中坐标最接近的一个像素的颜色作为需要绘制的像素颜色
             GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER,GLES20.GL_NEAREST);
-            //设置放大过滤为使用纹理中坐标最接近的若干个颜色，通过加权平均算法得到需要绘制的像素颜色
             GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D,GLES20.GL_TEXTURE_MAG_FILTER,GLES20.GL_LINEAR);
-            //设置环绕方向S，截取纹理坐标到[1/2n,1-1/2n]。将导致永远不会与border融合
             GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S,GLES20.GL_CLAMP_TO_EDGE);
-            //设置环绕方向T，截取纹理坐标到[1/2n,1-1/2n]。将导致永远不会与border融合
             GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T,GLES20.GL_CLAMP_TO_EDGE);
-            //根据以上指定的参数，生成一个2D纹理
             GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, mBitmap, 0);
             return texture[0];
         }

@@ -17,6 +17,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.freedom.wecore.common.WeActivity;
+import com.freedom.wecore.net.OnResponseListener;
+import com.freedom.wecore.net.Response;
 import com.freedom.wecore.widget.refresh.WeRefreshLayout;
 import com.freedom.wecore.widget.refresh.api.RefreshLayout;
 import com.freedom.wecore.widget.refresh.header.ClassicsHeader;
@@ -32,7 +34,7 @@ import java.util.Collection;
  */
 public class UserActivity extends WeActivity {
 
-
+    private TestService service;
     @Override
     protected int contentView() {
         return R.layout.activity_user;
@@ -45,6 +47,8 @@ public class UserActivity extends WeActivity {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        service = new TestService();
+
     }
 
     @Override
@@ -54,6 +58,7 @@ public class UserActivity extends WeActivity {
 
     @Override
     protected void initEvent() {
+
 
     }
 
