@@ -1,7 +1,6 @@
 package com.freedom.wehub.adp;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
